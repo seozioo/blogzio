@@ -1,7 +1,7 @@
-package com.blogzio.user.service;
+package com.ciart.blogzio.user.service;
 
-import com.blogzio.user.domain.User;
-import com.blogzio.user.repository.UserRepository;
+import com.ciart.blogzio.user.domain.User;
+import com.ciart.blogzio.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.blogzio.user.domain;
+package com.ciart.blogzio.user.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

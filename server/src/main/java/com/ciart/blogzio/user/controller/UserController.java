@@ -1,8 +1,8 @@
-package com.blogzio.user.controller;
+package com.ciart.blogzio.user.controller;
 
-import com.blogzio.user.dto.UserRequest;
-import com.blogzio.user.dto.UserResponse;
-import com.blogzio.user.service.UserService;
+import com.ciart.blogzio.user.dto.UserRequest;
+import com.ciart.blogzio.user.dto.UserResponse;
+import com.ciart.blogzio.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

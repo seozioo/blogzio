@@ -1,4 +1,4 @@
-package com.blogzio.user.dto;
+package com.ciart.blogzio.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
