@@ -16,5 +16,7 @@ public class BlogzioApplication {
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+
+
     }
 }
