@@ -2,6 +2,9 @@
   "name": "blogzio",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "openapi": "openapi-generator-cli"
+  },
   "homepage": "https://github.com/seozioo/blogzio#readme",
   "bugs": {
     "url": "https://github.com/seozioo/blogzio/issues"
@@ -16,9 +19,6 @@
   "workspaces": [
     "client"
   ],
-  "scripts": {
-    "openapi": "openapi-generator-cli"
-  },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.28.2"
   }
