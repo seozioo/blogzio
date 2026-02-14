@@ -13,10 +13,4 @@ public class BlogzioApplication {
 		SpringApplication.run(BlogzioApplication.class, args);
 	}
 
-	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-
-
-    }
 }
