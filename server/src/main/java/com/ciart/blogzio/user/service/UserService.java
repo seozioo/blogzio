@@ -2,6 +2,7 @@ package com.ciart.blogzio.user.service;
 
 import com.ciart.blogzio.user.domain.User;
 import com.ciart.blogzio.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,4 +26,6 @@ public class UserService{
 
         return userRepository.save(user);
     }
+
+
 }

@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @Column(nullable = false, unique = true)
-    private UUID uuid = UUID.randomUUID();
+    private UUID uuid;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -28,10 +28,15 @@ public class User {
     private String password;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+    }
 
     @PreUpdate
     public void preUpdate() {
