@@ -19,7 +19,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserResponse> signup(@RequestBody UserRequest request) {
-        var user = userService.registerAdmin(request.getEmail(), request.getPassword());
+        var user = userService.registerAdmin(request.getUsername(), request.getEmail(), request.getPassword());
         return ResponseEntity.ok(new UserResponse("관리자 계정 생성 완료: " + user.getEmail()));
     }
 }

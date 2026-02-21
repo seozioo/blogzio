@@ -18,12 +18,13 @@ public class UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User registerAdmin(String email, String rawPassword){
+    public User registerAdmin(String username, String email, String rawPassword){
         if(userRepository.count() > 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "관리자 계정이 존재합니다.");
         }
 
         User user = User.builder()
+                .username(username)
                 .email(email)
                 .password(passwordEncoder.encode(rawPassword))
                 .build();
