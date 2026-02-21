@@ -18,7 +18,7 @@ export default function Signup() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await fetch('/user/signup', {
+    await fetch('api/user/signup', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {

@@ -3,8 +3,12 @@ package com.ciart.blogzio.user.service;
 import com.ciart.blogzio.user.domain.User;
 import com.ciart.blogzio.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -16,7 +20,7 @@ public class UserService{
 
     public User registerAdmin(String email, String rawPassword){
         if(userRepository.count() > 0){
-            throw new RuntimeException("관리자 계정이 존재합니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "관리자 계정이 존재합니다.");
         }
 
         User user = User.builder()
