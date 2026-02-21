@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<String> handleNoSuchElementFoundException(ResponseStatusException exception) {
+    public ResponseEntity<String> handleResponseStatusException(ResponseStatusException exception) {
         return ResponseEntity.status(exception.getStatusCode()).body(exception.getMessage());
     }
 }
