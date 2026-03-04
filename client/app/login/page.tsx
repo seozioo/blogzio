@@ -1,7 +1,7 @@
 'use client';
 
 import { BaseContainer } from '@/shared/components/BaseContainer';
-import { useCallback } from 'react';
+import { InputField } from '@/shared/components/InputField';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type Inputs = {
@@ -13,12 +13,11 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await fetch('/user/login', {
+    await fetch('api/auth/login', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -30,11 +29,15 @@ export default function Login() {
   return (
     <BaseContainer className=''>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <input
+        <div>
+          {errors.username && <p>Username is required</p>}
+          {errors.password && <p>Password is required</p>}
+        </div>
+        <InputField
           placeholder="Username"
           {...register('username', { required: true })}
         />
-        <input
+        <InputField
           type="password"
           placeholder="Password"
           {...register('password', { required: true })}
