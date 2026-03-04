@@ -13,7 +13,7 @@ public class Category {
     @Id
     @GeneratedValue
     @UuidGenerator
-    private UUID uuid;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;

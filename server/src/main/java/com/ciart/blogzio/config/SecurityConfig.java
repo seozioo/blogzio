@@ -29,8 +29,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/user/signup")
-                        .permitAll()
+                        .requestMatchers("/auth/**").permitAll() // 그대로 사용/ 가독성 좋게 한줄씩
+                        .requestMatchers("/user/signup").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

@@ -20,7 +20,7 @@ public class Post {
     @Id
     @GeneratedValue
     @UuidGenerator
-    private UUID uuid;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="author_id", nullable = false)
