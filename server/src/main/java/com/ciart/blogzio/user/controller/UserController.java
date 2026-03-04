@@ -4,11 +4,8 @@ import com.ciart.blogzio.user.dto.UserRequest;
 import com.ciart.blogzio.user.dto.UserResponse;
 import com.ciart.blogzio.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/user")

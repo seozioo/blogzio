@@ -2,11 +2,9 @@ package com.ciart.blogzio.auth;
 
 import com.ciart.blogzio.auth.dto.LoginRequest;
 import com.ciart.blogzio.auth.dto.LoginResponse;
-import com.ciart.blogzio.user.domain.User;
 import com.ciart.blogzio.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
