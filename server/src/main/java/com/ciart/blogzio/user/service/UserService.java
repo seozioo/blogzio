@@ -31,9 +31,9 @@ public class UserService{
     }
 
 
-    public User login(String email, String rawPassword){
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("이메일을 다시 입력해주세요."));
+    public User login(String username, String rawPassword){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("유저 이름을 다시 입력해주십시오."));
 
         if (!passwordEncoder.matches(rawPassword, user.getPassword())){
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
