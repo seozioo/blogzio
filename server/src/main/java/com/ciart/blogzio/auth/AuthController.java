@@ -18,12 +18,13 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 
         var user = userService.login(
-                request.getEmail(),
+                request.getUsername(),
                 request.getPassword()
         );
 
         String token = jwtUtil.generateToken(
                 user.getUuid(),
+                user.getUsername(),
                 user.getEmail()
         );
 
