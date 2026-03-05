@@ -8,3 +8,7 @@
 ### 빌드
 1. `npm ci`
 2. `npm run build -w client`
+
+## 참고 문서
+- https://mangkyu.tistory.com/204
+- https://alstn113.tistory.com/56#Overlap%20Period-1-10
