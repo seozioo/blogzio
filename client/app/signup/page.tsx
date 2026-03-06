@@ -1,7 +1,9 @@
 'use client';
 
+import { ApiConfiguration } from '@/constants/api-configuration';
 import { BaseContainer } from '@/shared/components/BaseContainer';
 import { InputField } from '@/shared/components/InputField';
+import { UserControllerApi } from '@blogzio/api';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type Inputs = {
@@ -18,13 +20,8 @@ export default function Signup() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await fetch('api/user/signup', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const api = new UserControllerApi(ApiConfiguration);
+    await api.signup({ userRequest: data });
   };
 
   return (

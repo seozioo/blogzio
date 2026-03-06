@@ -14,9 +14,11 @@ public class GuestbookService {
     private final GuestbookMessageRepository guestbookMessageRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void createMessage(GuestbookMessageContentType contentType, JsonNode content, String password) {
+    public GuestbookMessage createMessage(GuestbookMessageContentType contentType, JsonNode content, String password) {
         var guestbookMessage = GuestbookMessage.builder().content_type(contentType).content(content).password(passwordEncoder.encode(password)).build();
 
         guestbookMessageRepository.save(guestbookMessage);
+
+        return guestbookMessage;
     }
 }

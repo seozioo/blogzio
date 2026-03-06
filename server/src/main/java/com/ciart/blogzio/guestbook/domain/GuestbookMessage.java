@@ -23,7 +23,7 @@ public class GuestbookMessage {
     @Id
     @GeneratedValue
     @UuidGenerator
-    private UUID uuid;
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     private GuestbookMessageContentType content_type;

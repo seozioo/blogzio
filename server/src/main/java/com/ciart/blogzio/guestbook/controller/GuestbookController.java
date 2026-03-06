@@ -18,6 +18,8 @@ public class GuestbookController {
 
     @PostMapping("/")
     public ResponseEntity<CreateGuestbookMessageResponse> create(@RequestBody CreateGuestbookMessageRequest request) {
-        guestbookService.createMessage(request.getContentType(), request.getContent(), request.getPassword());
+        var guestbookMessage = guestbookService.createMessage(request.getContentType(), request.getContent(), request.getPassword());
+
+        return ResponseEntity.ok(new CreateGuestbookMessageResponse(guestbookMessage.getId(), guestbookMessage.getCreatedAt()));
     }
 }
