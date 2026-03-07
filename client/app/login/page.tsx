@@ -3,6 +3,7 @@
 import { ApiConfiguration } from '@/constants/api-configuration';
 import { BaseContainer } from '@/shared/components/BaseContainer';
 import { InputField } from '@/shared/components/InputField';
+import { apiClient } from '@/shared/hooks/use-api';
 import { AuthControllerApi } from '@blogzio/api';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -19,8 +20,7 @@ export default function Login() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const api = new AuthControllerApi(ApiConfiguration);
-    await api.login({ loginRequest: data });
+    await apiClient.POST('/auth/login', { body: data });
   };
 
   return (

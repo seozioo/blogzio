@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Header } from "@/shared/components/Header";
 import "./globals.css";
+
+import { Header } from "@/shared/components/Header";
 import { Footer } from "@/shared/components/Footer";
+import { Guestbook } from "@/shared/components/Guestbook";
+import {BaseContainer} from "@/shared/components/BaseContainer";
 
 export const metadata: Metadata = {
   title: "BLOGZIO",
@@ -18,6 +21,9 @@ export default function RootLayout({
       <body className="min-h-svh flex flex-col bg-zinc-50">
         <Header />
         {children}
+        <BaseContainer className="p-5">
+            <Guestbook />
+        </BaseContainer>
         <Footer />
       </body>
     </html>

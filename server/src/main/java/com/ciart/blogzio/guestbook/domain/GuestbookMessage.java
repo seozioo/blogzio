@@ -1,6 +1,5 @@
 package com.ciart.blogzio.guestbook.domain;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -25,15 +25,23 @@ public class GuestbookMessage {
     @UuidGenerator
     private UUID id;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Enumerated(EnumType.STRING)
-    private GuestbookMessageContentType content_type;
+    @Column(nullable = false)
+    private GuestbookMessageContentType contentType;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(nullable = false, columnDefinition = "jsonb")
-    private JsonNode content;
+    private Map<String, Object> content;
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column()
+    private GuestbookMessageBackgoundColor backgroundColor;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "generate:spec": "./gradlew :server:generateOpenApiDocs",
-    "generate:api": "openapi-generator-cli generate -i openapi.json -g typescript-fetch -o api --additional-properties=npmName=@blogzio/api,npmVersion=1.0.0",
-    "generate": "npm run generate:spec && npm run generate:api"
+    "generate": "./gradlew :server:generateOpenApiDocs && openapi-typescript openapi.json -o ./client/types/schema.d.ts --enum"
   },
   "homepage": "https://github.com/seozioo/blogzio#readme",
   "bugs": {
@@ -19,10 +17,9 @@
   "author": "",
   "type": "commonjs",
   "workspaces": [
-    "client",
-    "api"
+    "client"
   ],
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.30.1"
+    "openapi-typescript": "^7.13.0"
   }
 }

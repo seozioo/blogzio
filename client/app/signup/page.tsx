@@ -3,7 +3,7 @@
 import { ApiConfiguration } from '@/constants/api-configuration';
 import { BaseContainer } from '@/shared/components/BaseContainer';
 import { InputField } from '@/shared/components/InputField';
-import { UserControllerApi } from '@blogzio/api';
+import { apiClient, useApi } from '@/shared/hooks/use-api';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type Inputs = {
@@ -20,8 +20,7 @@ export default function Signup() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const api = new UserControllerApi(ApiConfiguration);
-    await api.signup({ userRequest: data });
+    await apiClient.POST('/user/signup', { body: data });
   };
 
   return (

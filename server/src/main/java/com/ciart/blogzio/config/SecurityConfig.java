@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**", "/user/signup")
                         .permitAll()
                         .requestMatchers("/v3/api-docs").permitAll()
+                        .requestMatchers("/guestbook", "/guestbook/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
