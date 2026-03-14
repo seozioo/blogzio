@@ -21,9 +21,7 @@ export default function RootLayout({
       <body className="min-h-svh flex flex-col bg-zinc-50">
         <Header />
         {children}
-        <BaseContainer className="p-5">
-            <Guestbook />
-        </BaseContainer>
+        <Guestbook />
         <Footer />
       </body>
     </html>

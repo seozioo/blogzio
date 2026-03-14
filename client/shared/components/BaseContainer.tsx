@@ -7,6 +7,6 @@ export type BaseContainerProps = Readonly<{
 
 export const BaseContainer = (props: BaseContainerProps) => {
   return (
-    <div className={clsx("max-lg:container lg:w-5xl mx-auto px-4", props.className)}>{props.children}</div>
+    <div className={clsx("max-w-210 mx-auto px-5", props.className)}>{props.children}</div>
   )
 }

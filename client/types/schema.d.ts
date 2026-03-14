@@ -83,13 +83,11 @@ export interface components {
         CreateGuestbookMessageRequest: {
             nickname: string;
             /** @enum {string} */
-            contentType: CreateGuestbookMessageRequestContentType;
-            content: {
-                [key: string]: unknown;
-            };
+            contentType: "TEXT" | "IMAGE";
+            content: string;
             password: string;
             /** @enum {string} */
-            backgroundColor?: CreateGuestbookMessageRequestBackgroundColor;
+            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY";
         };
         CreateGuestbookMessageResponse: {
             /** Format: uuid */
@@ -109,15 +107,15 @@ export interface components {
         };
         GuestbookMessageDto: {
             /** Format: uuid */
-            id?: string;
-            nickname?: string;
+            id: string;
+            nickname: string;
             /** @enum {string} */
-            contentType?: GuestbookMessageDtoContentType;
-            content?: {
-                [key: string]: unknown;
-            };
+            contentType: "TEXT" | "IMAGE";
+            content: string;
+            /** @enum {string} */
+            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY";
             /** Format: date-time */
-            createdAt?: string;
+            createdAt: string;
         };
         DeleteGuestbookMessageRequest: {
             password: string;
@@ -249,19 +247,4 @@ export interface operations {
             };
         };
     };
-}
-export enum CreateGuestbookMessageRequestContentType {
-    TEXT = "TEXT",
-    IMAGE = "IMAGE"
-}
-export enum CreateGuestbookMessageRequestBackgroundColor {
-    WIHTE = "WIHTE",
-    PINK = "PINK",
-    YELLOW = "YELLOW",
-    LIME = "LIME",
-    SKY = "SKY"
-}
-export enum GuestbookMessageDtoContentType {
-    TEXT = "TEXT",
-    IMAGE = "IMAGE"
 }

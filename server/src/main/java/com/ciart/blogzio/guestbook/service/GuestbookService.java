@@ -27,7 +27,7 @@ public class GuestbookService {
     public GuestbookMessage createMessage(
         String nickname,
         GuestbookMessageContentType contentType,
-        Map<String, Object> content,
+        String content,
         GuestbookMessageBackgoundColor backgroundColor,
         String password
     ) {
@@ -58,7 +58,7 @@ public class GuestbookService {
             !passwordEncoder.matches(password, guestbookMessage.getPassword())
         ) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.CHECKPOINT,
                 "비밀번호가 일치하지 않습니다."
             );
         }

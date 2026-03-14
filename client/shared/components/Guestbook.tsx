@@ -1,30 +1,33 @@
 'use client';
 
-import {useApi} from "../hooks/use-api";
+import { useCallback } from 'react';
+import { useApi } from '../hooks/use-api';
+import { GuestbookInput } from './GuestbookInput';
+import { GuestbookMessage } from './GuestbookMessage';
 
 export const Guestbook = () => {
-    const {data, isLoading} = useApi('/guestbook')
+  const { data, isLoading, mutate } = useApi('/guestbook');
 
-    const getDateText = (date?: string) => {
-        if (!date) return '알 수 없음';
+  const onSubmit = useCallback(() => {
+    mutate();
+  }, [mutate]);
 
-        const d = new Date(date);
-        return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
-    }
-
-    return (
-        <div className="flex gap-5">
-            {isLoading || data!.messages?.map(message => (
-                <div className="flex p-5 bg-amber-50 shadow-sm rounded-2xl" key={message.id}>
-                    <div className="w-[260px] max-h-[260px] overflow-hidden">
-                        <div className="flex justify-between">
-                            <p>{message.nickname}</p>
-                            <p>{getDateText(message.createdAt)}</p>
-                        </div>
-                        <p>{message.content?.text as string}</p>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div className="overflow-x-scroll scrollbar-hide h-160">
+      <div className="base:mx-[calc(50%-420px)] px-5 flex flex-col w-max flex-wrap gap-5 wrap h-155">
+        <GuestbookInput onSubmit={onSubmit} />
+        {isLoading ||
+          data!.messages?.map((message) => (
+            <GuestbookMessage
+              key={message.id}
+              id={message.id}
+              nickname={message.nickname}
+              createdAt={message.createdAt}
+              content={message.content}
+              backgroundColor={message.backgroundColor}
+            />
+          ))}
+      </div>
+    </div>
+  );
 };

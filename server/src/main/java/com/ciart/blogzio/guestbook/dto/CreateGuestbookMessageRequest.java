@@ -23,8 +23,8 @@ public class CreateGuestbookMessageRequest {
     @NotNull
     private GuestbookMessageContentType contentType;
 
-    @NotNull
-    private Map<String, Object> content;
+    @NotBlank
+    private String content;
 
     @NotBlank
     private String password;

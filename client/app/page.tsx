@@ -25,16 +25,18 @@ export default function Home() {
             <BaseContainer className="music bg-blue-400 h-[calc(100svh-200px)]">
                 노래
             </BaseContainer>
-            <BaseContainer>
-                <NavigationBar/>
-            </BaseContainer>
-            <main>
-                <BaseContainer className="grid grid-cols-3 gap-5">
-                    {dummy.map((photo) => (
-                        <PostPhotoLink key={photo.id} tags={photo.tags}/>
-                    ))}
+            <div>
+                <BaseContainer>
+                    <NavigationBar/>
                 </BaseContainer>
-            </main>
+                <main>
+                    <BaseContainer className="grid grid-cols-3 gap-5">
+                        {dummy.map((photo) => (
+                            <PostPhotoLink key={photo.id} tags={photo.tags}/>
+                        ))}
+                    </BaseContainer>
+                </main>
+            </div>
         </div>
     );
 }

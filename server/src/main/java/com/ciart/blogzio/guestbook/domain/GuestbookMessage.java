@@ -32,9 +32,8 @@ public class GuestbookMessage {
     @Column(nullable = false)
     private GuestbookMessageContentType contentType;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(nullable = false, columnDefinition = "jsonb")
-    private Map<String, Object> content;
+    @Column(nullable = false)
+    private String content;
 
     @Column(nullable = false)
     private String password;

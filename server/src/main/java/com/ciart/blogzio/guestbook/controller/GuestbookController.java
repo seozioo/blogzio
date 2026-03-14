@@ -28,6 +28,7 @@ public class GuestbookController {
                     m.getNickname(),
                     m.getContentType(),
                     m.getContent(),
+                    m.getBackgroundColor(),
                     m.getCreatedAt()
                 )
             )
