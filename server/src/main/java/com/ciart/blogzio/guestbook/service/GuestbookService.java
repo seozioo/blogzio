@@ -1,5 +1,6 @@
 package com.ciart.blogzio.guestbook.service;
 
+import com.ciart.blogzio.asset.service.AssetService;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessage;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgoundColor;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessageContentType;
@@ -16,9 +17,9 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 @RequiredArgsConstructor
 public class GuestbookService {
-
     private final GuestbookMessageRepository guestbookMessageRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AssetService assetService;
 
     public List<GuestbookMessage> getAllMessages() {
         return guestbookMessageRepository.findAllByOrderByCreatedAtDesc();
@@ -41,6 +42,14 @@ public class GuestbookService {
 
         guestbookMessageRepository.save(guestbookMessage);
 
+        if (guestbookMessage.getContentType() == GuestbookMessageContentType.IMAGE) {
+            var url = content;
+
+            var asset = assetService.findByUrl(url);
+            asset.setOwner(guestbookMessage);
+            assetService.save(asset);
+        }
+
         return guestbookMessage;
     }
 
@@ -58,7 +67,7 @@ public class GuestbookService {
             !passwordEncoder.matches(password, guestbookMessage.getPassword())
         ) {
             throw new ResponseStatusException(
-                HttpStatus.CHECKPOINT,
+                HttpStatus.BAD_REQUEST,
                 "비밀번호가 일치하지 않습니다."
             );
         }

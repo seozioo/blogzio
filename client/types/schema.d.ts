@@ -52,6 +52,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/asset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/guestbook/{id}": {
         parameters: {
             query?: never;
@@ -101,6 +117,13 @@ export interface components {
         };
         LoginResponse: {
             accessToken?: string;
+        };
+        CreateAssetRequest: {
+            /** Format: binary */
+            file: string;
+        };
+        CreateAssetResponse: {
+            url: string;
         };
         GetAllGuestbookMessagesResponse: {
             messages?: components["schemas"]["GuestbookMessageDto"][];
@@ -217,6 +240,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LoginResponse"];
+                };
+            };
+        };
+    };
+    create_1: {
+        parameters: {
+            query: {
+                request: components["schemas"]["CreateAssetRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CreateAssetResponse"];
                 };
             };
         };

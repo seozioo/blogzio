@@ -24,6 +24,7 @@ export const Guestbook = () => {
               nickname={message.nickname}
               createdAt={message.createdAt}
               content={message.content}
+              contentType={message.contentType}
               backgroundColor={message.backgroundColor}
             />
           ))}

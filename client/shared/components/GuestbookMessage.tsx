@@ -13,13 +13,15 @@ const container = cva('div', {
   },
 });
 
-export type GuestbookMessageProps = Readonly<{
-  id: string;
-  nickname: string;
-  createdAt: string;
-  content: string;
-}> &
-  VariantProps<typeof container>;
+export type GuestbookMessageProps = Readonly<
+  {
+    id: string;
+    nickname: string;
+    createdAt: string;
+    content: string;
+    contentType: 'TEXT' | 'IMAGE';
+  } & VariantProps<typeof container>
+>;
 
 export const GuestbookMessage = (props: GuestbookMessageProps) => {
   const getDateText = (date: string) => {
@@ -42,7 +44,13 @@ export const GuestbookMessage = (props: GuestbookMessageProps) => {
           <p>{props.nickname}</p>
           <p>{getDateText(props.createdAt)}</p>
         </div>
-        <p className="text-pretty whitespace-pre-wrap wrap-break-word">{props.content}</p>
+        <p className="text-pretty whitespace-pre-wrap wrap-break-word">
+          {props.contentType === 'IMAGE' ? (
+            <img src={props.content} alt="Guestbook Image" />
+          ) : (
+            props.content
+          )}
+        </p>
       </div>
     </div>
   );

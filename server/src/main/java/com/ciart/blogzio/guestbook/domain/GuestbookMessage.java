@@ -1,17 +1,13 @@
 package com.ciart.blogzio.guestbook.domain;
 
+import com.ciart.blogzio.asset.domain.AssetOwner;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.UUID;
 
 @Entity
 @Table(name = "guestbook_messages")
@@ -19,12 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GuestbookMessage {
-    @Id
-    @GeneratedValue
-    @UuidGenerator
-    private UUID id;
-
+public class GuestbookMessage extends AssetOwner {
     @Column(nullable = false)
     private String nickname;
 
