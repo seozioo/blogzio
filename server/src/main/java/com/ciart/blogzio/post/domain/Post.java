@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "posts")
 @Getter
@@ -47,7 +48,6 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // 비공개시 공개로 돌릴 때 새 글로 올릴 시 < postedAt 업데이트 // 새글로 올리지 않으면 업데이트 X
     @Column(nullable = false)
     private LocalDateTime postedAt;
 
@@ -78,5 +78,26 @@ public class Post {
     @PreUpdate
     public void preUpdate(){
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Post(User author, String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags) {
+        this.author = author;
+        this.title = title;
+        this.content = content;
+        this.pinned = pinned;
+        this.is_visiable = is_visiable;
+        this.category = category;
+        this.tags = tags;
+    }
+
+
+    public void update( String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags){
+        if(title != null) this.title = null;
+        if(content != null) this.content = null;
+        if(pinned != null) this.pinned = false;
+        if(is_visiable != null) this.is_visiable = false;
+        if(category != null) this.category = null;
+        if(tags != null) this.tags = new ArrayList<>();
     }
 }
