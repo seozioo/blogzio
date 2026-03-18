@@ -246,14 +246,16 @@ export interface operations {
     };
     create_1: {
         parameters: {
-            query: {
-                request: components["schemas"]["CreateAssetRequest"];
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["CreateAssetRequest"];
+            };
+        };
         responses: {
             /** @description OK */
             200: {

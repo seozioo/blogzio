@@ -9,14 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
 public class GuestbookService {
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final GuestbookMessageRepository guestbookMessageRepository;
     private final PasswordEncoder passwordEncoder;
     private final AssetService assetService;
@@ -25,6 +29,7 @@ public class GuestbookService {
         return guestbookMessageRepository.findAllByOrderByCreatedAtDesc();
     }
 
+    @Transactional
     public GuestbookMessage createMessage(
         String nickname,
         GuestbookMessageContentType contentType,
@@ -45,9 +50,14 @@ public class GuestbookService {
         if (guestbookMessage.getContentType() == GuestbookMessageContentType.IMAGE) {
             var url = content;
 
-            var asset = assetService.findByUrl(url);
-            asset.setOwner(guestbookMessage);
-            assetService.save(asset);
+            try {
+                var asset = assetService.findByUrl(url);
+                asset.setOwner(guestbookMessage);
+                assetService.save(asset);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "방명록 그림 등록에 실패했습니다.");
+            }
         }
 
         return guestbookMessage;

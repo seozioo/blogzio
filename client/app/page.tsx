@@ -1,6 +1,7 @@
 import {BaseContainer} from "@/shared/components/BaseContainer";
 import {NavigationBar} from "@/shared/components/NavigationBar";
 import {PostPhotoLink} from "@/app/photo/_components/PostPhotoLink";
+import { Guestbook } from "@/shared/components/Guestbook";
 
 const dummy = [
     {
@@ -36,6 +37,7 @@ export default function Home() {
                         ))}
                     </BaseContainer>
                 </main>
+                <Guestbook />
             </div>
         </div>
     );

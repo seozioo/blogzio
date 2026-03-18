@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,6 +41,17 @@ public class AssetService {
             var resource = s3Template.upload(bucketName, fileName, inputStream);
             var url = resource.getURL().toString();
 
+            TransactionSynchronizationManager.registerSynchronization(
+                    new TransactionSynchronization() {
+                        @Override
+                        public void afterCompletion(int status) {
+                            if (status == STATUS_ROLLED_BACK) {
+                                s3Template.deleteObject(bucketName, fileName);
+                            }
+                        }
+                    }
+            );
+
             var asset = Asset.builder()
                     .originalFilename(originalFilename)
                     .url(url)
@@ -52,11 +65,11 @@ public class AssetService {
     }
 
     public Asset findByUrl(String url) {
-        return assetRepository.findByUrl(url).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 URL의 자산을 찾을 수 없습니다."));
+        return assetRepository.findByUrl(url).orElseThrow(() -> new IllegalArgumentException("해당 URL의 자산을 찾을 수 없습니다."));
     }
 
-    public Asset save(Asset asset) {
-        return assetRepository.save(asset);
+    public void save(Asset asset) {
+        assetRepository.save(asset);
     }
 
     private String generateFileName(String originalFilename) {

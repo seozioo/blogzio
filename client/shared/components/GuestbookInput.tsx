@@ -27,45 +27,38 @@ export const GuestbookInput = (props: GuestbookInputProps) => {
     if (isImage && canvas) {
       const canvasElement = canvas.current;
       if (canvasElement) {
-        canvasElement.toBlob(
-          async (blob) => {
-            if (blob) {
-              const formData = new FormData();
-              formData.append('file', blob, 'guestbook-image.png');
+        canvasElement.toBlob(async (blob) => {
+          if (blob) {
+            const response = await apiClient.POST('/asset', {
+              body: { file: "" },
+              bodySerializer: (_) => {
+                const formData = new FormData();
+                formData.append('file', blob);
+                return formData;
+              },
+            });
 
-              const response = await apiClient.POST('/asset', {
-                params: {
-                  query: {
-                    request: {
-                      file: 'guestbook-image.png',
-                    },
-                  },
-                },
-                body: formData as any,
-              });
+            const imageUrl = response.data?.url;
 
-              const imageUrl = response.data?.url;
-
-              if (!imageUrl) {
-                console.error('이미지 업로드 실패');
-                return;
-              }
-
-              await apiClient.POST('/guestbook', {
-                body: {
-                  nickname: '익명',
-                  password: '1234',
-                  contentType: 'IMAGE',
-                  content: imageUrl,
-                  backgroundColor: data.backgroundColor,
-                },
-              });
-              props.onSubmit?.();
+            if (!imageUrl) {
+              console.error('이미지 업로드 실패');
+              return;
             }
+
+            await apiClient.POST('/guestbook', {
+              body: {
+                nickname: '익명',
+                password: '1234',
+                contentType: 'IMAGE',
+                content: imageUrl,
+                backgroundColor: data.backgroundColor,
+              },
+            });
+            props.onSubmit?.();
           }
-        );
+        });
       }
-      
+
       return;
     }
 
@@ -90,7 +83,10 @@ export const GuestbookInput = (props: GuestbookInputProps) => {
         onChange={(e) => setIsImage(e.target.checked)}
       />
       {isImage ? (
-        <GuestbookCanvas backgroundColor={watch('backgroundColor')} onChange={setCanvas} />
+        <GuestbookCanvas
+          backgroundColor={watch('backgroundColor')}
+          onChange={setCanvas}
+        />
       ) : (
         <textarea
           placeholder="방명록을 남겨주세요!"
