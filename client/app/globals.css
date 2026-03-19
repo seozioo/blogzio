@@ -1,5 +1,47 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --breakpoint-base: 52.5rem;
+
+  --color-border: rgba(0, 0, 0, 0.15);
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* https://codepen.io/haibnu/pen/DrVweV */
+@utility shadow-sticky-note {
+  position: relative;
+
+  &::before, &::after {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    top: 70%;
+    max-width: 300px;
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.1);
+    transform: rotate(-3deg);
+  }
+
+  &::after {
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+  }
+}
+
+@utility pixelated {
+  image-rendering: pixelated;
+}
 
 body {
-
 }

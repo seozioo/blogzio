@@ -31,6 +31,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/user/signup")
                         .permitAll()
+                        .requestMatchers("/v3/api-docs").permitAll()
+                        .requestMatchers("/asset").permitAll()
+                        .requestMatchers("/guestbook", "/guestbook/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
