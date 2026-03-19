@@ -1,8 +1,6 @@
 package com.ciart.blogzio.guestbook.dto;
 
-import java.util.Map;
-
-import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgoundColor;
+import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgroundColor;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessageContentType;
 
 import jakarta.validation.constraints.NotBlank;
@@ -29,5 +27,5 @@ public class CreateGuestbookMessageRequest {
     @NotBlank
     private String password;
 
-    private GuestbookMessageBackgoundColor backgroundColor;
+    private GuestbookMessageBackgroundColor backgroundColor;
 }

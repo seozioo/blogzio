@@ -31,7 +31,7 @@ public class GuestbookMessage extends AssetOwner {
 
     @Enumerated(EnumType.STRING)
     @Column()
-    private GuestbookMessageBackgoundColor backgroundColor;
+    private GuestbookMessageBackgroundColor backgroundColor;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

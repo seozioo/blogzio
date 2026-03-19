@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "generate": "./gradlew :server:generateOpenApiDocs && openapi-typescript openapi.json -o ./client/types/schema.d.ts"
+    "generate": "dotenv -- ./gradlew :server:generateOpenApiDocs && openapi-typescript openapi.json -o ./client/types/schema.d.ts"
   },
   "homepage": "https://github.com/seozioo/blogzio#readme",
   "bugs": {
@@ -20,6 +20,7 @@
     "client"
   ],
   "devDependencies": {
+    "dotenv-cli": "^11.0.0",
     "openapi-typescript": "^7.13.0"
   }
 }

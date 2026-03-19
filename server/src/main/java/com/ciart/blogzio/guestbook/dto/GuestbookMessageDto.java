@@ -1,10 +1,9 @@
 package com.ciart.blogzio.guestbook.dto;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.UUID;
 
-import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgoundColor;
+import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgroundColor;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessageContentType;
 
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +26,7 @@ public class GuestbookMessageDto {
     @NotBlank
     private String content;
 
-    private GuestbookMessageBackgoundColor backgroundColor;
+    private GuestbookMessageBackgroundColor backgroundColor;
 
     @NotNull
     private LocalDateTime createdAt;

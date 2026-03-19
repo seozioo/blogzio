@@ -16,8 +16,8 @@ export const Guestbook = () => {
     <div className="overflow-x-scroll scrollbar-hide h-160">
       <div className="base:mx-[calc(50%-420px)] px-5 flex flex-col w-max flex-wrap gap-5 wrap h-155">
         <GuestbookInput onSubmit={onSubmit} />
-        {isLoading ||
-          data!.messages?.map((message) => (
+        {!isLoading &&
+          data?.messages?.map((message) => (
             <GuestbookMessage
               key={message.id}
               id={message.id}

@@ -14,6 +14,10 @@
    docker compose up -d
    ```
 
+   > minIO 콘솔에 접속하여 Access Policy를 public으로 변경해야 합니다.
+   > 
+   > 자동으로 적용하는 법을 아직 찾지 못했습니다.
+
 2. 의존성 설치
 
    ```bash

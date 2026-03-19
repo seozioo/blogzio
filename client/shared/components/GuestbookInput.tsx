@@ -90,7 +90,7 @@ export const GuestbookInput = (props: GuestbookInputProps) => {
       ) : (
         <textarea
           placeholder="방명록을 남겨주세요!"
-          className="w-75 min-h[66px] max-h-75 rounded-2xl border border-gray-300 px-5 py-6"
+          className="w-75 min-h-[66px] max-h-75 rounded-2xl border border-gray-300 px-5 py-6"
           {...register('content', { required: true })}
         />
       )}

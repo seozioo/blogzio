@@ -1,6 +1,6 @@
 package com.ciart.blogzio.guestbook.domain;
 
-public enum GuestbookMessageBackgoundColor {
+public enum GuestbookMessageBackgroundColor {
     WHITE,
     PINK,
     YELLOW,

@@ -2,11 +2,10 @@ package com.ciart.blogzio.guestbook.service;
 
 import com.ciart.blogzio.asset.service.AssetService;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessage;
-import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgoundColor;
+import com.ciart.blogzio.guestbook.domain.GuestbookMessageBackgroundColor;
 import com.ciart.blogzio.guestbook.domain.GuestbookMessageContentType;
 import com.ciart.blogzio.guestbook.repository.GuestbookMessageRepository;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -34,7 +33,7 @@ public class GuestbookService {
         String nickname,
         GuestbookMessageContentType contentType,
         String content,
-        GuestbookMessageBackgoundColor backgroundColor,
+        GuestbookMessageBackgroundColor backgroundColor,
         String password
     ) {
         var guestbookMessage = GuestbookMessage.builder()
@@ -55,7 +54,7 @@ public class GuestbookService {
                 asset.setOwner(guestbookMessage);
                 assetService.save(asset);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error("방명록 그림 등록 실패", e);
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "방명록 그림 등록에 실패했습니다.");
             }
         }

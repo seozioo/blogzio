@@ -3,6 +3,8 @@ package com.ciart.blogzio.guestbook.controller;
 import com.ciart.blogzio.guestbook.dto.*;
 import com.ciart.blogzio.guestbook.service.GuestbookService;
 import java.util.UUID;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,7 @@ public class GuestbookController {
 
     @PostMapping
     public ResponseEntity<CreateGuestbookMessageResponse> create(
-        @RequestBody CreateGuestbookMessageRequest request,
+        @Valid @RequestBody CreateGuestbookMessageRequest request,
         Errors errors
     ) {
         if (errors.hasErrors()) {
