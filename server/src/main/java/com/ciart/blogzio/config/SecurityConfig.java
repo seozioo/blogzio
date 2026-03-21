@@ -29,9 +29,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // 그대로 사용/ 가독성 좋게 한줄씩
-                        .requestMatchers("/user/signup").permitAll()
-                        .requestMatchers("/post/**").permitAll()
+                        .requestMatchers("/auth/**", "/user/signup")
+                        .permitAll()
+                        .requestMatchers("/v3/api-docs").permitAll()
+                        .requestMatchers("/asset").permitAll()
+                        .requestMatchers("/post", "/post/**").permitAll()
+                        .requestMatchers("/guestbook", "/guestbook/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

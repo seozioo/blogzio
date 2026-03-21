@@ -6,7 +6,6 @@ export const NavigationBar = () => {
       <Link href="/">Home</Link>
       <Link href="/photo">Photo</Link>
       <Link href="/article">Article</Link>
-      <Link href="/guestbook">Guestbook</Link>
     </div>
   );
 };
