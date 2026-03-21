@@ -19,6 +19,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "posts")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 빌더로만 만들도록 강제 
 public class Post {
 
     @Id
@@ -93,11 +94,11 @@ public class Post {
 
 
     public void update( String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags){
-        if(title != null) this.title = null;
-        if(content != null) this.content = null;
-        if(pinned != null) this.pinned = false;
-        if(is_visiable != null) this.is_visiable = false;
-        if(category != null) this.category = null;
-        if(tags != null) this.tags = new ArrayList<>();
+        if(title != null) this.title = title;
+        if(content != null) this.content = content;
+        if(pinned != null) this.pinned = pinned;
+        if(is_visiable != null) this.is_visiable = is_visiable;
+        if(category != null) this.category = category;
+        if(tags != null) this.tags = tags;
     }
 }

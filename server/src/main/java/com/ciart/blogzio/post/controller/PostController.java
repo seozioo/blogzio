@@ -1,7 +1,8 @@
 package com.ciart.blogzio.post.controller;
 
 
-import com.ciart.blogzio.post.domain.Post;
+import com.ciart.blogzio.category.service.CategoryService;
+import com.ciart.blogzio.post.dto.PostGetListResponse;
 import com.ciart.blogzio.post.dto.PostCreateRequest;
 import com.ciart.blogzio.post.dto.PostResponse;
 import com.ciart.blogzio.post.dto.PostUpdateRequest;
@@ -14,32 +15,41 @@ import jakarta.validation.Valid;
 
 import java.util.UUID;
 
-
-    /*
-    GET /post (글 목록 조회)
-    GET /post/[id] (글 상세 조회)
-    POST /post (글 작성)
-    PUT /post/[id] (글 수정)
-    DELETE /post/[id] (글 삭제)
-     */
-
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
 public class PostController {
 
     private final PostService postService;
+    private final CategoryService categoryService;
 
-    @GetMapping("/new")
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponse> get(@PathVariable UUID postId) {
+        return ResponseEntity.ok(postService.GetPost(postId));
+    }
+
+    @GetMapping
+    public ResponseEntity<PostGetListResponse> getList(@RequestParam(required = false) UUID category, @RequestParam(required = false) int page) {
+        var pageData = postService.GetAllPosts(categoryService.find(category).orElse(null), page);
+
+        return ResponseEntity.ok(PostGetListResponse.from(pageData));
+    }
+
+    @PostMapping
     public PostResponse create(@AuthenticationPrincipal UUID userId,
                                @Valid @RequestBody PostCreateRequest request) {
         return ResponseEntity.ok(postService.CreatePost(userId, request)).getBody();
     }
 
-    @GetMapping("/update/{postId}")
+    @PutMapping("/{postId}")
     public PostResponse update(@PathVariable UUID postId,
                                @Valid @RequestBody PostUpdateRequest postUpdateRequest) {
         return ResponseEntity.ok(postService.UpdatePost(postId, postUpdateRequest)).getBody();
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> delete(@PathVariable UUID postId) {
+        postService.deletePost(postId);
+        return ResponseEntity.noContent().build();
     }
 }

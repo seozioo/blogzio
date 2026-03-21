@@ -12,7 +12,11 @@ import com.ciart.blogzio.post.repository.PostRepository;
 import com.ciart.blogzio.post.repository.TagRepository;
 import com.ciart.blogzio.user.domain.User;
 import com.ciart.blogzio.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import jakarta.annotation.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -81,6 +85,43 @@ public class PostService {
         return  PostResponse.from(post);
 
     }
+
+    @Transactional
+    public void deletePost(UUID postId){
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND
+                        ,"해당 게시글을 찾을 수 없습니다."));
+
+        postRepository.delete(post);
+
+        tagRepository.deleteUnusedTags();
+    }
+
+
+    // 단건 읽기
+    @Transactional(readOnly = true)
+    public PostResponse GetPost(UUID postId){
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND
+                        ,"해당 게시글을 찾을 수 없습니다."));
+
+        return PostResponse.from(post);
+    }
+
+    // 목록읽기
+    @Transactional(readOnly = true)
+    public Page<Post> GetAllPosts(@Nullable Category category, int page){
+        Pageable pageable = PageRequest.of(page, 12);
+
+        if (category == null) {
+            return postRepository.findAll(pageable);
+        }
+
+        return postRepository.findAllByCategory(pageable, category);
+    }
+
 
     // category 체크
     public Category resolveCategory(UUID categoryId){

@@ -1,5 +1,6 @@
 package com.ciart.blogzio.config;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,4 +14,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleResponseStatusException(ResponseStatusException exception) {
         return ResponseEntity.status(exception.getStatusCode()).body(exception.getMessage());
     }
+
+    @ExceptionHandler(ValidationFailedException.class)
+    public ResponseEntity<String> handleValidationFailedException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
 }

@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // 그대로 사용/ 가독성 좋게 한줄씩
                         .requestMatchers("/user/signup").permitAll()
+                        .requestMatchers("/post/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
