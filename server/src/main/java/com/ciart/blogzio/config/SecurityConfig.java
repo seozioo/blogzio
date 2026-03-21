@@ -33,7 +33,9 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/v3/api-docs").permitAll()
                         .requestMatchers("/asset").permitAll()
+                        .requestMatchers("/post", "/post/**").permitAll()
                         .requestMatchers("/guestbook", "/guestbook/**").permitAll()
+                        .requestMatchers("/category", "/category/**s").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

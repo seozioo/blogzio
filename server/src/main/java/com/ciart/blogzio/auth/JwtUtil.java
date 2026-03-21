@@ -13,7 +13,7 @@ import java.util.UUID;
 public class JwtUtil {
 
     private final Key key;
-    private final long EXP = 1000 * 60 * 60; // 1시간
+    private final long EXP = 1000L * 60 * 60 * 24 * 7; // 1000 * 60 * 60; 1시간
 
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
