@@ -1,24 +1,13 @@
-import { cva, VariantProps } from 'class-variance-authority';
-import clsx from 'clsx';
+import {
+  GuestbookMessageBgColor,
+  guestbookMessageBgColorVariants,
+} from '@/constants/guestbook-message-color';
 import { RefObject, useEffect, useRef, useState } from 'react';
 
-const container = cva('div', {
-  variants: {
-    backgroundColor: {
-      WHITE: 'from-zinc-100/85 to-white',
-      PINK: 'from-pink-100 to-pink-50',
-      YELLOW: 'from-yellow-100 to-yellow-50',
-      LIME: 'from-lime-100 to-lime-50',
-      SKY: 'from-sky-100 to-sky-50',
-    },
-  },
-});
-
-export type GuestbookCanvasProps = Readonly<
-  {
-    onChange?: (canvas: RefObject<HTMLCanvasElement | null>) => void;
-  } & VariantProps<typeof container>
->;
+export type GuestbookCanvasProps = Readonly<{
+  onChange?: (canvas: RefObject<HTMLCanvasElement | null>) => void;
+  backgroundColor?: GuestbookMessageBgColor;
+}>;
 
 export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -135,7 +124,9 @@ export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
     };
   }, []);
 
-  const handleLineWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLineWidthChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const nextWidth = Number(event.target.value);
     setLineWidth(nextWidth);
     lineWidthRef.current = nextWidth;
@@ -157,10 +148,11 @@ export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
       </label>
       <canvas
         ref={canvasRef}
-        className={clsx(
-          'inset-ring inset-ring-border bg-linear-to-b pixelated',
-          container({ backgroundColor: props.backgroundColor ?? 'WHITE' }),
-        )}
+        className={guestbookMessageBgColorVariants({
+          className:
+            'inset-ring inset-ring-border pixelated w-75 h-75 rounded-2xl',
+          backgroundColor: props.backgroundColor ?? 'WHITE',
+        })}
       />
     </div>
   );

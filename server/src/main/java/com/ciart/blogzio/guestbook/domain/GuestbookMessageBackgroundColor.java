@@ -6,4 +6,5 @@ public enum GuestbookMessageBackgroundColor {
     YELLOW,
     LIME,
     SKY,
+    VIOLET,
 }
