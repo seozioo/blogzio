@@ -1,9 +1,15 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
 @import 'tailwindcss';
 
 @theme {
   --breakpoint-base: 52.5rem;
 
   --color-border: rgba(0, 0, 0, 0.15);
+
+  --inset-shadow-button: inset 0 -2px 0 rgba(0, 0, 0, 0.2); 
+  --inset-shadow-active-button: inset 0 2px 0 rgba(0, 0, 0, 0.2); 
 }
 
 @utility scrollbar-hide {
@@ -43,5 +49,31 @@
   image-rendering: pixelated;
 }
 
+@utility bg-memo-white {
+  @apply bg-linear-to-b from-zinc-100/85 to-white;
+}
+
+@utility bg-memo-pink {
+  @apply bg-linear-to-b from-pink-100 to-pink-50;
+}
+
+@utility bg-memo-yellow {
+  @apply bg-linear-to-b from-yellow-100 to-yellow-50;
+}
+
+@utility bg-memo-lime {
+  @apply bg-linear-to-b from-lime-100 to-lime-50;
+}
+
+@utility bg-memo-sky {
+  @apply bg-linear-to-b from-sky-100 to-sky-50;
+}
+
+@utility bg-memo-violet {
+  @apply bg-linear-to-b from-violet-100 to-violet-50;
+}
+
 body {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }

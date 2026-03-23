@@ -4,11 +4,12 @@ import clsx from 'clsx';
 const container = cva('div', {
   variants: {
     backgroundColor: {
-      WHITE: 'from-zinc-100/85 to-white',
-      PINK: 'from-pink-100 to-pink-50',
-      YELLOW: 'from-yellow-100 to-yellow-50',
-      LIME: 'from-lime-100 to-lime-50',
-      SKY: 'from-sky-100 to-sky-50',
+      WHITE: 'bg-memo-white',
+      PINK: 'bg-memo-pink',
+      YELLOW: 'bg-memo-yellow',
+      LIME: 'bg-memo-lime',
+      SKY: 'bg-memo-sky',
+      VIOLET: 'bg-memo-violet',
     },
   },
 });
@@ -34,7 +35,7 @@ export const GuestbookMessage = (props: GuestbookMessageProps) => {
   return (
     <div
       className={clsx(
-        'flex p-5 w-fit h-fit rounded-2xl inset-ring-1 inset-ring-border bg-linear-to-b relative shadow-sticky-note',
+        'flex p-5 w-fit h-fit rounded-2xl inset-ring-1 inset-ring-border relative shadow-sticky-note',
         container({ backgroundColor: props.backgroundColor ?? 'WHITE' }),
       )}
       key={props.id}
