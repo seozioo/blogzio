@@ -6,13 +6,14 @@ import {
 import { Radio, RadioGroup } from '@base-ui/react';
 
 export type GuestbookBgSelectorProps = Readonly<{
-  defaultValue?: GuestbookMessageBgColor;
+  value?: GuestbookMessageBgColor;
   onValueChange: (value: GuestbookMessageBgColor) => void;
 }>;
 
 export const GuestbookBgSelector = (props: GuestbookBgSelectorProps) => {
   const renderRadioOption = (color: GuestbookMessageBgColor) => (
     <Radio.Root
+      key={color}
       value={color}
       className={guestbookMessageBgColorVariants({
         className:
@@ -33,7 +34,7 @@ export const GuestbookBgSelector = (props: GuestbookBgSelectorProps) => {
   return (
     <RadioGroup
       className="flex gap-2"
-      defaultValue={props.defaultValue}
+      value={props.value}
       onValueChange={props.onValueChange}
     >
       {guestbookMessageBgColors.map((color) => renderRadioOption(color))}

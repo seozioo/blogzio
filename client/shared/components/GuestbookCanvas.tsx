@@ -2,17 +2,22 @@ import {
   GuestbookMessageBgColor,
   guestbookMessageBgColorVariants,
 } from '@/constants/guestbook-message-color';
+import { EraserIcon, PencilIcon } from '@phosphor-icons/react';
+import clsx from 'clsx';
 import { RefObject, useEffect, useRef, useState } from 'react';
 
 export type GuestbookCanvasProps = Readonly<{
   onChange?: (canvas: RefObject<HTMLCanvasElement | null>) => void;
   backgroundColor?: GuestbookMessageBgColor;
+  children?: React.ReactNode;
 }>;
 
 export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [lineWidth, setLineWidth] = useState(1);
   const lineWidthRef = useRef(1);
+  const [drawingMode, setDrawingMode] = useState<'PENCIL' | 'ERASER'>('PENCIL');
+  const drawingModeRef = useRef<'PENCIL' | 'ERASER'>('PENCIL');
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -38,16 +43,24 @@ export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
       data[n] = 0;
       data[n + 1] = 0;
       data[n + 2] = 0;
-      data[n + 3] = 255;
+      data[n + 3] = drawingModeRef.current === 'PENCIL' ? 255 : 0;
     };
 
     const drawBrush = (data: Uint8ClampedArray, x: number, y: number) => {
       const width = lineWidthRef.current;
       const start = -Math.floor(width / 2);
+      const center = width % 2 === 0 ? -0.5 : 0;
+      const radius = Math.max(0.5, width / 2 - 0.1);
+      const radiusSquared = radius * radius;
 
       for (let offsetY = start; offsetY < start + width; offsetY += 1) {
         for (let offsetX = start; offsetX < start + width; offsetX += 1) {
-          setPixel(data, x + offsetX, y + offsetY);
+          const dx = offsetX - center;
+          const dy = offsetY - center;
+
+          if (dx * dx + dy * dy <= radiusSquared) {
+            setPixel(data, x + offsetX, y + offsetY);
+          }
         }
       }
     };
@@ -132,28 +145,60 @@ export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
     lineWidthRef.current = nextWidth;
   };
 
+  const handleDrawingModeChange = (nextMode: 'PENCIL' | 'ERASER') => {
+    setDrawingMode(nextMode);
+    drawingModeRef.current = nextMode;
+  };
+
   return (
-    <div className="flex flex-col gap-3">
-      <label className="flex items-center gap-3 text-sm">
-        <span>굵기</span>
-        <input
-          type="range"
-          min={1}
-          max={12}
-          step={1}
-          value={lineWidth}
-          onChange={handleLineWidthChange}
-        />
-        <span>{lineWidth}px</span>
-      </label>
+    <div className="flex flex-col gap-3 relative">
+      <div className="absolute p-5 pointer-events-none">{props.children}</div>
       <canvas
         ref={canvasRef}
         className={guestbookMessageBgColorVariants({
           className:
-            'inset-ring inset-ring-border pixelated w-75 h-75 rounded-2xl',
+            'inset-ring inset-ring-border pixelated w-75 h-75 rounded-2xl transition-colors',
           backgroundColor: props.backgroundColor ?? 'WHITE',
         })}
       />
+      <div className="flex items-center justify-between">
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            className="w-42"
+            type="range"
+            min={1}
+            max={20}
+            step={1}
+            value={lineWidth}
+            onChange={handleLineWidthChange}
+          />
+          <span>{lineWidth}px</span>
+        </label>
+        <div className="flex items-center">
+          <button
+            type="button"
+            className={clsx(
+              'size-8 rounded-lg text-zinc-600',
+              drawingMode === 'PENCIL' && 'bg-gray-200',
+            )}
+            onClick={() => handleDrawingModeChange('PENCIL')}
+            title="pencil"
+          >
+            <PencilIcon className="m-auto" size={20} weight="bold" />
+          </button>
+          <button
+            type="button"
+            className={clsx(
+              'size-8 rounded-lg text-zinc-600',
+              drawingMode === 'ERASER' && 'bg-gray-200',
+            )}
+            onClick={() => handleDrawingModeChange('ERASER')}
+            title="eraser"
+          >
+            <EraserIcon className="m-auto" size={20} weight="bold" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
