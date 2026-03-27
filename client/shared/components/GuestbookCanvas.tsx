@@ -4,7 +4,7 @@ import {
 } from '@/constants/guestbook-message-color';
 import { EraserIcon, PencilIcon } from '@phosphor-icons/react';
 import clsx from 'clsx';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 export type GuestbookCanvasProps = Readonly<{
   onChange?: (canvas: RefObject<HTMLCanvasElement | null>) => void;
@@ -18,6 +18,22 @@ export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
   const lineWidthRef = useRef(1);
   const [drawingMode, setDrawingMode] = useState<'PENCIL' | 'ERASER'>('PENCIL');
   const drawingModeRef = useRef<'PENCIL' | 'ERASER'>('PENCIL');
+
+  const brushCursor = useMemo(() => {
+    const radius = Math.max(1, lineWidth / 2);
+    const size = Math.max(16, Math.ceil(radius * 2 + 8));
+    const center = size / 2;
+    const fill = 'transparent';
+    const stroke = '#000000';
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${center}" cy="${center}" r="${radius}" fill="${fill}" stroke="${stroke}" stroke-width="1" /></svg>`;
+
+    return `url("data:image/svg+xml,${encodeURIComponent(svg)}") ${center} ${center}, crosshair`;
+  }, [drawingMode, lineWidth]);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    canvasRef.current.style.cursor = brushCursor;
+  }, [brushCursor]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
