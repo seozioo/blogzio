@@ -10,7 +10,7 @@ export const Guestbook = () => {
   const [open, setOpen] = useState(false);
   const { data, isLoading, mutate } = useApi('/guestbook');
 
-  const onSubmit = useCallback(() => {
+  const refresh = useCallback(() => {
     mutate();
   }, [mutate]);
 
@@ -27,7 +27,7 @@ export const Guestbook = () => {
         <GuestbookMessageDialog 
           open={open} 
           onOpenChange={setOpen}
-          onSubmit={onSubmit} 
+          onSubmit={refresh} 
         />
         {!isLoading &&
           data?.messages?.map((message) => (
@@ -38,7 +38,8 @@ export const Guestbook = () => {
               createdAt={message.createdAt}
               content={message.content}
               contentType={message.contentType}
-              backgroundColor={message.backgroundColor}
+              backgroundColor={message.backgroundColor ?? 'WHITE'}
+              onDelete={refresh}
             />
           ))}
       </div>

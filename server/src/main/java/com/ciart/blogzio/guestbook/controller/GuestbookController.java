@@ -78,12 +78,12 @@ public class GuestbookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(
+    public ResponseEntity<Void> delete(
         @PathVariable UUID id,
         @RequestBody DeleteGuestbookMessageRequest request
     ) {
         guestbookService.deleteMessage(id, request.getPassword());
 
-        return ResponseEntity.ok("방명록이 삭제되었습니다.");
+        return ResponseEntity.ok().build();
     }
 }
