@@ -101,8 +101,9 @@ export const GuestbookMessage = (props: GuestbookMessageProps) => {
             <p>{getDateText(props.createdAt)}</p>
             <div className="w-0 group-hover:w-6 h-1 relative transition-all">
               <button
+                type="button"
                 className="absolute -translate-y-1.5 size-8 cursor-pointer outline-none"
-                title="delete"
+                aria-label="delete"
                 onClick={() => setDialogOpen(true)}
               >
                 <XIcon className="m-auto" size={20} />

@@ -21,10 +21,10 @@ export type ButtonProps = Readonly<
   {} & ButtonPrimitive.Props & VariantProps<typeof buttonVariants>
 >;
 
-export const Button = ({ className, children, ...props }: ButtonProps) => {
+export const Button = ({ className, children, variant, ...props }: ButtonProps) => {
   return (
     <ButtonPrimitive
-      className={clsx(buttonVariants({ variant: props.variant }), className)}
+      className={clsx(buttonVariants({ variant }), className)}
       {...props}
     >
       {children}

@@ -16,7 +16,7 @@ export const GuestbookTypeToggle = (props: GuestbookTypeToggleProps) => {
           props.value === 'TEXT' && 'bg-gray-200',
         )}
         onClick={() => props.onValueChange('TEXT')}
-        title="text"
+        aria-label="text"
       >
         <TextTIcon className="m-auto" size={20} weight="bold" />
       </button>
@@ -27,7 +27,7 @@ export const GuestbookTypeToggle = (props: GuestbookTypeToggleProps) => {
           props.value === 'IMAGE' && 'bg-gray-200',
         )}
         onClick={() => props.onValueChange('IMAGE')}
-        title="image"
+        aria-label="image"
       >
         <ScribbleIcon className="m-auto" size={20} weight="bold" />
       </button>

@@ -40,6 +40,7 @@ export const GuestbookMessageDialog = (props: GuestbookMessageDialogProps) => {
     defaultValues: {
       backgroundColor: 'PINK',
       contentType: 'TEXT',
+      content: '',
     }
   });
 
@@ -54,7 +55,11 @@ export const GuestbookMessageDialog = (props: GuestbookMessageDialogProps) => {
       setValue('backgroundColor', randomColor);
 
       // TODO: 캔버스 초기화 함수로 GuestbookCanvas에서 처리해야 함.
-      canvas?.current?.getContext('2d')?.clearRect(0, 0, 300, 300);
+      const ctx = canvas?.current?.getContext('2d');
+
+      if (ctx && canvas?.current) {
+        ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
+      }
     }
   }, [props.open, reset]);
 

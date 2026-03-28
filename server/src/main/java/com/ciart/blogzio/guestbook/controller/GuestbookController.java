@@ -84,6 +84,6 @@ public class GuestbookController {
     ) {
         guestbookService.deleteMessage(id, request.getPassword());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
