@@ -4,6 +4,38 @@
  */
 
 export interface paths {
+    "/post/{postId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get"];
+        put: operations["update"];
+        post?: never;
+        delete: operations["delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/category/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_1"];
+        post?: never;
+        delete: operations["delete_1"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/signup": {
         parameters: {
             query?: never;
@@ -20,6 +52,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getList"];
+        put?: never;
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/guestbook": {
         parameters: {
             query?: never;
@@ -29,7 +77,23 @@ export interface paths {
         };
         get: operations["getAll"];
         put?: never;
-        post: operations["create"];
+        post: operations["create_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/category": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -61,7 +125,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["create_1"];
+        post: operations["create_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -78,7 +142,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete"];
+        delete: operations["delete_2"];
         options?: never;
         head?: never;
         patch?: never;
@@ -88,6 +152,87 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        JsonNode: unknown;
+        PostUpdateRequest: {
+            title?: string;
+            content?: components["schemas"]["JsonNode"];
+            pinned?: boolean;
+            isVisible?: boolean;
+            /** Format: uuid */
+            categoryId?: string;
+            tags?: string[];
+        };
+        Category: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            slug?: string;
+            /** Format: int32 */
+            sortOrder?: number;
+            /** @enum {string} */
+            type?: "GALLERY" | "LIST";
+            posts?: components["schemas"]["Post"][];
+        };
+        Post: {
+            /** Format: uuid */
+            id?: string;
+            author?: components["schemas"]["User"];
+            title?: string;
+            content?: components["schemas"]["JsonNode"];
+            pinned?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            /** Format: date-time */
+            postedAt?: string;
+            /** Format: int32 */
+            likes?: number;
+            is_visiable?: boolean;
+            category?: components["schemas"]["Category"];
+            tags?: components["schemas"]["Tag"][];
+        };
+        PostResponse: {
+            /** Format: uuid */
+            id?: string;
+            title?: string;
+            content?: components["schemas"]["JsonNode"];
+            /** Format: int32 */
+            likes?: number;
+            is_visiable?: boolean;
+            /** Format: date-time */
+            postedAt?: string;
+            tags?: components["schemas"]["Tag"][];
+        };
+        Tag: {
+            /** Format: uuid */
+            id?: string;
+            title?: string;
+            posts?: components["schemas"]["Post"][];
+        };
+        User: {
+            /** Format: uuid */
+            id?: string;
+            username?: string;
+            email?: string;
+            password?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CategoryUpdateRequest: {
+            name: string;
+            slug: string;
+        };
+        CategoryResponse: {
+            name?: string;
+            slug?: string;
+            /** Format: int32 */
+            sortOrder?: number;
+            /** @enum {string} */
+            type?: "GALLERY" | "LIST";
+        };
         UserRequest: {
             username?: string;
             email?: string;
@@ -96,6 +241,15 @@ export interface components {
         UserResponse: {
             message?: string;
         };
+        PostCreateRequest: {
+            title?: string;
+            content?: components["schemas"]["JsonNode"];
+            pinned?: boolean;
+            isVisible?: boolean;
+            /** Format: uuid */
+            categoryId?: string;
+            tags?: string[];
+        };
         CreateGuestbookMessageRequest: {
             nickname: string;
             /** @enum {string} */
@@ -103,13 +257,19 @@ export interface components {
             content: string;
             password: string;
             /** @enum {string} */
-            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY";
+            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY" | "VIOLET";
         };
         CreateGuestbookMessageResponse: {
             /** Format: uuid */
             id?: string;
             /** Format: date-time */
             createdAt?: string;
+        };
+        CategoryCreateRequset: {
+            name: string;
+            slug: string;
+            /** @enum {string} */
+            type?: "GALLERY" | "LIST";
         };
         LoginRequest: {
             username?: string;
@@ -125,6 +285,11 @@ export interface components {
         CreateAssetResponse: {
             url: string;
         };
+        PostGetListResponse: {
+            posts: components["schemas"]["PostResponse"][];
+            /** Format: int32 */
+            totalPages: number;
+        };
         GetAllGuestbookMessagesResponse: {
             messages?: components["schemas"]["GuestbookMessageDto"][];
         };
@@ -136,7 +301,7 @@ export interface components {
             contentType: "TEXT" | "IMAGE";
             content: string;
             /** @enum {string} */
-            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY";
+            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY" | "VIOLET";
             /** Format: date-time */
             createdAt: string;
         };
@@ -152,6 +317,120 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+        };
+    };
+    update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+        };
+    };
+    delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CategoryUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CategoryResponse"];
+                };
+            };
+        };
+    };
+    delete_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     signup: {
         parameters: {
             query?: never;
@@ -176,6 +455,53 @@ export interface operations {
             };
         };
     };
+    getList: {
+        parameters: {
+            query?: {
+                category?: string;
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostGetListResponse"];
+                };
+            };
+        };
+    };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+        };
+    };
     getAll: {
         parameters: {
             query?: never;
@@ -196,7 +522,7 @@ export interface operations {
             };
         };
     };
-    create: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -216,6 +542,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CreateGuestbookMessageResponse"];
+                };
+            };
+        };
+    };
+    create_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CategoryCreateRequset"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CategoryResponse"];
                 };
             };
         };
@@ -244,7 +594,7 @@ export interface operations {
             };
         };
     };
-    create_1: {
+    create_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -268,7 +618,7 @@ export interface operations {
             };
         };
     };
-    delete: {
+    delete_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -288,9 +638,7 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "*/*": string;
-                };
+                content?: never;
             };
         };
     };

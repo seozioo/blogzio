@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { BaseContainer } from './BaseContainer';
 import Link from 'next/link';
 import { SunIcon, UsersIcon } from '@phosphor-icons/react/ssr';
 

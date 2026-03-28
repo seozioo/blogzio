@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="min-h-svh flex flex-col bg-zinc-50">
+      <body className="min-h-svh flex flex-col bg-zinc-50 text-zinc-900">
         <Header />
         {children}
         <Footer />
