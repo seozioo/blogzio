@@ -1,7 +1,25 @@
-import { BaseContainer } from "./BaseContainer"
+import {
+  GithubLogoIcon,
+  InstagramLogoIcon,
+  XLogoIcon,
+} from '@phosphor-icons/react/ssr';
+import Link from 'next/link';
 
 export const Footer = () => {
   return (
-    <BaseContainer className="bg-amber-400">Footer</BaseContainer>
-  )
-}
+    <div className="flex justify-between items-center bg-zinc-200 px-5 text-zinc-400 h-18 text-sm font-medium">
+      Copyright © 2026 Zio. All rights reserved.
+      <div className="flex">
+        <Link className="p-1" href="https://x.com" target="_blank">
+          <XLogoIcon size={24} weight="bold" />
+        </Link>
+        <Link className="p-1" href="https://instagram.com/" target="_blank">
+          <InstagramLogoIcon size={24} weight="bold" />
+        </Link>
+        <Link className="p-1" href="https://github.com/seozioo" target="_blank">
+          <GithubLogoIcon size={24} weight="bold" />
+        </Link>
+      </div>
+    </div>
+  );
+};

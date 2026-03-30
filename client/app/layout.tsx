@@ -16,14 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className="min-h-svh flex flex-col bg-zinc-50 text-zinc-900">
-        <AuthProvider>
+    <AuthProvider>
+      <html lang="ko">
+        <body className="min-h-svh flex flex-col bg-zinc-50 text-zinc-900">
           <Header />
-          {children}
+          <div className="flex-1">{children}</div>
           <Footer />
-        </AuthProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </AuthProvider>
   );
 }
