@@ -9,15 +9,26 @@ type InputFieldProps = Readonly<
   >
 >;
 
-export const InputField = ({ className, errors, ...props }: InputFieldProps) => {
+export const InputField = ({
+  className,
+  errors,
+  ...props
+}: InputFieldProps) => {
   return (
-    <input
-      className={clsx(
-        'border border-gray-300 rounded-2xl px-3 h-9 text-sm',
-        errors && errors.message ? 'border-red-500' : '',
-        className,
+    <div className="flex flex-col">
+      <input
+        className={clsx(
+          'border border-gray-300 rounded-2xl px-3 h-9 text-sm focus:outline-2 outline-sky-400/20 transition-all',
+          errors && 'border-red-500',
+          className,
+        )}
+        {...props}
+      />
+      {errors?.message && (
+        <p className="text-red-500 text-xs pl-3 h-0 relative top-px">
+          {errors.message}
+        </p>
       )}
-      {...props}
-    />
+    </div>
   );
 };

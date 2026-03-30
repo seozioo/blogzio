@@ -1,10 +1,12 @@
 'use client';
 
-import { ApiConfiguration } from '@/constants/api-configuration';
 import { BaseContainer } from '@/shared/components/BaseContainer';
+import { Button } from '@/shared/components/Button';
 import { InputField } from '@/shared/components/InputField';
 import { apiClient } from '@/shared/hooks/use-api';
-import { AuthControllerApi } from '@blogzio/api';
+import { useAuth } from '@/shared/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type Inputs = {
@@ -19,36 +21,54 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const router = useRouter();
+
+  const { setToken } = useAuth();
+
+  useEffect(() => {
+    apiClient.GET('/user/admin-exists').then((response) => {
+      if (!response.data?.exists) {
+        router.push('/register');
+      }
+    });
+  }, []);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await apiClient.POST('/auth/login', { body: data });
+    const response = await apiClient.POST('/auth/login', { body: data });
+
+    if (response.error) {
+      alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+      return;
+    }
+
+    setToken(response.data?.accessToken ?? null);
+    router.back();
   };
 
   return (
-    <BaseContainer className="flex-1 flex items-center justify-center">
+    <BaseContainer className="flex-1 flex flex-col items-center justify-center">
       <form
-        className="flex flex-col gap-5 bg-white border border-gray-200 rounded-2xl px-5 py-6 w-md"
+        className="flex flex-col gap-5 bg-white border border-gray-200 rounded-2xl px-5 py-6 max-w-md w-full"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div>
-          {errors.username && <p>Username is required</p>}
-          {errors.password && <p>Password is required</p>}
-        </div>
         <InputField
-          placeholder="Username"
-          {...register('username', { required: true })}
+          placeholder="아이디"
+          errors={errors.username}
+          {...register('username', {
+            required: { message: '아이디는 필수입니다.', value: true },
+          })}
         />
         <InputField
           type="password"
-          placeholder="Password"
-          {...register('password', { required: true })}
+          placeholder="비밀번호"
+          errors={errors.password}
+          {...register('password', {
+            required: { message: '비밀번호는 필수입니다.', value: true },
+          })}
         />
-        <button
-          className="border border-gray-300 rounded-2xl px-3 h-9 text-sm"
-          type="submit"
-          title="Log In"
-        >
+        <Button type="submit" title="Log In">
           로그인
-        </button>
+        </Button>
       </form>
     </BaseContainer>
   );
