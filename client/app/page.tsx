@@ -23,22 +23,22 @@ const dummy = [
 export default function Home() {
   return (
     <div className="flex flex-col gap-50 mb-50">
-      <BaseContainer className="music bg-blue-400 h-[calc(100svh-200px)]">
-        노래
-      </BaseContainer>
-      <div>
-        <BaseContainer>
-          <NavigationBar />
+      <section>
+        <BaseContainer className="music bg-blue-400 h-[calc(100svh-200px)]">
+          노래
         </BaseContainer>
-        <main>
-          <BaseContainer className="grid grid-cols-3 gap-5">
-            {dummy.map((photo) => (
-              <PostPhotoLink key={photo.id} tags={photo.tags} />
-            ))}
-          </BaseContainer>
-        </main>
-      </div>
-      <Guestbook />
+      </section>
+      <section>
+        <NavigationBar />
+        <BaseContainer className="grid grid-cols-3 gap-5">
+          {dummy.map((photo) => (
+            <PostPhotoLink key={photo.id} tags={photo.tags} />
+          ))}
+        </BaseContainer>
+      </section>
+      <section>
+        <Guestbook />
+      </section>
     </div>
   );
 }

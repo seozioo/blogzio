@@ -20,7 +20,7 @@ export default function RootLayout({
       <html lang="ko">
         <body className="min-h-svh flex flex-col bg-zinc-50 text-zinc-900">
           <Header />
-          <div className="flex-1">{children}</div>
+          <main className="flex-1">{children}</main>
           <Footer />
         </body>
       </html>

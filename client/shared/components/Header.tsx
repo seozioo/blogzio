@@ -42,7 +42,7 @@ export const Header = () => {
   };
 
   return (
-    <div className="relative flex h-18 items-center justify-between px-5">
+    <header className="relative flex h-18 items-center justify-between px-5">
       <div className="flex items-center gap-4">
         <div onClick={handleProfileClick} className="select-none">
           {isMounted ? (
@@ -73,6 +73,6 @@ export const Header = () => {
       <div className="flex items-center justify-center w-8 h-8 text-zinc-400">
         <SunIcon size={24} weight="bold" />
       </div>
-    </div>
+    </header>
   );
 };

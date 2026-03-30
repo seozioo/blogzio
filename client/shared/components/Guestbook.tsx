@@ -16,33 +16,36 @@ export const Guestbook = () => {
 
   return (
     <div className="overflow-x-scroll scrollbar-hide h-160 py-2">
-      <div className="base:mx-[calc(50%-420px)] px-5 flex flex-col w-max flex-wrap gap-5 wrap h-155">
-        <Button 
-          variant="outline" 
-          className="w-75"
-          onClick={() => setOpen(true)}
-        >
-          방명록 쓰기
-        </Button>
-        <GuestbookMessageDialog 
-          open={open} 
-          onOpenChange={setOpen}
-          onSubmit={refresh} 
-        />
+      <ul className="base:mx-[calc(50%-420px)] px-5 flex flex-col w-max flex-wrap gap-5 wrap h-155">
+        <li>
+          <Button
+            variant="outline"
+            className="w-75"
+            onClick={() => setOpen(true)}
+          >
+            방명록 쓰기
+          </Button>
+          <GuestbookMessageDialog
+            open={open}
+            onOpenChange={setOpen}
+            onSubmit={refresh}
+          />
+        </li>
         {!isLoading &&
           data?.messages?.map((message) => (
-            <GuestbookMessage
-              key={message.id}
-              id={message.id}
-              nickname={message.nickname}
-              createdAt={message.createdAt}
-              content={message.content}
-              contentType={message.contentType}
-              backgroundColor={message.backgroundColor ?? 'WHITE'}
-              onDelete={refresh}
-            />
+            <li key={message.id}>
+              <GuestbookMessage
+                id={message.id}
+                nickname={message.nickname}
+                createdAt={message.createdAt}
+                content={message.content}
+                contentType={message.contentType}
+                backgroundColor={message.backgroundColor ?? 'WHITE'}
+                onDelete={refresh}
+              />
+            </li>
           ))}
-      </div>
+      </ul>
     </div>
   );
 };
