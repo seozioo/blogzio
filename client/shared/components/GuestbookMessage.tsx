@@ -88,7 +88,7 @@ export const GuestbookMessage = (props: GuestbookMessageProps) => {
       <div
         className={guestbookMessageBgColorVariants({
           className: clsx(
-            'flex p-5 rounded-2xl inset-ring-1 inset-ring-border shadow-sticky-note overflow-hidden group',
+            'flex p-5 rounded-2xl inset-ring-1 inset-ring-border shadow-sticky-note group',
             props.contentType === 'IMAGE' ? 'size-75' : 'w-fit h-fit',
           ),
           backgroundColor: props.backgroundColor,
@@ -118,7 +118,7 @@ export const GuestbookMessage = (props: GuestbookMessageProps) => {
         </div>
         {props.contentType === 'IMAGE' && (
           <img
-            className="absolute top-0 left-0 size-75 pointer-events-none"
+            className="absolute top-0 left-0 size-75 pointer-events-none rounded-2xl"
             src={props.content}
             alt="Guestbook Image"
           />

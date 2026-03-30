@@ -29,13 +29,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/user/signup")
-                        .permitAll()
+                        .requestMatchers("/auth/**", "/user/**").permitAll()
                         .requestMatchers("/v3/api-docs").permitAll()
                         .requestMatchers("/asset").permitAll()
                         .requestMatchers("/post", "/post/**").permitAll()
                         .requestMatchers("/guestbook", "/guestbook/**").permitAll()
-                        .requestMatchers("/category", "/category/**s").permitAll()
+                        .requestMatchers("/category", "/category/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

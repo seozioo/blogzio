@@ -20,7 +20,7 @@ export const GuestbookTextForm = ({
     <div
       className={guestbookMessageBgColorVariants({
         className:
-          'flex flex-col gap-2 w-75 h-75 rounded-2xl border border-gray-300 p-5 focus:ring-2 focus:ring-sky-400/50 transition-colors',
+          'flex flex-col gap-2 w-75 h-75 rounded-2xl border border-gray-300 p-5 focus:ring-2 focus:ring-sky-400/20 transition-colors',
         backgroundColor: backgroundColor ?? 'WHITE',
       })}
     >

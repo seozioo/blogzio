@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 
-import { Header } from "@/shared/components/Header";
-import { Footer } from "@/shared/components/Footer";
+import { Footer } from '@/shared/components/Footer';
+import { AuthProvider } from '@/shared/components/AuthProvider';
+import dynamic from 'next/dynamic';
+import { Header } from '@/shared/components/Header';
 
 export const metadata: Metadata = {
-  title: "BLOGZIO",
+  title: 'BLOGZIO',
   description: "ZIO's BLOG",
 };
 
@@ -17,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="min-h-svh flex flex-col bg-zinc-50 text-zinc-900">
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

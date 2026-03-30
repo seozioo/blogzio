@@ -132,6 +132,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/admin-exists": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description 관리자 계정 존재 여부를 확인합니다. */
+        get: operations["getAdminExists"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/guestbook/{id}": {
         parameters: {
             query?: never;
@@ -226,6 +243,8 @@ export interface components {
             slug: string;
         };
         CategoryResponse: {
+            /** Format: uuid */
+            id?: string;
             name?: string;
             slug?: string;
             /** Format: int32 */
@@ -284,6 +303,9 @@ export interface components {
         };
         CreateAssetResponse: {
             url: string;
+        };
+        UserAdminExistsResponse: {
+            exists: boolean;
         };
         PostGetListResponse: {
             posts: components["schemas"]["PostResponse"][];
@@ -614,6 +636,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CreateAssetResponse"];
+                };
+            };
+        };
+    };
+    getAdminExists: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UserAdminExistsResponse"];
                 };
             };
         };
