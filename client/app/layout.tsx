@@ -3,7 +3,6 @@ import './globals.css';
 
 import { Footer } from '@/shared/components/Footer';
 import { AuthProvider } from '@/shared/components/AuthProvider';
-import dynamic from 'next/dynamic';
 import { Header } from '@/shared/components/Header';
 
 export const metadata: Metadata = {

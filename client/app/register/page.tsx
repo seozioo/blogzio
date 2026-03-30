@@ -3,7 +3,7 @@
 import { BaseContainer } from '@/shared/components/BaseContainer';
 import { Button } from '@/shared/components/Button';
 import { InputField } from '@/shared/components/InputField';
-import { apiClient, useApi } from '@/shared/hooks/use-api';
+import { apiClient } from '@/shared/hooks/use-api';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type Inputs = {
@@ -13,7 +13,7 @@ type Inputs = {
   passwordConfirm: string;
 };
 
-export default function Signup() {
+export default function Register() {
   const {
     register,
     watch,
