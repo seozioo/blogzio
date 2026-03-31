@@ -16,7 +16,7 @@ export const Guestbook = () => {
 
   return (
     <div className="overflow-x-scroll scrollbar-hide h-160 py-2">
-      <ul className="base:mx-[calc(50%-420px)] px-5 flex flex-col w-max flex-wrap gap-5 wrap h-155">
+      <ul className="base:mx-[calc(50%-420px)] flex flex-col w-max flex-wrap gap-5 wrap h-155">
         <li>
           <Button
             variant="outline"

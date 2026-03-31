@@ -6,19 +6,21 @@ export type PostPhotoLinkProps = Readonly<{
 
 export const PostPhotoLink = (props: PostPhotoLinkProps) => {
   return (
-    <div className="relative aspect-square w-full h-auto">
+    <div className="w-full h-auto cursor-pointer">
       <Image
-        className="rounded-2xl"
+        className="rounded-2xl aspect-square"
         width={1000}
         height={1000}
         src={'https://placehold.co/1000x1000.png'}
         alt={''}
       ></Image>
-      <div>
-        {props.tags?.map((tag) => (
-          <span key={tag}>{`#${tag}`}</span>
-        ))}
-      </div>
+      {props.tags && (
+        <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-600">
+          {props.tags?.map((tag) => (
+            <span key={tag}>{`#${tag}`}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
