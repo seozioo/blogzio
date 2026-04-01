@@ -21,7 +21,7 @@ export const NavigationBar = () => {
   ];
 
   return (
-    <div className="flex justify-center items-end group">
+    <nav aria-label="category navigation" className="flex justify-center items-end group">
       <div
         className="relative flex gap-2"
         onMouseLeave={() => {
@@ -30,6 +30,7 @@ export const NavigationBar = () => {
         }}
       >
         <div
+          aria-hidden="true"
           className={clsx(
             'absolute top-0.5 h-8 bg-zinc-200 rounded-2xl pointer-events-none',
             isHovering ? 'transition-all' : 'transition-opacity',
@@ -75,6 +76,7 @@ export const NavigationBar = () => {
                   });
                 }
               }}
+              aria-current={isActive ? 'page' : undefined}
               className={clsx(
                 'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
                 isActive
@@ -85,6 +87,7 @@ export const NavigationBar = () => {
               {isActive && (
                 <>
                   <svg
+                    aria-hidden="true"
                     className="absolute -left-4 bottom-0 w-4.25 h-4 text-sky-500 pointer-events-none"
                     viewBox="0 0 17 16"
                     fill="currentColor"
@@ -93,6 +96,7 @@ export const NavigationBar = () => {
                     <path d="M 17 16 H 0 A 16 16 0 0 0 16 0 H 17 V 16 Z" />
                   </svg>
                   <svg
+                    aria-hidden="true"
                     className="absolute -right-4 bottom-0 w-4.25 h-4 text-sky-500 pointer-events-none"
                     viewBox="0 0 17 16"
                     fill="currentColor"
@@ -107,6 +111,6 @@ export const NavigationBar = () => {
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 };
