@@ -1,22 +1,17 @@
+import { CategoryTab } from '@/shared/components/posts/CategoryTab';
 import { PostPanel } from '@/shared/components/posts/PostPanel';
 
-const dummy = [
-  {
-    id: '1',
-    tags: ['태그1', '태그2'],
-  },
-  {
-    id: '2',
-    tags: ['태그3', '태그4'],
-  },
-  {
-    id: '3',
-  },
-  {
-    id: '4',
-  },
-];
+export default async function Category({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
 
-export default function Category() {
-  return <PostPanel viewType="article" />;
+  return (
+    <section className="my-10">
+      <CategoryTab overrideActiveCategory={slug} />
+      <PostPanel viewType={slug === 'article' ? 'article' : 'photo'} />
+    </section>
+  );
 }
