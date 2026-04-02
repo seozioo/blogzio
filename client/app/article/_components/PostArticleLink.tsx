@@ -14,7 +14,7 @@ export const PostArticleLink = (props: PostArticleLinkProps) => {
         <div>
           {props.tags?.map((tag) => (
             <span key={tag}>{`#${tag}`}</span>
-          ))}
+          ))}v
         </div>
     </div>
   )

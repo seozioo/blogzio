@@ -7,10 +7,10 @@ import com.ciart.blogzio.category.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.List;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -23,13 +23,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public CategoryResponse create(@Valid @RequestBody CategoryCreateRequset request){
+    public CategoryResponse create(@Valid @RequestBody CategoryCreateRequset request) {
         var category = categoryService.createCategory(request);
         return ResponseEntity.ok(category).getBody();
     }
 
     @PutMapping("/{categoryId}")
-    public CategoryResponse update(@PathVariable UUID categoryId,  @Valid @RequestBody CategoryUpdateRequest request) {
+    public CategoryResponse update(@PathVariable UUID categoryId, @Valid @RequestBody CategoryUpdateRequest request) {
         try {
             var category = categoryService.updateCategory(categoryId, request.getName(), request.getSlug());
             return ResponseEntity.ok(category).getBody();
@@ -46,5 +46,15 @@ public class CategoryController {
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryResponse>> getAll() {
+        var categories = categoryService.getAllCategories()
+                .stream()
+                .map(CategoryResponse::from)
+                .toList();
+
+        return ResponseEntity.ok(categories);
     }
 }

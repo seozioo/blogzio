@@ -1,5 +1,6 @@
 package com.ciart.blogzio.category.service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,25 +46,26 @@ public class CategoryService {
     public CategoryResponse updateCategory(UUID categoryId, String name, String slug) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "해당 카테고리를 찾을 수 없습니다."
-                ));
+                        "해당 카테고리를 찾을 수 없습니다."));
 
         category.update(
-            name,
-            slug
-        );
+                name,
+                slug);
         return CategoryResponse.from(category);
     }
-
 
     @Transactional
     public ResponseEntity<Void> deleteCategory(UUID categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NoSuchElementException(
-                        "해당 카테고리를 찾을 수 없습니다."
-                ));
+                        "해당 카테고리를 찾을 수 없습니다."));
 
         categoryRepository.deleteById(categoryId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAllByOrderBySortOrderAsc();
     }
 }
