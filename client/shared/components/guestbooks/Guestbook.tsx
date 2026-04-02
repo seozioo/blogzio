@@ -1,10 +1,10 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { useApi } from '../hooks/use-api';
-import { GuestbookMessageDialog } from './GuestbookMessageDialog';
+import { useApi } from '../../hooks/use-api';
 import { GuestbookMessage } from './GuestbookMessage';
-import { Button } from './Button';
+import { Button } from '../Button';
+import { GuestbookCreateDialog } from './GuestbookCreateDialog';
 
 export const Guestbook = () => {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export const Guestbook = () => {
           >
             방명록 쓰기
           </Button>
-          <GuestbookMessageDialog
+          <GuestbookCreateDialog
             open={open}
             onOpenChange={setOpen}
             onSubmit={refresh}

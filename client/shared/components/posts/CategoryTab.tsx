@@ -5,7 +5,11 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useState } from 'react';
 
-export const NavigationBar = () => {
+export type CategoryTabProps = Readonly<{
+  overrideActiveCategory?: string;
+}>;
+
+export const CategoryTab = (props: CategoryTabProps) => {
   const pathname = usePathname();
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
@@ -15,9 +19,9 @@ export const NavigationBar = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   const navItems = [
-    { name: 'New', path: '/' },
-    { name: 'Photo', path: '/photo' },
-    { name: 'Article', path: '/article' },
+    { name: 'New', slug: 'new' },
+    { name: 'Photo', slug: 'photo' },
+    { name: 'Article', slug: 'article' },
   ];
 
   return (
@@ -42,12 +46,18 @@ export const NavigationBar = () => {
           }}
         />
         {navItems.map((item) => {
-          const isActive = pathname === item.path;
+          const path = `/${item.slug}`;
+
+          let isActive = pathname === path;
+
+          if (props.overrideActiveCategory) {
+            isActive = props.overrideActiveCategory === item.slug;
+          }
 
           return (
             <Link
               key={item.name}
-              href={item.path}
+              href={path}
               onMouseEnter={(e) => {
                 setHoverStyle({
                   left: e.currentTarget.offsetLeft,
