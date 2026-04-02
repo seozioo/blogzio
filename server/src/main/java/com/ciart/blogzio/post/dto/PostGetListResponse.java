@@ -19,8 +19,9 @@ public class PostGetListResponse {
 
     public static PostGetListResponse from(Page<Post> page) {
         List<PostResponse> postResponses = page.getContent().stream()
-        .map(PostResponse::from)
-        .toList();
+                .map(PostResponse::from)
+                .toList();
+
         return new PostGetListResponse(postResponses, page.getTotalPages());
     }
 }
