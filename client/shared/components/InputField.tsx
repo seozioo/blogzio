@@ -20,7 +20,7 @@ export const InputField = ({
     <div className="flex flex-col">
       <div
         className={clsx(
-          'flex items-center border rounded-2xl px-3 h-9 text-sm transition-all focus-within:ring-2 placeholder:text-zinc-400',
+          'flex items-center border rounded-2xl px-3 h-9 text-sm transition-all focus-within:ring-2',
           errors?.message
             ? 'border-red-500 ring-red-500/20'
             : 'border-border ring-sky-400/20',
@@ -28,8 +28,8 @@ export const InputField = ({
         )}
       >
         <input
-          className="flex-1 w-full h-full bg-transparent outline-none"
-          aria-invalid={errors?.message ? 'true' : 'false'}
+          className="flex-1 w-full h-full bg-transparent outline-none placeholder:text-zinc-400"
+          aria-invalid={errors?.message ? true : false}
           {...props}
         />
         {suffixIcon && <div className="relative left-0.5">{suffixIcon}</div>}

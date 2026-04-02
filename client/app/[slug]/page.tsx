@@ -1,4 +1,3 @@
-import { CategoryTab } from '@/shared/components/posts/CategoryTab';
 import { PostPanel } from '@/shared/components/posts/PostPanel';
 
 export default async function Category({
@@ -10,7 +9,6 @@ export default async function Category({
 
   return (
     <section className="my-10">
-      <CategoryTab overrideActiveCategory={slug} />
       <PostPanel viewType={slug === 'article' ? 'article' : 'photo'} />
     </section>
   );

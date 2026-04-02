@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export type PostPhotoLinkProps = Readonly<{
+  title: string;
   tags?: string[];
 }>;
 
@@ -13,7 +14,7 @@ export const PostPhotoLink = (props: PostPhotoLinkProps) => {
         width={1000}
         height={1000}
         src={'https://placehold.co/1000x1000.png'}
-        alt={''}
+        alt={`${props.title} thumbnail`}
       ></Image>
       {props.tags && (
         <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-600">

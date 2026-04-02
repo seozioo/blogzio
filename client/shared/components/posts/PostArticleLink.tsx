@@ -18,7 +18,7 @@ export const PostArticleLink = (props: PostArticleLinkProps) => {
             {props.summary}
           </p>
         </div>
-        <Image className="rounded-2xl aspect-square shrink-0" width={60} height={60} src={'https://placehold.co/1000x1000.png'} alt={''}></Image>
+        <Image className="rounded-2xl aspect-square shrink-0" width={60} height={60} src={'https://placehold.co/1000x1000.png'} alt={`${props.title} thumbnail`}></Image>
       </div>
       <div className="flex justify-between items-center mt-3 text-sm">
         <div className="flex gap-2 font-semibold text-zinc-400">
