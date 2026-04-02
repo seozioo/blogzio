@@ -9,7 +9,7 @@ export const MusicPlayer = () => {
         <div className="absolute -top-20 left-5 size-50 -z-10 rounded-full bg-[linear-gradient(to_bottom,#ffffff33_0%,transparent_45%),radial-gradient(circle,var(--color-zinc-900)_38%,var(--color-zinc-800)_40%)] flex items-center justify-center overflow-hidden">
           <div className="bg-sky-300 size-20 rounded-full"></div>
           <svg
-            className="absolute opacity-20 animate-spin[spin_8s_linear_infinite]"
+            className="absolute opacity-20 animate-[spin_8s_linear_infinite]"
             viewBox="0 0 240 240"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
