@@ -1,44 +1,19 @@
-import {BaseContainer} from "@/shared/components/BaseContainer";
-import {NavigationBar} from "@/shared/components/NavigationBar";
-import {PostPhotoLink} from "@/app/photo/_components/PostPhotoLink";
-import { Guestbook } from "@/shared/components/Guestbook";
-
-const dummy = [
-    {
-        id: '1',
-        tags: ['태그1', '태그2'],
-    },
-    {
-        id: '2',
-        tags: ['태그3', '태그4'],
-    },
-    {
-        id: '3',
-    },
-    {
-        id: '4',
-    }
-];
+import { Guestbook } from '@/shared/components/guestbooks/Guestbook';
+import { MusicPlayer } from '@/shared/components/MusicPlayer';
+import { PostPanel } from '@/shared/components/posts/PostPanel';
 
 export default function Home() {
-    return (
-        <div>
-            <BaseContainer className="music bg-blue-400 h-[calc(100svh-200px)]">
-                노래
-            </BaseContainer>
-            <div>
-                <BaseContainer>
-                    <NavigationBar/>
-                </BaseContainer>
-                <main>
-                    <BaseContainer className="grid grid-cols-3 gap-5">
-                        {dummy.map((photo) => (
-                            <PostPhotoLink key={photo.id} tags={photo.tags}/>
-                        ))}
-                    </BaseContainer>
-                </main>
-                <Guestbook />
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex flex-col">
+      <section>
+        <MusicPlayer />
+      </section>
+      <section className='mb-50'>
+        <PostPanel viewType="photo" overrideActiveCategory="new" />
+      </section>
+      <section className='mb-50'>
+        <Guestbook />
+      </section>
+    </div>
+  );
 }

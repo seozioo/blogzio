@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { apiClient } from '../hooks/use-api';
+import { apiClient } from '../../hooks/use-api';
 import { RefObject, useEffect, useState } from 'react';
 import { GuestbookCanvas } from './GuestbookCanvas';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@/constants/guestbook-message-color';
 import { GuestbookBgSelector } from './GuestbookBgSelector';
 import { GuestbookTypeToggle } from './GuestbookTypeToggle';
-import { BaseDialog } from './BaseDialog';
+import { BaseDialog } from '../BaseDialog';
 import { GuestbookTextForm } from './GuestbookTextForm';
 import { GuestbookAuthorFields } from './GuestbookAuthorFields';
 
@@ -26,7 +26,7 @@ export type GuestbookMessageDialogProps = Readonly<{
   onSubmit?: VoidFunction;
 }>;
 
-export const GuestbookMessageDialog = (props: GuestbookMessageDialogProps) => {
+export const GuestbookCreateDialog = (props: GuestbookMessageDialogProps) => {
   // TODO: ref를 부모로 넘겨 받는게 좋은 방법인지 잘 모르겠음. 후에 수정하겠음.
   const [canvas, setCanvas] = useState<RefObject<HTMLCanvasElement | null>>();
 

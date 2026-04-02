@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className="min-h-svh flex flex-col bg-zinc-50 text-zinc-900">
         <AuthProvider>
           <Header />
-          {children}
+          <main className="flex flex-col flex-1">{children}</main>
           <Footer />
         </AuthProvider>
       </body>

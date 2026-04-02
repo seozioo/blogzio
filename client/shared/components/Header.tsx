@@ -42,12 +42,15 @@ export const Header = () => {
   };
 
   return (
-    <div className="relative flex h-18 items-center justify-between px-5">
+    <header className="relative flex h-18 items-center justify-between px-5">
       <div className="flex items-center gap-4">
         <div onClick={handleProfileClick} className="select-none">
           {isMounted ? (
             <Image
-              className={clsx('rounded-full', token && 'ring-2 ring-offset-2 ring-sky-500')}
+              className={clsx(
+                'rounded-full',
+                token && 'ring-2 ring-offset-2 ring-sky-500',
+              )}
               width={40}
               height={40}
               src={'https://placehold.co/1000x1000.png'}
@@ -57,12 +60,6 @@ export const Header = () => {
             <div className="h-10 w-10 rounded-full" aria-hidden="true" />
           )}
         </div>
-        <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm max-sm:hidden">
-          <UsersIcon size={20} weight="bold" />
-          <span>128</span> {/* 전체 방문자 수 */}
-          <span>·</span>
-          <span>10</span> {/* 오늘 방문자 수 */}
-        </div>
       </div>
       <Link
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-black text-zinc-400"
@@ -70,9 +67,15 @@ export const Header = () => {
       >
         BLOGZIO
       </Link>
-      <div className="flex items-center justify-center w-8 h-8 text-zinc-400">
+      {/* <div className="flex items-center justify-center w-8 h-8 text-zinc-400">
         <SunIcon size={24} weight="bold" />
+      </div> */}
+      <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm">
+        <UsersIcon size={20} weight="bold" />
+        <span>128</span> {/* 전체 방문자 수 */}
+        <span>·</span>
+        <span>10</span> {/* 오늘 방문자 수 */}
       </div>
-    </div>
+    </header>
   );
 };
