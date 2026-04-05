@@ -11,7 +11,7 @@ const buttonVariants = cva(
           "text-white bg-sky-500 enabled:hover:bg-sky-400 enabled:active:bg-sky-600 border border-border inset-shadow-button",
         outline:
           "text-zinc-600 bg-white enabled:hover:bg-zinc-50 enabled:active:bg-zinc-200 border border-border inset-shadow-button",
-        flat: "text-zinc-600 enabled:active:border border-border",
+        flat: "text-zinc-600 enabled:hover:bg-zinc-50 enabled:active:bg-zinc-200 enabled:active:border border-border",
         link: "text-zinc-600 hover:bg-white active:bg-zinc-200 hover:border border-border rounded-lg",
       },
       size: {
