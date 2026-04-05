@@ -1,5 +1,5 @@
 import { Combobox } from "@base-ui/react/combobox";
-import { CaretDownIcon } from "@phosphor-icons/react";
+import { CaretDownIcon, PlusIcon } from "@phosphor-icons/react";
 
 type Option = {
   label: string;
@@ -22,6 +22,11 @@ export const Categorybox = ({ options, placeholder, onChange }: Props) => {
     }
   };
 
+  const longestLabel = options.reduce(
+    (acc, option) => (option.label.length > acc.length ? option.label : acc),
+    "",
+  );
+
   return (
     <Combobox.Root items={options} onValueChange={handleValueChange}>
       <Combobox.InputGroup className="flex items-center h-9 px-2 rounded-2xl border border-border bg-white inset-shadow-button active:inset-shadow-active-button transition-all appearance-none">
@@ -37,7 +42,10 @@ export const Categorybox = ({ options, placeholder, onChange }: Props) => {
 
       <Combobox.Portal>
         <Combobox.Positioner>
-          <Combobox.Popup className="px-1 bg-white border border-border rounded-xl shadow-sm overflow-hidden">
+          <Combobox.Popup
+            className="px-1 bg-white border border-border rounded-xl shadow-sm overflow-hidden"
+            style={{ minWidth: `${longestLabel.length * 14}px` }}
+          >
             <Combobox.List>
               {options.map((option) => (
                 <Combobox.Item
@@ -48,6 +56,10 @@ export const Categorybox = ({ options, placeholder, onChange }: Props) => {
                   {option.label}
                 </Combobox.Item>
               ))}
+              <Combobox.Item className="flex items-center px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-50 cursor-pointer">
+                <PlusIcon size={14} weight="bold" />
+                <span className="px-1">새 카테고리</span>
+              </Combobox.Item>
             </Combobox.List>
           </Combobox.Popup>
         </Combobox.Positioner>

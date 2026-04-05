@@ -5,6 +5,7 @@ import { Button } from "@/shared/components/Button";
 import { ComboboxSelect } from "@/shared/components/Combobox";
 import { InputField } from "@/shared/components/InputField";
 import {
+  LinkIcon,
   TextBIcon,
   TextItalicIcon,
   TextStrikethroughIcon,
@@ -65,7 +66,9 @@ export default function Write() {
           />
 
           <div className="w-px h-6 bg-border" />
-
+          <Button variant="link" size="icon">
+            <LinkIcon size={24} weight="bold" />
+          </Button>
           <div className="w-px h-6 bg-border" />
           <PostToggleGroup />
         </div>
@@ -94,7 +97,7 @@ export default function Write() {
                 }))}
                 placeholder="카테고리"
               />
-              <InputField name="tags" className="flex-1" placeholder="태그" />
+              <InputField name="tags" placeholder="태그" />
               <VisibilityToggle />
               <div className="w-px h-6 bg-border" />
               <Button>게시</Button>

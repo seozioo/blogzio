@@ -1,5 +1,5 @@
 import { Combobox } from "@base-ui/react/combobox";
-import { CaretDownIcon } from "@phosphor-icons/react";
+import { CaretDownIcon, PlusIcon } from "@phosphor-icons/react";
 import { on } from "events";
 
 type Option = {
