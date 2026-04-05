@@ -22,5 +22,10 @@
   "devDependencies": {
     "dotenv-cli": "^11.0.0",
     "openapi-typescript": "^7.13.0"
+  },
+  "dependencies": {
+    "@tiptap/pm": "^3.22.1",
+    "@tiptap/react": "^3.22.1",
+    "@tiptap/starter-kit": "^3.22.1"
   }
 }
