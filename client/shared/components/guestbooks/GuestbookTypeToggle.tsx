@@ -1,5 +1,5 @@
+import { Toggle, ToggleGroup } from '@base-ui/react';
 import { ScribbleIcon, TextTIcon } from '@phosphor-icons/react';
-import clsx from 'clsx';
 
 export type GuestbookTypeToggleProps = Readonly<{
   value: 'TEXT' | 'IMAGE';
@@ -8,29 +8,27 @@ export type GuestbookTypeToggleProps = Readonly<{
 
 export const GuestbookTypeToggle = (props: GuestbookTypeToggleProps) => {
   return (
-    <div className='flex items-center'>
-      <button
-        type="button"
-        className={clsx(
-          'size-8 rounded-lg text-zinc-600',
-          props.value === 'TEXT' && 'bg-gray-200',
-        )}
-        onClick={() => props.onValueChange('TEXT')}
+    <ToggleGroup
+      className="flex items-center"
+      value={[props.value]}
+      onValueChange={(values) =>
+        props.onValueChange(values[0] as 'TEXT' | 'IMAGE')
+      }
+    >
+      <Toggle
+        className="size-8 rounded-lg text-zinc-600 data-pressed:bg-gray-200"
         aria-label="text"
+        value="TEXT"
       >
         <TextTIcon className="m-auto" size={20} weight="bold" />
-      </button>
-      <button
-        type="button"
-        className={clsx(
-          'size-8 rounded-lg text-zinc-600',
-          props.value === 'IMAGE' && 'bg-gray-200',
-        )}
-        onClick={() => props.onValueChange('IMAGE')}
+      </Toggle>
+      <Toggle
+        className="size-8 rounded-lg text-zinc-600 data-pressed:bg-gray-200"
         aria-label="image"
+        value="IMAGE"
       >
         <ScribbleIcon className="m-auto" size={20} weight="bold" />
-      </button>
-    </div>
+      </Toggle>
+    </ToggleGroup>
   );
 };

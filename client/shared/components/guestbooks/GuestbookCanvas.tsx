@@ -2,6 +2,7 @@ import {
   GuestbookMessageBgColor,
   guestbookMessageBgColorVariants,
 } from '@/constants/guestbook-message-color';
+import { Toggle, ToggleGroup } from '@base-ui/react';
 import { EraserIcon, PencilIcon } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
@@ -190,30 +191,28 @@ export const GuestbookCanvas = (props: GuestbookCanvasProps) => {
           />
           <span>{lineWidth}px</span>
         </label>
-        <div className="flex items-center">
-          <button
-            type="button"
-            className={clsx(
-              'size-8 rounded-lg text-zinc-600',
-              drawingMode === 'PENCIL' && 'bg-gray-200',
-            )}
-            onClick={() => handleDrawingModeChange('PENCIL')}
-            title="pencil"
+        <ToggleGroup
+          className="flex items-center"
+          value={[drawingMode]}
+          onValueChange={(value) => {
+            handleDrawingModeChange(value[0] as 'PENCIL' | 'ERASER');
+          }}
+        >
+          <Toggle
+            className="size-8 rounded-lg text-zinc-600 data-pressed:bg-gray-200"
+            aria-label="pencil"
+            value="PENCIL"
           >
             <PencilIcon className="m-auto" size={20} weight="bold" />
-          </button>
-          <button
-            type="button"
-            className={clsx(
-              'size-8 rounded-lg text-zinc-600',
-              drawingMode === 'ERASER' && 'bg-gray-200',
-            )}
-            onClick={() => handleDrawingModeChange('ERASER')}
-            title="eraser"
+          </Toggle>
+          <Toggle
+            className="size-8 rounded-lg text-zinc-600 data-pressed:bg-gray-200"
+            aria-label="eraser"
+            value="ERASER"
           >
             <EraserIcon className="m-auto" size={20} weight="bold" />
-          </button>
-        </div>
+          </Toggle>
+        </ToggleGroup>
       </div>
     </div>
   );
