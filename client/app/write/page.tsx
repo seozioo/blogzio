@@ -6,6 +6,10 @@ import { ComboboxSelect } from "@/shared/components/Combobox";
 import { InputField } from "@/shared/components/InputField";
 import {
   LinkIcon,
+  TextAlignCenterIcon,
+  TextAlignJustifyIcon,
+  TextAlignLeftIcon,
+  TextAlignRightIcon,
   TextBIcon,
   TextItalicIcon,
   TextStrikethroughIcon,
@@ -17,6 +21,10 @@ import { Categorybox } from "@/shared/components/Categorybox";
 import { PostToggleGroup } from "@/shared/components/ToggleGroup";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import clsx from "clsx";
+import { Toggle, ToggleGroup } from "@base-ui/react";
 
 export default function Write() {
   const handleClick = useCallback(() => {}, []);
@@ -40,8 +48,14 @@ export default function Write() {
   ];
 
   const editor = useEditor({
-    extensions: [StarterKit],
-    content: "<p>Hello World! 🌎️</p>",
+    extensions: [
+      StarterKit,
+      Underline,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+    ],
+    content: "",
     immediatelyRender: false,
   });
 
@@ -66,11 +80,118 @@ export default function Write() {
           />
 
           <div className="w-px h-6 bg-border" />
+          <button
+            onClick={() => editor?.chain().focus().toggleBold().run()}
+            className={clsx(
+              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
+              editor?.isActive("bold") && "bg-zinc-200",
+            )}
+          >
+            <TextBIcon
+              className="m-auto text-zinc-600"
+              size={24}
+              weight="bold"
+            />
+          </button>
+
+          <button
+            onClick={() => editor?.chain().focus().toggleItalic().run()}
+            className={clsx(
+              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
+              editor?.isActive("italic") && "bg-zinc-200",
+            )}
+          >
+            <TextItalicIcon
+              className="m-auto text-zinc-600"
+              size={24}
+              weight="bold"
+            />
+          </button>
+
+          <button
+            onClick={() => editor?.chain().focus().toggleUnderline().run()}
+            className={clsx(
+              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
+              editor?.isActive("underline") && "bg-zinc-200",
+            )}
+          >
+            <TextUnderlineIcon
+              className="m-auto text-zinc-600"
+              size={24}
+              weight="bold"
+            />
+          </button>
+
+          <button
+            onClick={() => editor?.chain().focus().toggleStrike().run()}
+            className={clsx(
+              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
+              editor?.isActive("strike") && "bg-zinc-200",
+            )}
+          >
+            <TextStrikethroughIcon
+              className="m-auto text-zinc-600"
+              size={24}
+              weight="bold"
+            />
+          </button>
+
+          <div className="w-px h-6 bg-border" />
+
+          <div></div>
           <Button variant="link" size="icon">
             <LinkIcon size={24} weight="bold" />
           </Button>
+
           <div className="w-px h-6 bg-border" />
-          <PostToggleGroup />
+          <ToggleGroup
+            defaultValue={["left"]}
+            className="flex gap-1 bg-zinc-200 rounded-[10px] p-0.5"
+          >
+            <Toggle
+              aria-label="Align left"
+              value="left"
+              onPressedChange={() =>
+                editor?.chain().focus().setTextAlign("left").run()
+              }
+              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            >
+              <TextAlignLeftIcon size={24} weight="bold" />
+            </Toggle>
+
+            <Toggle
+              aria-label="Align center"
+              value="center"
+              onPressedChange={() =>
+                editor?.chain().focus().setTextAlign("center").run()
+              }
+              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            >
+              <TextAlignCenterIcon size={24} weight="bold" />
+            </Toggle>
+
+            <Toggle
+              aria-label="Align right"
+              value="right"
+              onPressedChange={() =>
+                editor?.chain().focus().setTextAlign("right").run()
+              }
+              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            >
+              <TextAlignRightIcon size={24} weight="bold" />
+            </Toggle>
+
+            <Toggle
+              aria-label="Justify"
+              value="justify"
+              onPressedChange={() =>
+                editor?.chain().focus().setTextAlign("justify").run()
+              }
+              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            >
+              <TextAlignJustifyIcon size={24} weight="bold" />
+            </Toggle>
+          </ToggleGroup>
         </div>
 
         <div>
@@ -97,7 +218,7 @@ export default function Write() {
                 }))}
                 placeholder="카테고리"
               />
-              <InputField name="tags" placeholder="태그" />
+              <InputField name="tags" className="flex-1" placeholder="태그" />
               <VisibilityToggle />
               <div className="w-px h-6 bg-border" />
               <Button>게시</Button>
@@ -109,10 +230,7 @@ export default function Write() {
   );
 }
 
-//
-// 카테고리 부분 combobox로 바꾸고
-
-// 태그 띄어쓰기 시 1개의 태그 생성 (태그는 띄어쓰기를 넣을 수 없음)
+// BaseDialog
 
 // 위쪽 버튼 해당 페이지 독단
 //className="border border-border rounded-2xl px-10 py-8"

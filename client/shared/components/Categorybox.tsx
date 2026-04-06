@@ -51,7 +51,7 @@ export const Categorybox = ({ options, placeholder, onChange }: Props) => {
                 <Combobox.Item
                   key={option.value}
                   value={option}
-                  className="px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-50 cursor-pointer"
+                  className="px-4 py-2 text-sm text-center text-zinc-600 hover:bg-zinc-50 cursor-pointer"
                 >
                   {option.label}
                 </Combobox.Item>
