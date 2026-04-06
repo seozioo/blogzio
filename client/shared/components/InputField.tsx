@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
-import { FieldError } from 'react-hook-form';
+import clsx from "clsx";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { FieldError } from "react-hook-form";
 
 type InputFieldProps = Readonly<
   {
@@ -17,14 +17,13 @@ export const InputField = ({
   ...props
 }: InputFieldProps) => {
   return (
-    <div className="flex flex-col">
+    <div className={clsx("flex flex-col", className)}>
       <div
         className={clsx(
-          'flex items-center border rounded-2xl px-3 h-9 text-sm transition-all focus-within:ring-2',
+          "flex items-center border rounded-2xl px-3 h-9 text-sm transition-all focus-within:ring-2",
           errors?.message
-            ? 'border-red-500 ring-red-500/20'
-            : 'border-border ring-sky-400/20',
-          className,
+            ? "border-red-500 ring-red-500/20"
+            : "border-border ring-sky-400/20",
         )}
       >
         <input
