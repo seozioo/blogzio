@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: server/dockerfile
     restart: unless-stopped
-    expose:
-      - '8080'
+    ports:
+      - '4000:8080'
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: client/dockerfile
     restart: unless-stopped
-    expose:
-      - '3000'
+    ports:
+      - '3000:3000'
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
