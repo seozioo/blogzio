@@ -1,0 +1,10 @@
+node_modules
+client/node_modules
+client/.next
+client/.storybook
+client/stories
+server/build
+server/bin
+build
+.git
+*.md
