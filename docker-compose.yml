@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: server/dockerfile
-    container_name: blogzio-server
     restart: unless-stopped
     expose:
       - '8080'
@@ -23,7 +22,6 @@ services:
     build:
       context: .
       dockerfile: client/dockerfile
-    container_name: blogzio-client
     restart: unless-stopped
     expose:
       - '3000'
