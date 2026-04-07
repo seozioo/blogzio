@@ -1,5 +1,5 @@
 services:
-  server:
+  blogzio-server:
     build:
       context: .
       dockerfile: server/dockerfile
@@ -19,7 +19,7 @@ services:
       AWS_REGION: ${AWS_REGION}
       AWS_S3_BUCKET: ${AWS_S3_BUCKET}
       JWT_SECRET: ${JWT_SECRET}
-  client:
+  blogzio-client:
     build:
       context: .
       dockerfile: client/dockerfile
