@@ -5,7 +5,7 @@ services:
       dockerfile: server/dockerfile
     restart: unless-stopped
     ports:
-      - '4000:8080'
+      - '4000:4000'
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
