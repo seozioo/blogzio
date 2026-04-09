@@ -23,7 +23,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'env_blogzio', variable: 'ENV_FILE')]) {
-                    sh 'cp $ENV_FILE .env'
+                    sh '''
+                        cp "${ENV_FILE}" .env
+                    '''
                 }
                 sh 'docker compose -p blogzio down'
                 sh 'docker compose -p blogzio up -d'
