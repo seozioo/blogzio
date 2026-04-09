@@ -1,5 +1,5 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 
 @import 'tailwindcss';
 
@@ -8,9 +8,11 @@
 
   --color-border: rgba(0, 0, 0, 0.15);
 
-  --inset-shadow-button: inset 0 -2px 0 rgba(0, 0, 0, 0.2); 
-  --inset-shadow-active-button: inset 0 2px 0 rgba(0, 0, 0, 0.2); 
+  --inset-shadow-button: inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+  --inset-shadow-active-button: inset 0 2px 0 rgba(0, 0, 0, 0.2);
 }
+
+@custom-variant hover (&:hover);
 
 @utility scrollbar-hide {
   -ms-overflow-style: none;
@@ -24,7 +26,8 @@
 @utility shadow-sticky-note {
   position: relative;
 
-  &::before, &::after {
+  &::before,
+  &::after {
     z-index: -1;
     position: absolute;
     content: '';
@@ -74,6 +77,21 @@
 }
 
 body {
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
 }
