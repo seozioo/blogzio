@@ -21,9 +21,6 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                branch 'main'
-            }
             steps {
                 withCredentials([file(credentialsId: 'env_blogzio', variable: 'ENV_FILE')]) {
                     sh 'cp $ENV_FILE .env'
