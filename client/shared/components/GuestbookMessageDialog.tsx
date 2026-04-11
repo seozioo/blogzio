@@ -1,14 +1,14 @@
-import { set, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { apiClient } from '../hooks/use-api';
 import { RefObject, useEffect, useState } from 'react';
-import { GuestbookCanvas } from './GuestbookCanvas';
-import { Dialog, Radio, RadioGroup } from '@base-ui/react';
+import { Dialog } from '@base-ui/react';
 import { Button } from './Button';
 import {
   GuestbookMessageBgColor,
   guestbookMessageBgColorVariants,
 } from '@/constants/guestbook-message-color';
 import { GuestbookBgSelector } from './GuestbookBgSelector';
+import { GuestbookCanvas } from './guestbooks/GuestbookCanvas';
 
 type Inputs = {
   content: string;

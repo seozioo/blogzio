@@ -1,23 +1,11 @@
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - client
-      - server
-
-  server:
+  blogzio-server:
     build:
       context: .
       dockerfile: server/dockerfile
-    container_name: server
-    expose:
-      - '8080'
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
@@ -30,15 +18,12 @@ services:
       AWS_REGION: ${AWS_REGION}
       AWS_S3_BUCKET: ${AWS_S3_BUCKET}
       JWT_SECRET: ${JWT_SECRET}
-
-  client:
+  blogzio-client:
     build:
-      context: client
-      dockerfile: dockerfile
-    container_name: client
-    expose:
-      - '3000'
+      context: .
+      dockerfile: client/dockerfile
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
     environment:
-      NEXT_PUBLIC_API_URL: http://server:8080
-    depends_on:
-      - server
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}

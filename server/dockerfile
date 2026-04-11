@@ -1,15 +1,13 @@
 # ---- Build Stage ----
-FROM eclipse-temurin:17-jdk-jammy AS builder
+FROM gradle:8.14.4-jdk17-jammy AS builder
 
 WORKDIR /workspace
 
-COPY gradlew settings.gradle ./
-COPY gradle gradle
+COPY settings.gradle ./
 COPY server/build.gradle server/build.gradle
 COPY server/src server/src
 
-RUN chmod +x gradlew && \
-    ./gradlew :server:bootJar -x test --no-daemon
+RUN gradle :server:bootJar -x test --no-daemon
 
 # ---- Runtime Stage ----
 FROM eclipse-temurin:17-jre-jammy
