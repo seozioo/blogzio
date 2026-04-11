@@ -43,10 +43,6 @@ public class AssetService {
             var originalFilename = file.getOriginalFilename();
             var fileName = generateFileName(originalFilename);
 
-            if (!s3Template.bucketExists(bucketName)) {
-                s3Template.createBucket(bucketName);
-            }
-
             var resource = s3Template.upload(bucketName, fileName, inputStream);
             var url = resource.getURL().toString();
 
@@ -58,8 +54,7 @@ public class AssetService {
                                 s3Template.deleteObject(bucketName, fileName);
                             }
                         }
-                    }
-            );
+                    });
 
             var asset = Asset.builder()
                     .originalFilename(originalFilename)

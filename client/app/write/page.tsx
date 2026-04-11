@@ -25,6 +25,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import clsx from "clsx";
 import { Toggle, ToggleGroup } from "@base-ui/react";
+import { Placeholder } from "@tiptap/extensions";
 
 export default function Write() {
   const handleClick = useCallback(() => {}, []);
@@ -54,7 +55,16 @@ export default function Write() {
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+      Placeholder.configure({
+        placeholder: "내용을 입력하세요...",
+      }),
     ],
+    editorProps: {
+      attributes: {
+        class:
+          "w-full min-h-100 flex-1 resize-none field-sizing-content outline-none",
+      },
+    },
     content: "",
     immediatelyRender: false,
   });
@@ -196,7 +206,7 @@ export default function Write() {
 
         <div>
           <form id="postForm" onSubmit={handleSubmit}>
-            <div className="border border-border flex flex-col min-h-125 rounded-2xl px-10 py-8 my-5">
+            <div className="border border-border flex flex-col rounded-2xl px-10 py-8 my-5">
               <input
                 name="title"
                 className="font-semibold text-[24px] w-full outline-none"
@@ -204,11 +214,7 @@ export default function Write() {
               />
               <hr className="my-4 border-t border-border" />
 
-              <EditorContent
-                editor={editor}
-                name="content"
-                className="w-full flex-1 resize-none field-sizing-content outline-none"
-              />
+              <EditorContent editor={editor} name="content" />
             </div>
             <div className="flex items-center gap-5">
               <Categorybox
@@ -244,34 +250,3 @@ export default function Write() {
 
 // https://phosphoricons.com
 // https://base-ui.com/react/components/combobox
-
-// inset-shadow-button active:inset-shadow-active-button -> 버튼 그림자 넣기
-/* <button className="border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200  active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]">
-            <TextBIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
-            />
-          </button>
-          <button className="border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200  active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]">
-            <TextItalicIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
-            />
-          </button>
-
-          <button className="border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200  active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]">
-            <TextUnderlineIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
-            />
-          </button>
-          <button className="border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200  active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]">
-            <TextStrikethroughIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
-            />
-          </button> */
