@@ -2,7 +2,7 @@
 
 import { BaseContainer } from "@/shared/components/BaseContainer";
 import { Button } from "@/shared/components/Button";
-import { ComboboxSelect } from "@/shared/components/Combobox";
+import { EditorSelect } from "@/shared/components/Combobox";
 import { InputField } from "@/shared/components/InputField";
 import {
   LinkIcon,
@@ -26,9 +26,19 @@ import TextAlign from "@tiptap/extension-text-align";
 import clsx from "clsx";
 import { Toggle, ToggleGroup } from "@base-ui/react";
 import { Placeholder } from "@tiptap/extensions";
+import { Editor } from "@tiptap/core";
+import { TextStyle } from "@tiptap/extension-text-style";
+import FontSize from "@tiptap/extension-text-style/font-size";
+import { useEditorState } from "@tiptap/react";
 
 export default function Write() {
-  const handleClick = useCallback(() => {}, []);
+  const FONT_SIZE_OPTIONS = [
+    { label: "12px", value: "12px" },
+    { label: "14px", value: "14px" },
+    { label: "16px", value: "16px" },
+    { label: "18px", value: "18px" },
+    { label: "24px", value: "24px" },
+  ];
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -58,6 +68,8 @@ export default function Write() {
       Placeholder.configure({
         placeholder: "내용을 입력하세요...",
       }),
+      TextStyle,
+      FontSize,
     ],
     editorProps: {
       attributes: {
@@ -69,25 +81,30 @@ export default function Write() {
     immediatelyRender: false,
   });
 
+  const fontSize = useEditorState({
+    editor,
+    selector: ({ editor }) => {
+      return editor?.getAttributes("textStyle").fontSize || "";
+    },
+  });
   return (
     <BaseContainer className="w-full mt-5 py-10">
       <div>
         <div className="flex items-center gap-2">
-          <ComboboxSelect
-            options={[
-              { label: "Pretendard", value: "pretendard" },
-              { label: "이글자가보이나요", value: "arial" },
-            ]}
-            defaultValue={{ label: "Pretendard", value: "pretendard" }}
+          <EditorSelect
+            editor={editor}
+            value={fontSize}
+            options={FONT_SIZE_OPTIONS}
+            onSelect={(value, editor) => {
+              if (!value) {
+                editor.chain().focus().unsetFontSize().run();
+              } else {
+                editor.chain().focus().setFontSize(value).run();
+              }
+            }}
+            placeholder="폰트크기"
           />
-          <ComboboxSelect
-            options={[{ label: "Bold", value: "Bold" }]}
-            defaultValue={{ label: "Bold", value: "Bold" }}
-          />
-          <ComboboxSelect
-            options={[{ label: "14", value: "14" }]}
-            defaultValue={{ label: "14", value: "14" }}
-          />
+          <button></button>
 
           <div className="w-px h-6 bg-border" />
           <button
