@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { apiClient } from '../../hooks/use-api';
 import { BaseDialog } from '../BaseDialog';
 import { InputField } from '../InputField';
-import { Categorybox } from '../Categorybox';
 import { Combobox } from '@base-ui/react';
 import { CaretDownIcon } from '@phosphor-icons/react';
 
@@ -24,8 +23,9 @@ export const CategoryCreateDialog = ({
   onOpenChange,
   onCreate,
 }: CategoryCreateDialogProps) => {
-  const { register, reset, handleSubmit, setValue, getValues } =
-    useForm<Inputs>({ defaultValues: { type: 'GALLERY' } });
+  const { register, reset, handleSubmit, setValue, watch } = useForm<Inputs>({
+    defaultValues: { type: 'GALLERY' },
+  });
 
   useEffect(() => {
     if (open) {
@@ -81,7 +81,7 @@ export const CategoryCreateDialog = ({
           />
           <Combobox.Root
             items={options}
-            value={getValues('type')}
+            value={watch('type')}
             onValueChange={(value) => setValue('type', value ?? 'GALLERY')}
             itemToStringLabel={(v) =>
               options.find((o) => o.value === v)?.label ?? ''
@@ -91,6 +91,7 @@ export const CategoryCreateDialog = ({
               <Combobox.Input
                 className="px-1 w-full outline-none text-[14px] text-zinc-600 field-sizing-content cursor-pointer"
                 placeholder="타입"
+                readOnly
               />
               <Combobox.Trigger className="flex items-center">
                 <CaretDownIcon weight="fill" />
