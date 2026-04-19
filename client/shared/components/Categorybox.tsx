@@ -1,5 +1,6 @@
 import { Combobox } from "@base-ui/react/combobox";
 import { CaretDownIcon, PlusIcon } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
 
 type Option = {
   label: string;
@@ -7,12 +8,25 @@ type Option = {
 };
 
 type Props = {
-  options: Option[];
   placeholder?: string;
   onChange?: (value: Option) => void;
 };
 
-export const Categorybox = ({ options, placeholder, onChange }: Props) => {
+export const Categorybox = ({ placeholder, onChange }: Props) => {
+  const [options, setOptions] = useState<Option[]>([]);
+  useEffect(() => {
+    fetch("/api/category")
+      .then((res) => res.json())
+      .then((data) =>
+        setOptions(
+          data.map((c: { id: string; name: string }) => ({
+            label: c.name,
+            value: c.id,
+          }))
+        )
+      );
+  }, []);
+
   const handleValueChange = (value: string | null) => {
     if (value && onChange) {
       const selected = options.find((opt) => opt.value === value);

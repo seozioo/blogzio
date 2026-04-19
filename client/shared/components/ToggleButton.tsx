@@ -4,7 +4,11 @@ import clsx from "clsx";
 
 type Visibility = "public" | "private";
 
-export const VisibilityToggle = () => {
+export const VisibilityToggle = ({
+  onChange,
+}: {
+  onChange?: (value: Visibility) => void;
+}) => {
   const [selected, setSelected] = useState<Visibility>("public");
   const publicRef = useRef<HTMLButtonElement>(null);
   const privateRef = useRef<HTMLButtonElement>(null);
@@ -39,7 +43,7 @@ export const VisibilityToggle = () => {
       <Toggle
         ref={publicRef}
         pressed={selected === "public"}
-        onPressedChange={() => setSelected("public")}
+        onPressedChange={() => { setSelected("public"); onChange?.("public"); }}
         className={clsx(
           "relative z-10 px-3 w-auto py-1.5 text-sm rounded-2xl transition-colors duration-200",
           selected === "public"
@@ -53,7 +57,7 @@ export const VisibilityToggle = () => {
       <Toggle
         ref={privateRef}
         pressed={selected === "private"}
-        onPressedChange={() => setSelected("private")}
+        onPressedChange={() => { setSelected("private"); onChange?.("private"); }}
         className={clsx(
           "relative z-10 px-3 w-auto py-1.5 text-sm rounded-2xl transition-colors duration-200",
           selected === "private"

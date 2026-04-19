@@ -15,10 +15,9 @@ import {
   TextStrikethroughIcon,
   TextUnderlineIcon,
 } from "@phosphor-icons/react";
-import { SubmitEventHandler, useCallback } from "react";
+import { SubmitEventHandler, useState } from "react";
 import { VisibilityToggle } from "@/shared/components/ToggleButton";
 import { Categorybox } from "@/shared/components/Categorybox";
-import { PostToggleGroup } from "@/shared/components/ToggleGroup";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -30,33 +29,57 @@ import { Editor } from "@tiptap/core";
 import { TextStyle } from "@tiptap/extension-text-style";
 import FontSize from "@tiptap/extension-text-style/font-size";
 import { useEditorState } from "@tiptap/react";
+import FontFamily from "@tiptap/extension-font-family";
+
 
 export default function Write() {
+  const [categoryId, setCategoryId] = useState<string>("");
+  const [isVisible, setIsVisible] = useState(true);
+
   const FONT_SIZE_OPTIONS = [
+    { label: "6px", value: "6px" },
+    { label: "8px", value: "8px" },
+    { label: "10px", value: "10px" },
     { label: "12px", value: "12px" },
     { label: "14px", value: "14px" },
     { label: "16px", value: "16px" },
     { label: "18px", value: "18px" },
     { label: "24px", value: "24px" },
+    { label: "36px", value: "36px" },
+    { label: "42px", value: "42px" },
   ];
+
+  const FONT_TYPE_OPTIONS = [
+    { label: "Inter", value: "Inter" },
+    { label: "Pretendard", value: "Pretendard" },
+    { label: "serif", value: "serif" },
+    { label: "monospace", value: "monospace" },
+    { label: "cursive", value: "cursive" },
+  ]
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    const data = Object.fromEntries(formData.entries());
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title") as string;
+    const tags = (formData.get("tags") as string)
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
 
-    await fetch("/post", {
+    await fetch("/api/post", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        title,
+        content: editor?.getJSON(),
+        categoryId: categoryId || null,
+        tags,
+        isVisible,
+        pinned: false,
+      }),
     });
   };
-
-  const categories = [
-    { name: "여행", slug: "travel", sortOrder: 1, type: "LIST" },
-    { name: "Photo", slug: "photo", sortOrder: 2, type: "GALLERY" },
-  ];
 
   const editor = useEditor({
     extensions: [
@@ -70,6 +93,7 @@ export default function Write() {
       }),
       TextStyle,
       FontSize,
+      FontFamily,
     ],
     editorProps: {
       attributes: {
@@ -84,13 +108,35 @@ export default function Write() {
   const fontSize = useEditorState({
     editor,
     selector: ({ editor }) => {
-      return editor?.getAttributes("textStyle").fontSize || "";
+      return editor?.getAttributes("textStyle").fontSize || "16px";
     },
   });
+
+  const fontType = useEditorState({
+    editor,
+    selector: ({ editor }) => {
+      return editor?.getAttributes("textStyle").fontFamily || "Pretendard";
+    }
+  })
   return (
     <BaseContainer className="w-full mt-5 py-10">
       <div>
         <div className="flex items-center gap-2">
+
+
+          <EditorSelect
+            editor={editor}
+            value={fontType}
+            options={FONT_TYPE_OPTIONS}
+            onSelect={(value, editor) => {
+              if (!value) {
+                editor.chain().focus().unsetFontFamily().run();
+              } else {
+                editor.chain().focus().setFontFamily(value).run();
+              }
+            }}
+          />
+
           <EditorSelect
             editor={editor}
             value={fontSize}
@@ -102,9 +148,7 @@ export default function Write() {
                 editor.chain().focus().setFontSize(value).run();
               }
             }}
-            placeholder="폰트크기"
           />
-          <button></button>
 
           <div className="w-px h-6 bg-border" />
           <button
@@ -233,19 +277,15 @@ export default function Write() {
 
               <EditorContent editor={editor} name="content" />
             </div>
+
             <div className="flex items-center gap-5">
-              <Categorybox
-                options={categories.map((c) => ({
-                  label: c.name,
-                  value: c.slug,
-                }))}
-                placeholder="카테고리"
-              />
+              <Categorybox placeholder="카테고리" onChange={(opt) => setCategoryId(opt.value)} />
               <InputField name="tags" className="flex-1" placeholder="태그" />
-              <VisibilityToggle />
+              <VisibilityToggle onChange={(v) => setIsVisible(v === "public")} />
               <div className="w-px h-6 bg-border" />
               <Button>게시</Button>
             </div>
+
           </form>
         </div>
       </div>
@@ -253,17 +293,3 @@ export default function Write() {
   );
 }
 
-// BaseDialog
-
-// 위쪽 버튼 해당 페이지 독단
-//className="border border-border rounded-2xl px-10 py-8"
-// input이랑 button
-
-// category type이 GALLERY일 경우 사진 파일이 없을 경우
-// 버튼 새로 만들기
-
-// 정렬 버튼 클릭시 이동 애니메이션 모션
-// 폰트 목록 지정값 넣기
-
-// https://phosphoricons.com
-// https://base-ui.com/react/components/combobox
