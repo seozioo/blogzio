@@ -55,9 +55,9 @@ export const PostPanel = (props: PostPanelProps) => {
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
       <BaseContainer>
-        <div className="flex flex-col gap-5 border border-border rounded-2xl px-10 py-5 bg-white">
+        <div className="flex flex-col max-w-202 mx-auto gap-4 rounded-3xl px-4 py-4 bg-white shadow-xs">
           <div className="flex justify-between items-center">
-            <p className="p-1 text-zinc-600">1 / 30</p>
+            <p className="p-1 text-zinc-400 text-sm">1 / 30</p>
             <InputField
               className="w-50"
               placeholder="검색"
@@ -71,7 +71,7 @@ export const PostPanel = (props: PostPanelProps) => {
             />
           </div>
           {props.viewType === 'article' ? (
-            <div className="flex flex-col divide-y divide-border">
+            <div className="flex flex-col divide-y divide-border -my-4">
               {dummy.map((article, index) => (
                 <PostArticleLink
                   key={article.id}
@@ -83,7 +83,7 @@ export const PostPanel = (props: PostPanelProps) => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {dummy.map((photo) => (
                 <PostPhotoLink
                   key={photo.id}
