@@ -3,7 +3,6 @@
 import { BaseContainer } from "@/shared/components/BaseContainer";
 import { Button } from "@/shared/components/Button";
 import { EditorSelect } from "@/shared/components/Combobox";
-import { InputField } from "@/shared/components/InputField";
 import {
   LinkIcon,
   TextAlignCenterIcon,
@@ -18,6 +17,7 @@ import {
 import { SubmitEventHandler, useState } from "react";
 import { VisibilityToggle } from "@/shared/components/ToggleButton";
 import { Categorybox } from "@/shared/components/Categorybox";
+import { TagInput } from "@/shared/components/TagInput";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -30,7 +30,6 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import FontSize from "@tiptap/extension-text-style/font-size";
 import { useEditorState } from "@tiptap/react";
 import FontFamily from "@tiptap/extension-font-family";
-import { CategoryCreateDialog } from "@/shared/components/posts/CategoryCreateDialog";
 import { LinkCreateDialog } from "@/shared/components/posts/LinkCreateDialog";
 import Link from "@tiptap/extension-link";
 
@@ -40,6 +39,7 @@ export default function Write() {
   const [categoryId, setCategoryId] = useState<string>("");
   const [isVisible, setIsVisible] = useState(true);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
 
   const FONT_SIZE_OPTIONS = [
     { label: "6px", value: "6px" },
@@ -67,10 +67,6 @@ export default function Write() {
 
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
-    const tags = (formData.get("tags") as string)
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
 
     await fetch("/api/post", {
       method: "POST",
@@ -292,7 +288,7 @@ export default function Write() {
 
             <div className="flex items-center gap-5">
               <Categorybox placeholder="카테고리" onChange={(opt) => setCategoryId(opt.value)} />
-              <InputField name="tags" className="flex-1" placeholder="태그" />
+              <TagInput value={tags} onChange={setTags} className="flex-1" placeholder="태그" />
               <VisibilityToggle onChange={(v) => setIsVisible(v === "public")} />
               <div className="w-px h-6 bg-border" />
               <Button>게시</Button>
