@@ -30,11 +30,16 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import FontSize from "@tiptap/extension-text-style/font-size";
 import { useEditorState } from "@tiptap/react";
 import FontFamily from "@tiptap/extension-font-family";
+import { CategoryCreateDialog } from "@/shared/components/posts/CategoryCreateDialog";
+import { LinkCreateDialog } from "@/shared/components/posts/LinkCreateDialog";
+import Link from "@tiptap/extension-link";
+
 
 
 export default function Write() {
   const [categoryId, setCategoryId] = useState<string>("");
   const [isVisible, setIsVisible] = useState(true);
+  const [linkDialogOpen, setLinkDialogOpen] = useState(false);
 
   const FONT_SIZE_OPTIONS = [
     { label: "6px", value: "6px" },
@@ -94,6 +99,7 @@ export default function Write() {
       TextStyle,
       FontSize,
       FontFamily,
+      Link.configure({ openOnClick: false })
     ],
     editorProps: {
       attributes: {
@@ -210,7 +216,13 @@ export default function Write() {
           <div className="w-px h-6 bg-border" />
 
           <div></div>
-          <Button variant="link" size="icon">
+          <LinkCreateDialog
+            open={linkDialogOpen}
+            editor={editor}
+            onOpenChange={setLinkDialogOpen}
+          ></LinkCreateDialog>
+
+          <Button variant="link" size="icon" onClick={() => setLinkDialogOpen(true)}>
             <LinkIcon size={24} weight="bold" />
           </Button>
 
