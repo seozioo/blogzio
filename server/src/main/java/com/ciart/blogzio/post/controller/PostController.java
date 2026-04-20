@@ -1,6 +1,5 @@
 package com.ciart.blogzio.post.controller;
 
-
 import com.ciart.blogzio.category.service.CategoryService;
 import com.ciart.blogzio.post.dto.PostGetListResponse;
 import com.ciart.blogzio.post.dto.PostCreateRequest;
@@ -29,7 +28,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<PostGetListResponse> getList(@RequestParam(required = false) UUID category, @RequestParam(required = false) int page) {
+    public ResponseEntity<PostGetListResponse> getList(@RequestParam(required = false) UUID category,
+            @RequestParam(required = false) Integer page) {
         var pageData = postService.GetAllPosts(categoryService.find(category).orElse(null), page);
 
         return ResponseEntity.ok(PostGetListResponse.from(pageData));
@@ -37,13 +37,13 @@ public class PostController {
 
     @PostMapping
     public PostResponse create(@AuthenticationPrincipal UUID userId,
-                               @Valid @RequestBody PostCreateRequest request) {
+            @Valid @RequestBody PostCreateRequest request) {
         return ResponseEntity.ok(postService.CreatePost(userId, request)).getBody();
     }
 
     @PutMapping("/{postId}")
     public PostResponse update(@PathVariable UUID postId,
-                               @Valid @RequestBody PostUpdateRequest postUpdateRequest) {
+            @Valid @RequestBody PostUpdateRequest postUpdateRequest) {
         return ResponseEntity.ok(postService.UpdatePost(postId, postUpdateRequest)).getBody();
     }
 

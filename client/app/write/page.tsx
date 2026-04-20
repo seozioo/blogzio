@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { BaseContainer } from "@/shared/components/BaseContainer";
-import { Button } from "@/shared/components/Button";
-import { EditorSelect } from "@/shared/components/Combobox";
+import { BaseContainer } from '@/shared/components/BaseContainer';
+import { Button } from '@/shared/components/Button';
+import { EditorSelect } from '@/shared/components/Combobox';
+import { InputField } from '@/shared/components/InputField';
 import {
   LinkIcon,
   TextAlignCenterIcon,
@@ -13,72 +14,74 @@ import {
   TextItalicIcon,
   TextStrikethroughIcon,
   TextUnderlineIcon,
-} from "@phosphor-icons/react";
-import { SubmitEventHandler, useState } from "react";
-import { VisibilityToggle } from "@/shared/components/ToggleButton";
-import { Categorybox } from "@/shared/components/Categorybox";
-import { TagInput } from "@/shared/components/TagInput";
-import { EditorContent, useEditor } from "@tiptap/react";
-import { StarterKit } from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import clsx from "clsx";
-import { Toggle, ToggleGroup } from "@base-ui/react";
-import { Placeholder } from "@tiptap/extensions";
-import { Editor } from "@tiptap/core";
-import { TextStyle } from "@tiptap/extension-text-style";
-import FontSize from "@tiptap/extension-text-style/font-size";
-import { useEditorState } from "@tiptap/react";
-import FontFamily from "@tiptap/extension-font-family";
-import { LinkCreateDialog } from "@/shared/components/posts/LinkCreateDialog";
-import Link from "@tiptap/extension-link";
-
-
+} from '@phosphor-icons/react';
+import { SubmitEventHandler, useState } from 'react';
+import { VisibilityToggle } from '@/shared/components/ToggleButton';
+import { Categorybox } from '@/shared/components/Categorybox';
+import { EditorContent, useEditor } from '@tiptap/react';
+import { StarterKit } from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import clsx from 'clsx';
+import { Toggle, ToggleGroup } from '@base-ui/react';
+import { Placeholder } from '@tiptap/extensions';
+import { Editor } from '@tiptap/core';
+import { TextStyle } from '@tiptap/extension-text-style';
+import FontSize from '@tiptap/extension-text-style/font-size';
+import { useEditorState } from '@tiptap/react';
+import FontFamily from '@tiptap/extension-font-family';
+import { CategoryCreateDialog } from '@/shared/components/posts/CategoryCreateDialog';
+import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
+import Link from '@tiptap/extension-link';
+import { apiClient } from '@/constants/api-client';
 
 export default function Write() {
-  const [categoryId, setCategoryId] = useState<string>("");
+  const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
   const FONT_SIZE_OPTIONS = [
-    { label: "6px", value: "6px" },
-    { label: "8px", value: "8px" },
-    { label: "10px", value: "10px" },
-    { label: "12px", value: "12px" },
-    { label: "14px", value: "14px" },
-    { label: "16px", value: "16px" },
-    { label: "18px", value: "18px" },
-    { label: "24px", value: "24px" },
-    { label: "36px", value: "36px" },
-    { label: "42px", value: "42px" },
+    { label: '6px', value: '6px' },
+    { label: '8px', value: '8px' },
+    { label: '10px', value: '10px' },
+    { label: '12px', value: '12px' },
+    { label: '14px', value: '14px' },
+    { label: '16px', value: '16px' },
+    { label: '18px', value: '18px' },
+    { label: '24px', value: '24px' },
+    { label: '36px', value: '36px' },
+    { label: '42px', value: '42px' },
   ];
 
   const FONT_TYPE_OPTIONS = [
-    { label: "Inter", value: "Inter" },
-    { label: "Pretendard", value: "Pretendard" },
-    { label: "serif", value: "serif" },
-    { label: "monospace", value: "monospace" },
-    { label: "cursive", value: "cursive" },
-  ]
+    { label: 'Inter', value: 'Inter' },
+    { label: 'Pretendard', value: 'Pretendard' },
+    { label: 'serif', value: 'serif' },
+    { label: 'monospace', value: 'monospace' },
+    { label: 'cursive', value: 'cursive' },
+  ];
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
+    const title = formData.get('title') as string;
+    const tags = (formData.get('tags') as string)
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
 
-    await fetch("/api/post", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    await apiClient.POST('/post', {
+      headers: { 'Content-Type': 'application/json' },
+      body: {
         title,
         content: editor?.getJSON(),
-        categoryId: categoryId || null,
+        categoryId,
         tags,
         isVisible,
         pinned: false,
-      }),
+      },
     });
   };
 
@@ -87,45 +90,43 @@ export default function Write() {
       StarterKit,
       Underline,
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ['heading', 'paragraph'],
       }),
       Placeholder.configure({
-        placeholder: "내용을 입력하세요...",
+        placeholder: '내용을 입력하세요...',
       }),
       TextStyle,
       FontSize,
       FontFamily,
-      Link.configure({ openOnClick: false })
+      Link.configure({ openOnClick: false }),
     ],
     editorProps: {
       attributes: {
         class:
-          "w-full min-h-100 flex-1 resize-none field-sizing-content outline-none",
+          'w-full min-h-100 flex-1 resize-none field-sizing-content outline-none',
       },
     },
-    content: "",
+    content: '',
     immediatelyRender: false,
   });
 
   const fontSize = useEditorState({
     editor,
     selector: ({ editor }) => {
-      return editor?.getAttributes("textStyle").fontSize || "16px";
+      return editor?.getAttributes('textStyle').fontSize || '16px';
     },
   });
 
   const fontType = useEditorState({
     editor,
     selector: ({ editor }) => {
-      return editor?.getAttributes("textStyle").fontFamily || "Pretendard";
-    }
-  })
+      return editor?.getAttributes('textStyle').fontFamily || 'Pretendard';
+    },
+  });
   return (
     <BaseContainer className="w-full mt-5 py-10">
       <div>
         <div className="flex items-center gap-2">
-
-
           <EditorSelect
             editor={editor}
             value={fontType}
@@ -156,8 +157,8 @@ export default function Write() {
           <button
             onClick={() => editor?.chain().focus().toggleBold().run()}
             className={clsx(
-              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
-              editor?.isActive("bold") && "bg-zinc-200",
+              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
+              editor?.isActive('bold') && 'bg-zinc-200',
             )}
           >
             <TextBIcon
@@ -170,8 +171,8 @@ export default function Write() {
           <button
             onClick={() => editor?.chain().focus().toggleItalic().run()}
             className={clsx(
-              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
-              editor?.isActive("italic") && "bg-zinc-200",
+              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
+              editor?.isActive('italic') && 'bg-zinc-200',
             )}
           >
             <TextItalicIcon
@@ -184,8 +185,8 @@ export default function Write() {
           <button
             onClick={() => editor?.chain().focus().toggleUnderline().run()}
             className={clsx(
-              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
-              editor?.isActive("underline") && "bg-zinc-200",
+              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
+              editor?.isActive('underline') && 'bg-zinc-200',
             )}
           >
             <TextUnderlineIcon
@@ -198,8 +199,8 @@ export default function Write() {
           <button
             onClick={() => editor?.chain().focus().toggleStrike().run()}
             className={clsx(
-              "border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]",
-              editor?.isActive("strike") && "bg-zinc-200",
+              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
+              editor?.isActive('strike') && 'bg-zinc-200',
             )}
           >
             <TextStrikethroughIcon
@@ -218,20 +219,24 @@ export default function Write() {
             onOpenChange={setLinkDialogOpen}
           ></LinkCreateDialog>
 
-          <Button variant="link" size="icon" onClick={() => setLinkDialogOpen(true)}>
+          <Button
+            variant="link"
+            size="icon"
+            onClick={() => setLinkDialogOpen(true)}
+          >
             <LinkIcon size={24} weight="bold" />
           </Button>
 
           <div className="w-px h-6 bg-border" />
           <ToggleGroup
-            defaultValue={["left"]}
+            defaultValue={['left']}
             className="flex gap-1 bg-zinc-200 rounded-[10px] p-0.5"
           >
             <Toggle
               aria-label="Align left"
               value="left"
               onPressedChange={() =>
-                editor?.chain().focus().setTextAlign("left").run()
+                editor?.chain().focus().setTextAlign('left').run()
               }
               className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
             >
@@ -242,7 +247,7 @@ export default function Write() {
               aria-label="Align center"
               value="center"
               onPressedChange={() =>
-                editor?.chain().focus().setTextAlign("center").run()
+                editor?.chain().focus().setTextAlign('center').run()
               }
               className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
             >
@@ -253,7 +258,7 @@ export default function Write() {
               aria-label="Align right"
               value="right"
               onPressedChange={() =>
-                editor?.chain().focus().setTextAlign("right").run()
+                editor?.chain().focus().setTextAlign('right').run()
               }
               className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
             >
@@ -264,7 +269,7 @@ export default function Write() {
               aria-label="Justify"
               value="justify"
               onPressedChange={() =>
-                editor?.chain().focus().setTextAlign("justify").run()
+                editor?.chain().focus().setTextAlign('justify').run()
               }
               className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
             >
@@ -287,17 +292,20 @@ export default function Write() {
             </div>
 
             <div className="flex items-center gap-5">
-              <Categorybox placeholder="카테고리" onChange={(opt) => setCategoryId(opt.value)} />
-              <TagInput value={tags} onChange={setTags} className="flex-1" placeholder="태그" />
-              <VisibilityToggle onChange={(v) => setIsVisible(v === "public")} />
+              <Categorybox
+                placeholder="카테고리"
+                onChange={(opt) => setCategoryId(opt.value)}
+              />
+              <InputField name="tags" className="flex-1" placeholder="태그" />
+              <VisibilityToggle
+                onChange={(v) => setIsVisible(v === 'public')}
+              />
               <div className="w-px h-6 bg-border" />
-              <Button>게시</Button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </BaseContainer>
+              <Button type="submit">게시</Button>
+            </div >
+          </form >
+        </div >
+      </div >
+    </BaseContainer >
   );
 }
-

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { apiClient } from '../../hooks/use-api';
 import { BaseDialog } from '../BaseDialog';
 import { InputField } from '../InputField';
 import { Combobox } from '@base-ui/react';
 import { CaretDownIcon } from '@phosphor-icons/react';
+import { apiClient } from '@/constants/api-client';
 
 type Inputs = {
   name: string;

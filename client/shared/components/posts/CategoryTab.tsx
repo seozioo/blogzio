@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useApi } from '../../hooks/use-api';
+import { NEW_CATEGORY } from '@/constants/category';
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -18,14 +20,18 @@ export const CategoryTab = (props: CategoryTabProps) => {
   });
   const [isHovering, setIsHovering] = useState(false);
 
-  const navItems = [
-    { name: 'New', slug: 'new' },
-    { name: 'Photo', slug: 'photo' },
-    { name: 'Article', slug: 'article' },
-  ];
+  const { data } = useApi('/category');
+
+  const categories = useMemo(() => {
+    if (!data) return [NEW_CATEGORY];
+    return [NEW_CATEGORY, ...data];
+  }, [data]);
 
   return (
-    <nav aria-label="category navigation" className="flex justify-center items-end group">
+    <nav
+      aria-label="category navigation"
+      className="flex justify-center items-end group"
+    >
       <div
         className="relative flex gap-2"
         onMouseLeave={() => {
@@ -45,7 +51,7 @@ export const CategoryTab = (props: CategoryTabProps) => {
             opacity: hoverStyle.opacity,
           }}
         />
-        {navItems.map((item) => {
+        {categories.map((item) => {
           const path = `/${item.slug}`;
 
           let isActive = pathname === path;
