@@ -53,7 +53,7 @@ dependencies {
 }
 
 openApi {
-	apiDocsUrl = 'http://localhost:8081/v3/api-docs'
+	apiDocsUrl = 'http://localhost:8081/api/v3/api-docs'
 	outputDir = file("${rootProject.projectDir}")
 	outputFileName = 'openapi.json'
 	customBootRun {

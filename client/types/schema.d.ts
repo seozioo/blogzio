@@ -91,7 +91,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["getAll_1"];
         put?: never;
         post: operations["create_2"];
         delete?: never;
@@ -305,7 +305,7 @@ export interface components {
             url: string;
         };
         UserAdminExistsResponse: {
-            exists: boolean;
+            exists?: boolean;
         };
         PostGetListResponse: {
             posts: components["schemas"]["PostResponse"][];
@@ -460,7 +460,7 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
                 "application/json": components["schemas"]["UserRequest"];
             };
@@ -564,6 +564,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CreateGuestbookMessageResponse"];
+                };
+            };
+        };
+    };
+    getAll_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CategoryResponse"][];
                 };
             };
         };
