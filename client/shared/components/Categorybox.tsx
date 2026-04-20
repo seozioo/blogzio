@@ -2,7 +2,7 @@ import { Combobox } from '@base-ui/react/combobox';
 import { CaretDownIcon, PlusIcon } from '@phosphor-icons/react';
 import { useMemo, useState } from 'react';
 import { CategoryCreateDialog } from './posts/CategoryCreateDialog';
-import useSWR from 'swr';
+import { useApi } from '../hooks/use-api';
 
 type Option = {
   label: string;
@@ -16,15 +16,13 @@ type Props = {
 
 export const Categorybox = ({ placeholder, onChange }: Props) => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const { data, mutate } = useSWR('/api/category', async (url) => {
-    return (await fetch(url)).json();
-  });
+  const { data, mutate } = useApi('/category');
 
   const options: Option[] = useMemo(
     () =>
-      data?.map((c: { id: string; name: string }) => ({
-        label: c.name,
-        value: c.id,
+      data?.map((c) => ({
+        label: c.name!,
+        value: c.id!,
       })) ?? [],
     [data],
   );
