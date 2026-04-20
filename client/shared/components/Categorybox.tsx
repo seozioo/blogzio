@@ -5,6 +5,7 @@ import { CategoryCreateDialog } from './posts/CategoryCreateDialog';
 import { useApi } from '../hooks/use-api';
 
 type Option = {
+  id: string;
   label: string;
   value: string;
 };
@@ -21,6 +22,7 @@ export const Categorybox = ({ placeholder, onChange }: Props) => {
   const options: Option[] = useMemo(
     () =>
       data?.map((c) => ({
+        id: c.id!,
         label: c.name!,
         value: c.id!,
       })) ?? [],
@@ -29,7 +31,7 @@ export const Categorybox = ({ placeholder, onChange }: Props) => {
 
   const handleValueChange = (value: string | null) => {
     if (value && onChange) {
-      const selected = options.find((opt) => opt.value === value);
+      const selected = options.find((opt) => opt.id === value);
       if (selected) {
         onChange(selected);
       }
@@ -75,8 +77,8 @@ export const Categorybox = ({ placeholder, onChange }: Props) => {
               <Combobox.List>
                 {options.map((option) => (
                   <Combobox.Item
-                    key={option.value}
-                    value={option}
+                    key={option.id}
+                    value={option.id}
                     className="px-4 py-2 text-sm text-center text-zinc-600 hover:bg-zinc-50 cursor-pointer"
                   >
                     {option.label}

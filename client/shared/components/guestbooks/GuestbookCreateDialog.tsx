@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { apiClient } from '../../hooks/use-api';
 import { RefObject, useEffect, useState } from 'react';
 import { GuestbookCanvas } from './GuestbookCanvas';
 import {
@@ -11,6 +10,7 @@ import { GuestbookTypeToggle } from './GuestbookTypeToggle';
 import { BaseDialog } from '../BaseDialog';
 import { GuestbookTextForm } from './GuestbookTextForm';
 import { GuestbookAuthorFields } from './GuestbookAuthorFields';
+import { apiClient } from '@/constants/api-client';
 
 type Inputs = {
   nickname: string;
@@ -30,18 +30,12 @@ export const GuestbookCreateDialog = (props: GuestbookMessageDialogProps) => {
   // TODO: ref를 부모로 넘겨 받는게 좋은 방법인지 잘 모르겠음. 후에 수정하겠음.
   const [canvas, setCanvas] = useState<RefObject<HTMLCanvasElement | null>>();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-  } = useForm<Inputs>({
+  const { register, handleSubmit, setValue, watch, reset } = useForm<Inputs>({
     defaultValues: {
       backgroundColor: 'PINK',
       contentType: 'TEXT',
       content: '',
-    }
+    },
   });
 
   useEffect(() => {

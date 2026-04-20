@@ -112,8 +112,8 @@ public class PostService {
 
     // 목록읽기
     @Transactional(readOnly = true)
-    public Page<Post> GetAllPosts(@Nullable Category category, int page){
-        Pageable pageable = PageRequest.of(page, 12);
+    public Page<Post> GetAllPosts(@Nullable Category category, @Nullable Integer page){
+        Pageable pageable = PageRequest.of(page != null ? page : 0, 12);
 
         if (category == null) {
             return postRepository.findAll(pageable);
