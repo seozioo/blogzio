@@ -14,7 +14,7 @@ services:
     image: pgsty/minio
     container_name: minio
     command: server /data --console-address ":9001"
-    ports:
+    ports:lo
       - "9000:9000"
       - "9001:9001"
     environment:

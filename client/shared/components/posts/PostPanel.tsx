@@ -10,6 +10,7 @@ import { Button } from '../Button';
 import { PostArticleLink } from './PostArticleLink';
 import { CategoryTab } from './CategoryTab';
 import { components } from '@/types/schema';
+import { WritePostButton } from '../PostWriteButton';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
@@ -21,6 +22,7 @@ export const PostPanel = (props: PostPanelProps) => {
   return (
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
+      <WritePostButton />
       <BaseContainer>
         <div className="flex flex-col max-w-202 mx-auto gap-4 rounded-3xl px-4 py-4 bg-white shadow-xs">
           <div className="flex justify-between items-center">
