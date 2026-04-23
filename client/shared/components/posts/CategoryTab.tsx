@@ -7,6 +7,9 @@ import { useMemo, useState } from 'react';
 import { useApi } from '../../hooks/use-api';
 import { NEW_CATEGORY } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
+import { Button } from '../Button';
+import { PlusIcon } from '@phosphor-icons/react';
+import { CategoryCreateDialog } from './CategoryCreateDialog';
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -20,8 +23,9 @@ export const CategoryTab = (props: CategoryTabProps) => {
     opacity: 0,
   });
   const [isHovering, setIsHovering] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const { data } = useApi('/category');
+  const { data, mutate } = useApi('/category');
 
   const categories = useMemo(() => {
     if (!data) return [NEW_CATEGORY];
@@ -29,16 +33,16 @@ export const CategoryTab = (props: CategoryTabProps) => {
   }, [data]);
 
   return (
-    <BaseContainer className="relative">
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-35% to-95% from-zinc-50 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-35% to-95% from-zinc-50 to-transparent" />
+    <BaseContainer className="relative select-none">
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-35% to-95% from-zinc-50 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-35% to-95% from-zinc-50 to-transparent z-20" />
       <div className="flex overflow-x-auto px-20 scrollbar-hide">
         <nav
           aria-label="category navigation"
           className="flex justify-center items-end group"
         >
           <div
-            className="relative flex gap-2 -z-10"
+            className="relative flex gap-2"
             onMouseLeave={() => {
               setIsHovering(false);
               setHoverStyle((prev) => ({ ...prev, opacity: 0 }));
@@ -131,6 +135,18 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 </Link>
               );
             })}
+            <Button
+              variant="flat"
+              size="icon"
+              onClick={() => setIsCreateDialogOpen(true)}
+            >
+              <PlusIcon size={16} weight="bold" />
+            </Button>
+            <CategoryCreateDialog
+              open={isCreateDialogOpen}
+              onOpenChange={setIsCreateDialogOpen}
+              onCreate={() => mutate()}
+            />
           </div>
         </nav>
       </div>

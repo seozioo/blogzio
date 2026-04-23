@@ -1,10 +1,11 @@
 'use client';
 
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 export type AuthContextType = {
   token: string | null;
   setToken: (token: string | null) => void;
+  isAdmin: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,6 +24,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
     return accessToken;
   });
 
+  const isAdmin = useMemo(() => {
+    // TODO: 임시 구현입니다. 아직 관리자 계정 뿐이라 이렇게 처리합니다.
+    return !!token;
+  }, [token]);
+
   useEffect(() => {
     if (token) {
       localStorage.setItem('accessToken', token);
@@ -32,7 +38,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, setToken, isAdmin }}>
       {props.children}
     </AuthContext.Provider>
   );
