@@ -179,6 +179,19 @@ export interface components {
             categoryId?: string;
             tags?: string[];
         };
+        Asset: {
+            /** Format: uuid */
+            id?: string;
+            owner?: components["schemas"]["AssetOwner"];
+            originalFilename?: string;
+            url?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        AssetOwner: {
+            /** Format: uuid */
+            id?: string;
+        };
         Category: {
             /** Format: uuid */
             id?: string;
@@ -206,6 +219,8 @@ export interface components {
             /** Format: int32 */
             likes?: number;
             is_visiable?: boolean;
+            contentText?: string;
+            thumbnail?: components["schemas"]["Asset"];
             category?: components["schemas"]["Category"];
             tags?: components["schemas"]["Tag"][];
         };
@@ -308,9 +323,22 @@ export interface components {
             exists?: boolean;
         };
         PostGetListResponse: {
-            posts: components["schemas"]["PostResponse"][];
+            posts: components["schemas"]["PostSummaryResponse"][];
             /** Format: int32 */
             totalPages: number;
+        };
+        PostSummaryResponse: {
+            /** Format: uuid */
+            id?: string;
+            title?: string;
+            excerpt?: string;
+            thumbnailUrl?: string;
+            /** Format: int32 */
+            likes?: number;
+            is_visiable?: boolean;
+            /** Format: date-time */
+            postedAt?: string;
+            tags?: components["schemas"]["Tag"][];
         };
         GetAllGuestbookMessagesResponse: {
             messages?: components["schemas"]["GuestbookMessageDto"][];
@@ -460,7 +488,7 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "application/json": components["schemas"]["UserRequest"];
             };

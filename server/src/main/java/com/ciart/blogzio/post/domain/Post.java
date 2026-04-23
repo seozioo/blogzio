@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "posts")
 @Getter
@@ -23,7 +22,7 @@ import java.util.List;
 public class Post extends AssetOwner {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="author_id", nullable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
     @Column(nullable = false)
@@ -59,34 +58,31 @@ public class Post extends AssetOwner {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "thumbnail_id")
     private Asset thumbnail;
 
     @ManyToOne
     private Category category;
 
     @ManyToMany
-    @JoinTable(
-            name = "post_tag",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags = new ArrayList<>();
 
     @PrePersist
-    public void prePersisst(){
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        this.postedAt = LocalDateTime.now();
+    public void prePersisst() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+        this.postedAt = now;
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 
     @Builder
-    public Post(User author, String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags) {
+    public Post(User author, String title, JsonNode content, Boolean pinned, Boolean is_visiable, Category category,
+            List<Tag> tags) {
         this.author = author;
         this.title = title;
         this.content = content;
@@ -96,13 +92,19 @@ public class Post extends AssetOwner {
         this.tags = tags;
     }
 
-
-    public void update( String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags){
-        if(title != null) this.title = title;
-        if(content != null) this.content = content;
-        if(pinned != null) this.pinned = pinned;
-        if(is_visiable != null) this.is_visiable = is_visiable;
-        if(category != null) this.category = category;
-        if(tags != null) this.tags = tags;
+    public void update(String title, JsonNode content, Boolean pinned, Boolean is_visiable, Category category,
+            List<Tag> tags) {
+        if (title != null)
+            this.title = title;
+        if (content != null)
+            this.content = content;
+        if (pinned != null)
+            this.pinned = pinned;
+        if (is_visiable != null)
+            this.is_visiable = is_visiable;
+        if (category != null)
+            this.category = category;
+        if (tags != null)
+            this.tags = tags;
     }
 }

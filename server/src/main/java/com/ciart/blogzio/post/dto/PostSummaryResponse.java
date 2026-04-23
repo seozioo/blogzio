@@ -16,6 +16,7 @@ public class PostSummaryResponse {
     private UUID id;
     private String title;
     private String excerpt;
+    private String thumbnailUrl;
     private int likes;
     private Boolean is_visiable;
     private LocalDateTime postedAt;
@@ -30,10 +31,15 @@ public class PostSummaryResponse {
                     : contentText;
         }
 
+        String thumbnailUrl = post.getThumbnail() != null
+                ? post.getThumbnail().getUrl()
+                : null;
+
         return new PostSummaryResponse(
                 post.getId(),
                 post.getTitle(),
                 excerpt,
+                thumbnailUrl,
                 post.getLikes(),
                 post.getIs_visiable(),
                 post.getPostedAt(),
