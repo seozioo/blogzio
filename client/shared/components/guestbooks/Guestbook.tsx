@@ -16,39 +16,43 @@ export const Guestbook = () => {
   }, [mutate]);
 
   return (
-    <div className="overflow-x-scroll scrollbar-hide h-160 py-2">
-        <ul
-          className="base:mx-[calc(50%-420px)] flex flex-col w-max flex-wrap gap-5 wrap h-155"
-        >
-          <li>
-            <Button
-              variant="outline"
-              className="w-75"
-              onClick={() => setOpen(true)}
+    <div className="overflow-x-scroll scrollbar-hide h-160 px-4 py-2">
+      <ul className="base:mx-[calc(50%-404px)] flex flex-col w-max flex-wrap gap-5 wrap h-155">
+        <li>
+          <Button
+            variant="outline"
+            className="w-75"
+            onClick={() => setOpen(true)}
+          >
+            방명록 쓰기
+          </Button>
+          <GuestbookCreateDialog
+            open={open}
+            onOpenChange={setOpen}
+            onSubmit={refresh}
+          />
+        </li>
+        {!isLoading &&
+          data?.messages?.map((message) => (
+            <motion.li
+              key={message.id}
+              layout
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
             >
-              방명록 쓰기
-            </Button>
-            <GuestbookCreateDialog
-              open={open}
-              onOpenChange={setOpen}
-              onSubmit={refresh}
-            />
-          </li>
-          {!isLoading &&
-            data?.messages?.map((message) => (
-              <motion.li key={message.id} layout initial={{ opacity: 0, scale: 0.5 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
-                <GuestbookMessage
-                  id={message.id}
-                  nickname={message.nickname}
-                  createdAt={message.createdAt}
-                  content={message.content}
-                  contentType={message.contentType}
-                  backgroundColor={message.backgroundColor ?? 'WHITE'}
-                  onDelete={refresh}
-                />
-              </motion.li>
-            ))}
-        </ul>
+              <GuestbookMessage
+                id={message.id}
+                nickname={message.nickname}
+                createdAt={message.createdAt}
+                content={message.content}
+                contentType={message.contentType}
+                backgroundColor={message.backgroundColor ?? 'WHITE'}
+                onDelete={refresh}
+              />
+            </motion.li>
+          ))}
+      </ul>
     </div>
   );
 };
