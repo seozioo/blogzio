@@ -22,8 +22,7 @@ export const PostPanel = (props: PostPanelProps) => {
   return (
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
-      <WritePostButton />
-      <BaseContainer>
+      <BaseContainer className="select-none">
         <div className="flex flex-col max-w-202 mx-auto gap-4 rounded-3xl px-4 py-4 bg-white shadow-xs">
           <div className="flex justify-between items-center">
             <p className="p-1 text-zinc-400 text-sm">1 / 30</p>
@@ -39,11 +38,19 @@ export const PostPanel = (props: PostPanelProps) => {
               }
             />
           </div>
+          {props.posts?.length === 0 && (
+            <div className="flex flex-col items-center justify-center h-75">
+              <p className="text-zinc-400 text-sm">
+                아직 게시글이 없습니다. ㅜ.ㅜ
+              </p>
+            </div>
+          )}
           {props.viewType === 'LIST' ? (
             <div className="flex flex-col divide-y divide-border -my-4">
               {props.posts?.map((article, index) => (
                 <PostArticleLink
                   key={article.id}
+                  postId={article.id!}
                   tags={article.tags?.map((t) => t.title ?? '') ?? []}
                   title={article.title!}
                   summary={''}
@@ -56,6 +63,7 @@ export const PostPanel = (props: PostPanelProps) => {
               {props.posts?.map((photo) => (
                 <PostPhotoLink
                   key={photo.id}
+                  postId={photo.id!}
                   title={photo.title!}
                   tags={photo.tags?.map((t) => t.title ?? '') ?? []}
                 />

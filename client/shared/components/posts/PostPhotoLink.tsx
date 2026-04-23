@@ -2,13 +2,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export type PostPhotoLinkProps = Readonly<{
+  postId: string;
   title: string;
   tags?: string[];
 }>;
 
 export const PostPhotoLink = (props: PostPhotoLinkProps) => {
   return (
-    <Link href="#" className="w-full h-auto cursor-pointer">
+    <Link
+      href={`/post/${props.postId}`}
+      className="w-full h-auto cursor-pointer"
+    >
       <Image
         className="rounded-2xl aspect-square"
         width={1000}

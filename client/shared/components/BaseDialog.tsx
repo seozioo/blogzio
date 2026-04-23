@@ -35,7 +35,7 @@ const BaseDialogRoot = ({
 }: BaseDialogProps) => {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
+      <Dialog.Portal className="z-100">
         <Dialog.Backdrop className="fixed inset-0 min-h-dvh bg-zinc-900 opacity-20 transition-all duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 dark:opacity-70 supports-[-webkit-touch-callout:none]:absolute" />
         <Dialog.Popup
           className={clsx(
@@ -59,11 +59,19 @@ const BaseDialogRoot = ({
 };
 
 const BaseDialogClose = ({ children }: BaseDialogCloseProps) => {
-  return <Dialog.Close render={<Button variant="outline" />}>{children ?? '취소'}</Dialog.Close>;
+  return (
+    <Dialog.Close render={<Button variant="outline" />}>
+      {children ?? '취소'}
+    </Dialog.Close>
+  );
 };
 
 const BaseDialogActions = ({ children, className }: BaseDialogActionsProps) => {
-  return <div className={clsx('mt-4 flex justify-end gap-2', className)}>{children}</div>;
+  return (
+    <div className={clsx('mt-4 flex justify-end gap-2', className)}>
+      {children}
+    </div>
+  );
 };
 
 const BaseDialogSubmit = ({ children }: BaseDialogSubmitProps) => {

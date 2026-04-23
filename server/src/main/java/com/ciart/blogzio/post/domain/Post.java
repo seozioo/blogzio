@@ -1,11 +1,12 @@
 package com.ciart.blogzio.post.domain;
 
+import com.ciart.blogzio.asset.domain.Asset;
+import com.ciart.blogzio.asset.domain.AssetOwner;
 import com.ciart.blogzio.category.domain.Category;
 import com.ciart.blogzio.user.domain.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -13,19 +14,13 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity
 @Table(name = "posts")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 빌더로만 만들도록 강제 
-public class Post {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator
-    private UUID id;
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 빌더로만 만들도록 강제
+public class Post extends AssetOwner {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="author_id", nullable = false)
@@ -57,6 +52,15 @@ public class Post {
 
     @Column(nullable = false)
     private Boolean is_visiable = false;
+
+    @Setter
+    @Column(columnDefinition = "text")
+    private String contentText;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "thumbnail_id")
+    private Asset thumbnail;
 
     @ManyToOne
     private Category category;

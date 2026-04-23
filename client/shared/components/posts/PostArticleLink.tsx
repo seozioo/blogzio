@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export type PostArticleLinkProps = Readonly<{
+  postId: string;
   title: string;
   summary: string;
   postedAt: string;
@@ -10,7 +11,7 @@ export type PostArticleLinkProps = Readonly<{
 
 export const PostArticleLink = (props: PostArticleLinkProps) => {
   return (
-    <Link href="#" className="px-1 py-4">
+    <Link href={`/post/${props.postId}`} className="px-1 py-4">
       <div className="h-15 flex justify-between items-start gap-2">
         <div className="min-w-0">
           <p className="text-xl font-semibold">{props.title}</p>
