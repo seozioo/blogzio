@@ -1,51 +1,53 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
 import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { useAuth } from '../hooks/use-auth';
-import * as motion from "motion/react-client"
-import { useRef } from "react"
+import * as motion from 'motion/react-client';
+import { useRouter } from 'next/navigation';
 
-const constraints = {
-    width: 300,
-    height: 300,
-    backgroundColor: "var(--hue-1-transparent)",
-    borderRadius: 10,
-}
+const subscribe = () => () => { };
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 const box = {
-    width: 100,
-    height: 100,
-    backgroundColor: "#ff0088",
+    width: 56,
+    height: 56,
+    backgroundColor: '#ff0088',
     borderRadius: 10,
-}
+};
 
 export const WritePostButton = () => {
     const { token } = useAuth();
-    const [isMounted, setIsMounted] = useState(false);
-    useEffect(() => setIsMounted(true), []);
+    const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
     const constraintsRef = useRef<HTMLDivElement>(null);
+
+    const router = useRouter();
+
+    const routerHandle = () => {
+        router.push('/write');
+    }
+
+
 
     if (!isMounted || !token) return null;
 
     return (
-        <motion.div ref={constraintsRef} style={constraints}>
+        <div
+            ref={constraintsRef}
+            className="pointer-events-none absolute inset-0"
+        >
             <motion.div
                 drag
+                onClick={routerHandle}
                 dragConstraints={constraintsRef}
                 dragElastic={0.2}
                 style={box}
-            />
-            <Link
-                href="/write"
-                className="flex items-center gap-1 px-3 h-9 rounded-lg bg-sky-500 text-white text-sm font-semibold hover:bg-sky-600"
+                className="pointer-events-auto absolute bottom-4 right-4 flex items-center justify-center cursor-grab active:cursor-grabbing"
             >
-                <PencilSimpleIcon size={16} weight="bold" />
-                글쓰기
-            </Link>
-        </motion.div>
-
+                <PencilSimpleIcon size={24} weight="bold" color="white" />
+            </motion.div>
+        </div >
     );
 };
