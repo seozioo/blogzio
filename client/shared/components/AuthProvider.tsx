@@ -15,19 +15,19 @@ export type AuthProviderProps = Readonly<{
 }>;
 
 export const AuthProvider = (props: AuthProviderProps) => {
-  const [token, setToken] = useState<string | null>(() => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
-    const accessToken = localStorage.getItem('accessToken');
-    return accessToken;
-  });
+  const [token, setToken] = useState<string | null>(null);
 
   const isAdmin = useMemo(() => {
     // TODO: 임시 구현입니다. 아직 관리자 계정 뿐이라 이렇게 처리합니다.
     return !!token;
   }, [token]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('accessToken');
+    if (stored) {
+      setToken(stored);
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {

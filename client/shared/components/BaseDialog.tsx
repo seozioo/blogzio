@@ -36,7 +36,7 @@ const BaseDialogRoot = ({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal className="z-100">
-        <Dialog.Backdrop className="fixed inset-0 min-h-dvh bg-zinc-900 opacity-20 transition-all duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 dark:opacity-70 supports-[-webkit-touch-callout:none]:absolute" />
+        <Dialog.Backdrop className="fixed inset-0 min-h-dvh bg-zinc-900 opacity-20 transition-all duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 supports-[-webkit-touch-callout:none]:absolute" />
         <Dialog.Popup
           className={clsx(
             'fixed top-1/2 left-1/2 -mt-8 max-w-[calc(100vw-3rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white px-5 py-6 transition-all data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0',

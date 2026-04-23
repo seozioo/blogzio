@@ -161,6 +161,15 @@ public class PostService {
                         }
 
                         assets.forEach(asset -> asset.setOwner(post));
+
+                        // 첫 번째 이미지를 썸네일로 설정
+                        String firstUrl = imageUrls.get(0);
+                        assets.stream()
+                                        .filter(asset -> asset.getUrl().equals(firstUrl))
+                                        .findFirst()
+                                        .ifPresent(post::setThumbnail);
+                } else {
+                        post.setThumbnail(null);
                 }
         }
 

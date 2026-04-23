@@ -10,6 +10,7 @@ import { BaseContainer } from '../BaseContainer';
 import { Button } from '../Button';
 import { PlusIcon } from '@phosphor-icons/react';
 import { CategoryCreateDialog } from './CategoryCreateDialog';
+import { useAuth } from '@/shared/hooks/use-auth';
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -32,6 +33,8 @@ export const CategoryTab = (props: CategoryTabProps) => {
     return [NEW_CATEGORY, ...data];
   }, [data]);
 
+  const { isAdmin } = useAuth();
+
   return (
     <BaseContainer className="relative select-none">
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-35% to-95% from-zinc-50 to-transparent z-20" />
@@ -39,7 +42,7 @@ export const CategoryTab = (props: CategoryTabProps) => {
       <div className="flex overflow-x-auto px-20 scrollbar-hide">
         <nav
           aria-label="category navigation"
-          className="flex justify-center items-end group"
+          className="flex mx-auto items-end group"
         >
           <div
             className="relative flex gap-2"
@@ -135,18 +138,22 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 </Link>
               );
             })}
-            <Button
-              variant="flat"
-              size="icon"
-              onClick={() => setIsCreateDialogOpen(true)}
-            >
-              <PlusIcon size={16} weight="bold" />
-            </Button>
-            <CategoryCreateDialog
-              open={isCreateDialogOpen}
-              onOpenChange={setIsCreateDialogOpen}
-              onCreate={() => mutate()}
-            />
+            {isAdmin && (
+              <>
+                <Button
+                  variant="flat"
+                  size="icon"
+                  onClick={() => setIsCreateDialogOpen(true)}
+                >
+                  <PlusIcon size={16} weight="bold" />
+                </Button>
+                <CategoryCreateDialog
+                  open={isCreateDialogOpen}
+                  onOpenChange={setIsCreateDialogOpen}
+                  onCreate={() => mutate()}
+                />
+              </>
+            )}
           </div>
         </nav>
       </div>
