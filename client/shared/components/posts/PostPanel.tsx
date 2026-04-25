@@ -6,6 +6,7 @@ import { PostArticleLink } from './PostArticleLink';
 import { CategoryTab } from './CategoryTab';
 import { PaginationBar } from './PaginationBar';
 import { components } from '@/types/schema';
+import { WritePostButton } from '../PostWriteButton';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
