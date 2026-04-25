@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import { useApi } from '../../hooks/use-api';
-import { NEW_CATEGORY } from '@/constants/category';
+import { newCategory } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
 import { Button } from '../Button';
 import { PlusIcon } from '@phosphor-icons/react';
@@ -13,7 +13,11 @@ import { CategoryCreateDialog } from './CategoryCreateDialog';
 import { useAuth } from '@/shared/hooks/use-auth';
 
 export type CategoryTabProps = Readonly<{
-  overrideActiveCategory?: string;
+  /**
+   * null일 경우 NEW 카테고리가 활성화됩니다.
+   * undefined일 경우 URL 기반 활성화가 적용됩니다.
+   */
+  overrideActiveCategory?: string | null;
 }>;
 
 export const CategoryTab = (props: CategoryTabProps) => {
@@ -29,8 +33,8 @@ export const CategoryTab = (props: CategoryTabProps) => {
   const { data, mutate } = useApi('/category');
 
   const categories = useMemo(() => {
-    if (!data) return [NEW_CATEGORY];
-    return [NEW_CATEGORY, ...data];
+    if (!data) return [newCategory];
+    return [newCategory, ...data];
   }, [data]);
 
   const { isAdmin } = useAuth();
@@ -68,8 +72,8 @@ export const CategoryTab = (props: CategoryTabProps) => {
 
               let isActive = pathname === path;
 
-              if (props.overrideActiveCategory) {
-                isActive = props.overrideActiveCategory === item.slug;
+              if (props.overrideActiveCategory !== undefined) {
+                isActive = props.overrideActiveCategory === item.id;
               }
 
               return (

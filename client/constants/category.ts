@@ -1,5 +1,5 @@
-export const NEW_CATEGORY = {
-  id: undefined,
+export const newCategory = {
+  id: null,
   name: 'NEW',
   slug: 'new',
   sortOrder: -1,

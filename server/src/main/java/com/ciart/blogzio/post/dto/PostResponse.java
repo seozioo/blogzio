@@ -17,19 +17,21 @@ public class PostResponse {
     private UUID id;
     private String title;
     private JsonNode content;
+    private UUID categoryId;
     private int likes;
     private Boolean is_visiable;
     private LocalDateTime postedAt;
     private List<Tag> tags;
+
     public static PostResponse from(Post post) {
         return new PostResponse(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
+                post.getCategory().getId(),
                 post.getLikes(),
                 post.getIs_visiable(),
                 post.getPostedAt(),
-                post.getTags()
-        );
+                post.getTags());
     }
 }

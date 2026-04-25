@@ -66,7 +66,10 @@ export const CategoryCreateDialog = ({
     >
       <form
         className="flex flex-col items-stretch"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          e.stopPropagation();
+          handleSubmit(onSubmit)(e);
+        }}
       >
         <div className="flex flex-col gap-4">
           <InputField

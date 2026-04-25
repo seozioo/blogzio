@@ -22,23 +22,27 @@ import { CategoryBox } from '@/shared/components/Categorybox';
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import clsx from 'clsx';
 import { Toggle, ToggleGroup } from '@base-ui/react';
-import { Editor } from '@tiptap/core';
-import { CategoryCreateDialog } from '@/shared/components/posts/CategoryCreateDialog';
 import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
 import { apiClient } from '@/constants/api-client';
 import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
 import { editorExtensions } from '@/shared/lib/editor-extensions';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
+import { useAuth } from '@/shared/hooks/use-auth';
 
 export default function Write() {
+  const router = useRouter();
+  const { isAdmin } = useAuth();
+
+  if (!isAdmin) {
+    notFound();
+  }
+
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
-
-  const router = useRouter();
 
   const FONT_SIZE_OPTIONS = [
     { label: '6px', value: '6px' },

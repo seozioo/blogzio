@@ -1,4 +1,5 @@
 import { apiClient } from '@/constants/api-client';
+import { newCategory } from '@/constants/category';
 import { Guestbook } from '@/shared/components/guestbooks/Guestbook';
 import { MusicPlayer } from '@/shared/components/MusicPlayer';
 import { PostPanel } from '@/shared/components/posts/PostPanel';
@@ -22,7 +23,7 @@ export default async function Home({
       </section>
       <section className="mb-50">
         <PostPanel
-          overrideActiveCategory="new"
+          overrideActiveCategory={newCategory.id}
           posts={data?.posts ?? []}
           currentPage={page}
           totalPages={data?.totalPages ?? 1}

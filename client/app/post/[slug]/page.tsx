@@ -1,4 +1,6 @@
 import { apiClient } from '@/constants/api-client';
+import { BaseContainer } from '@/shared/components/BaseContainer';
+import { PostPanel } from '@/shared/components/posts/PostPanel';
 import { baseExtensions } from '@/shared/lib/editor-extensions';
 import { generateHTML } from '@tiptap/html';
 import { notFound } from 'next/navigation';
@@ -20,10 +22,26 @@ export default async function PostPage({
 
   const html = generateHTML(data.content, baseExtensions);
 
+  const { data: postListData } = await apiClient.GET('/post', {
+    params: {
+      query: { category: data.categoryId },
+    },
+  });
+
   return (
     <div>
-      <h1>{data.title}</h1>
-      <article dangerouslySetInnerHTML={{ __html: html }} />
+      <section>
+        <BaseContainer className="bg-white rounded-2xl px-4 py-4">
+          <h1>{data.title}</h1>
+          <article dangerouslySetInnerHTML={{ __html: html }} />
+        </BaseContainer>
+      </section>
+      <section className="mt-50">
+        <PostPanel
+          overrideActiveCategory={data.categoryId}
+          posts={postListData?.posts ?? []}
+        />
+      </section>
     </div>
   );
 }

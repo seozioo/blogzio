@@ -4,6 +4,7 @@ import com.ciart.blogzio.auth.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,40 +16,36 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http)
-            throws Exception {
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http)
+                        throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/user/signup").permitAll()
-                        .requestMatchers("/user/admin-exists").permitAll()
-                        .requestMatchers("/v3/api-docs").permitAll()
-                        .requestMatchers("/asset").permitAll()
-                        .requestMatchers("/post", "/post/**").permitAll()
-                        .requestMatchers("/guestbook", "/guestbook/**").permitAll()
-                        .requestMatchers("/category", "/category/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
-                )
-                .addFilterBefore(
-                        jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
+                http
+                                .csrf(csrf -> csrf.disable())
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/auth/**").permitAll()
+                                                .requestMatchers("/user/signup").permitAll()
+                                                .requestMatchers("/user/admin-exists").permitAll()
+                                                .requestMatchers("/v3/api-docs").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/post", "/post/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/category").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/guestbook").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/guestbook").permitAll()
+                                                .requestMatchers(HttpMethod.DELETE, "/guestbook/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .sessionManagement(session -> session.sessionCreationPolicy(
+                                                SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(
+                                                jwtAuthenticationFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+                return http.build();
+        }
 }
