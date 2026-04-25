@@ -21,7 +21,13 @@ export default async function Category({
   }
 
   const { data: postData } = await apiClient.GET('/post', {
-    params: { query: { category: category?.id, page: page - 1 } },
+    params: {
+      query: {
+        category: category?.id,
+        page: page - 1,
+        thumbnailOnly: category === NEW_CATEGORY,
+      },
+    },
   });
 
   return (

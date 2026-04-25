@@ -12,7 +12,7 @@ export default async function Home({
   const page = Math.max(1, parseInt(pageParam ?? '1', 10) || 1);
 
   const { data } = await apiClient.GET('/post', {
-    params: { query: { page: page - 1 } },
+    params: { query: { page: page - 1, thumbnailOnly: true } },
   });
 
   return (

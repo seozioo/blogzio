@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/Button';
 import { EditorSelect } from '@/shared/components/Combobox';
 import { InputField } from '@/shared/components/InputField';
 import {
+  ImageIcon,
   LinkIcon,
   TextAlignCenterIcon,
   TextAlignJustifyIcon,
@@ -33,13 +34,25 @@ import FontFamily from '@tiptap/extension-font-family';
 import { CategoryCreateDialog } from '@/shared/components/posts/CategoryCreateDialog';
 import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
 import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
+import FileHandler from '@tiptap/extension-file-handler';
 import { apiClient } from '@/constants/api-client';
+import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
+import {
+  ALLOWED_IMAGE_MIME_TYPES,
+  uploadImageAndInsert,
+} from '@/shared/utils/upload-image';
+import { useRouter } from 'next/navigation';
 
 export default function Write() {
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+
+  const router = useRouter();
 
   const FONT_SIZE_OPTIONS = [
     { label: '6px', value: '6px' },
@@ -72,7 +85,8 @@ export default function Write() {
       .map((t) => t.trim())
       .filter(Boolean);
 
-    await apiClient.POST('/post', {
+    setSubmitting(true);
+    const { data, error } = await apiClient.POST('/post', {
       headers: { 'Content-Type': 'application/json' },
       body: {
         title,
@@ -83,6 +97,19 @@ export default function Write() {
         pinned: false,
       },
     });
+
+    if (error) {
+      alert(error);
+      setSubmitting(false);
+      return;
+    }
+
+    if (data?.id) {
+      router.push(`/post/${data.id}`);
+      return;
+    }
+
+    setSubmitting(false);
   };
 
   const editor = useEditor({
@@ -99,6 +126,20 @@ export default function Write() {
       FontSize,
       FontFamily,
       Link.configure({ openOnClick: false }),
+      Image,
+      FileHandler.configure({
+        allowedMimeTypes: [...ALLOWED_IMAGE_MIME_TYPES],
+        onDrop: (editor, files, pos) => {
+          for (const file of files) {
+            uploadImageAndInsert(editor, file, pos);
+          }
+        },
+        onPaste: (editor, files) => {
+          for (const file of files) {
+            uploadImageAndInsert(editor, file);
+          }
+        },
+      }),
     ],
     editorProps: {
       attributes: {
@@ -227,6 +268,20 @@ export default function Write() {
             <LinkIcon size={24} weight="bold" />
           </Button>
 
+          <ImageCreateDialog
+            open={imageDialogOpen}
+            editor={editor}
+            onOpenChange={setImageDialogOpen}
+          ></ImageCreateDialog>
+
+          <Button
+            variant="link"
+            size="icon"
+            onClick={() => setImageDialogOpen(true)}
+          >
+            <ImageIcon size={24} weight="bold" />
+          </Button>
+
           <div className="w-px h-6 bg-border" />
           <ToggleGroup
             defaultValue={['left']}
@@ -288,7 +343,11 @@ export default function Write() {
               />
               <hr className="my-4 border-t border-border" />
 
-              <EditorContent editor={editor} name="content" />
+              <EditorContent
+                editor={editor}
+                name="content"
+                className="min-h-100"
+              />
             </div>
 
             <div className="flex items-center gap-5">
@@ -301,11 +360,13 @@ export default function Write() {
                 onChange={(v) => setIsVisible(v === 'public')}
               />
               <div className="w-px h-6 bg-border" />
-              <Button type="submit">게시</Button>
-            </div >
-          </form >
-        </div >
-      </div >
-    </BaseContainer >
+              <Button type="submit" loading={submitting}>
+                게시
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </BaseContainer>
   );
 }

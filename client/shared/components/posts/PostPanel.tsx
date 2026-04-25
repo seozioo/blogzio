@@ -6,6 +6,7 @@ import { PostArticleLink } from './PostArticleLink';
 import { CategoryTab } from './CategoryTab';
 import { PaginationBar } from './PaginationBar';
 import { components } from '@/types/schema';
+import { WritePostButton } from '../PostWriteButton';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
@@ -16,6 +17,13 @@ export type PostPanelProps = Readonly<{
 }>;
 
 export const PostPanel = (props: PostPanelProps) => {
+  const posts = props.posts ?? [];
+  const sortedPosts = [...posts].sort((a, b) => {
+    const dateA = new Date(a.postedAt ?? '').getTime();
+    const dateB = new Date(b.postedAt ?? '').getTime();
+    return dateB - dateA;
+  });
+
   return (
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
@@ -38,7 +46,7 @@ export const PostPanel = (props: PostPanelProps) => {
               }
             />
           </div>
-          {props.posts?.length === 0 ? (
+          {sortedPosts?.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-75">
               <p className="text-zinc-400 text-sm">
                 아직 게시글이 없습니다. ㅜ.ㅜ
@@ -46,12 +54,13 @@ export const PostPanel = (props: PostPanelProps) => {
             </div>
           ) : props.viewType === 'LIST' ? (
             <div className="flex flex-col divide-y divide-border -my-4">
-              {props.posts?.map((article, index) => (
+              {sortedPosts?.map((article, index) => (
                 <PostArticleLink
                   key={article.id}
                   postId={article.id!}
                   tags={article.tags?.map((t) => t.title ?? '') ?? []}
                   title={article.title!}
+                  thumbnailUrl={article.thumbnailUrl}
                   excerpt={article.excerpt!}
                   postedAt={article.postedAt!}
                 />
@@ -59,11 +68,12 @@ export const PostPanel = (props: PostPanelProps) => {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {props.posts?.map((photo) => (
+              {sortedPosts?.map((photo) => (
                 <PostPhotoLink
                   key={photo.id}
                   postId={photo.id!}
                   title={photo.title!}
+                  thumbnailUrl={photo.thumbnailUrl}
                   tags={photo.tags?.map((t) => t.title ?? '') ?? []}
                 />
               ))}
