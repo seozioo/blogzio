@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/Button';
 import { EditorSelect } from '@/shared/components/Combobox';
 import { InputField } from '@/shared/components/InputField';
 import {
+  ImageIcon,
   LinkIcon,
   TextAlignCenterIcon,
   TextAlignJustifyIcon,
@@ -18,28 +19,26 @@ import {
 import { SubmitEventHandler, useState } from 'react';
 import { VisibilityToggle } from '@/shared/components/ToggleButton';
 import { Categorybox } from '@/shared/components/Categorybox';
-import { EditorContent, useEditor } from '@tiptap/react';
-import { StarterKit } from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import clsx from 'clsx';
 import { Toggle, ToggleGroup } from '@base-ui/react';
-import { Placeholder } from '@tiptap/extensions';
 import { Editor } from '@tiptap/core';
-import { TextStyle } from '@tiptap/extension-text-style';
-import FontSize from '@tiptap/extension-text-style/font-size';
-import { useEditorState } from '@tiptap/react';
-import FontFamily from '@tiptap/extension-font-family';
 import { CategoryCreateDialog } from '@/shared/components/posts/CategoryCreateDialog';
 import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
-import Link from '@tiptap/extension-link';
 import { apiClient } from '@/constants/api-client';
+import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
+import { editorExtensions } from '@/shared/lib/editor-extensions';
+import { useRouter } from 'next/navigation';
 
 export default function Write() {
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+
+  const router = useRouter();
 
   const FONT_SIZE_OPTIONS = [
     { label: '6px', value: '6px' },
@@ -72,7 +71,8 @@ export default function Write() {
       .map((t) => t.trim())
       .filter(Boolean);
 
-    await apiClient.POST('/post', {
+    setSubmitting(true);
+    const { data, error } = await apiClient.POST('/post', {
       headers: { 'Content-Type': 'application/json' },
       body: {
         title,
@@ -83,23 +83,23 @@ export default function Write() {
         pinned: false,
       },
     });
+
+    if (error) {
+      alert(error);
+      setSubmitting(false);
+      return;
+    }
+
+    if (data?.id) {
+      router.push(`/post/${data.id}`);
+      return;
+    }
+
+    setSubmitting(false);
   };
 
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      Placeholder.configure({
-        placeholder: '내용을 입력하세요...',
-      }),
-      TextStyle,
-      FontSize,
-      FontFamily,
-      Link.configure({ openOnClick: false }),
-    ],
+    extensions: editorExtensions,
     editorProps: {
       attributes: {
         class:
@@ -227,6 +227,20 @@ export default function Write() {
             <LinkIcon size={24} weight="bold" />
           </Button>
 
+          <ImageCreateDialog
+            open={imageDialogOpen}
+            editor={editor}
+            onOpenChange={setImageDialogOpen}
+          ></ImageCreateDialog>
+
+          <Button
+            variant="link"
+            size="icon"
+            onClick={() => setImageDialogOpen(true)}
+          >
+            <ImageIcon size={24} weight="bold" />
+          </Button>
+
           <div className="w-px h-6 bg-border" />
           <ToggleGroup
             defaultValue={['left']}
@@ -288,7 +302,11 @@ export default function Write() {
               />
               <hr className="my-4 border-t border-border" />
 
-              <EditorContent editor={editor} name="content" />
+              <EditorContent
+                editor={editor}
+                name="content"
+                className="min-h-100"
+              />
             </div>
 
             <div className="flex items-center gap-5">
@@ -301,11 +319,13 @@ export default function Write() {
                 onChange={(v) => setIsVisible(v === 'public')}
               />
               <div className="w-px h-6 bg-border" />
-              <Button type="submit">게시</Button>
-            </div >
-          </form >
-        </div >
-      </div >
-    </BaseContainer >
+              <Button type="submit" loading={submitting}>
+                게시
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </BaseContainer>
   );
 }

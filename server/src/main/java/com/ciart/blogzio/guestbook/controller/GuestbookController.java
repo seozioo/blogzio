@@ -4,6 +4,8 @@ import com.ciart.blogzio.guestbook.dto.*;
 import com.ciart.blogzio.guestbook.service.GuestbookService;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -78,6 +80,10 @@ public class GuestbookController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiResponses({
+        @ApiResponse(responseCode = "404", description = "방명록 메시지를 찾을 수 없습니다."),
+        @ApiResponse(responseCode = "403", description = "비밀번호가 일치하지 않습니다.")
+    })
     public ResponseEntity<Void> delete(
         @PathVariable UUID id,
         @RequestBody DeleteGuestbookMessageRequest request

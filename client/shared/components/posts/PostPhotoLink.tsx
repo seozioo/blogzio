@@ -4,6 +4,7 @@ import Link from 'next/link';
 export type PostPhotoLinkProps = Readonly<{
   postId: string;
   title: string;
+  thumbnailUrl?: string;
   tags?: string[];
 }>;
 
@@ -14,10 +15,10 @@ export const PostPhotoLink = (props: PostPhotoLinkProps) => {
       className="w-full h-auto cursor-pointer"
     >
       <Image
-        className="rounded-2xl aspect-square"
+        className="rounded-2xl aspect-square object-cover"
         width={1000}
         height={1000}
-        src={'https://placehold.co/1000x1000.png'}
+        src={props.thumbnailUrl ?? 'https://placehold.co/1000x1000.png'}
         alt={`${props.title} thumbnail`}
       ></Image>
       {props.tags && (

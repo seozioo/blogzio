@@ -6,6 +6,7 @@ export type PostArticleLinkProps = Readonly<{
   title: string;
   excerpt: string;
   postedAt: string;
+  thumbnailUrl?: string;
   tags?: string[];
 }>;
 
@@ -25,13 +26,15 @@ export const PostArticleLink = (props: PostArticleLinkProps) => {
             {props.excerpt}
           </p>
         </div>
-        <Image
-          className="rounded-2xl aspect-square shrink-0"
-          width={60}
-          height={60}
-          src={'https://placehold.co/1000x1000.png'}
-          alt={`${props.title} thumbnail`}
-        ></Image>
+        {props.thumbnailUrl && (
+          <Image
+            className="rounded-2xl aspect-square shrink-0"
+            width={60}
+            height={60}
+            src={props.thumbnailUrl}
+            alt={`${props.title} thumbnail`}
+          ></Image>
+        )}
       </div>
       <div className="flex justify-between items-center mt-3 text-sm">
         <div className="flex gap-2 font-semibold text-zinc-400">

@@ -56,7 +56,13 @@ export const Categorybox = ({ placeholder, onChange }: Props) => {
           mutate();
         }}
       />
-      <Combobox.Root items={options} onValueChange={handleValueChange}>
+      <Combobox.Root
+        items={options}
+        onValueChange={handleValueChange}
+        itemToStringLabel={(value) =>
+          options.find((v) => v.id === value)?.label ?? ''
+        }
+      >
         <Combobox.InputGroup className="flex items-center h-9 px-2 rounded-2xl border border-border bg-white inset-shadow-button active:inset-shadow-active-button transition-all appearance-none">
           <Combobox.Input
             className="px-1 outline-none text-[14px] text-zinc-600 field-sizing-content cursor-pointer"

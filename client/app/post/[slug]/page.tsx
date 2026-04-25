@@ -1,4 +1,6 @@
 import { apiClient } from '@/constants/api-client';
+import { baseExtensions } from '@/shared/lib/editor-extensions';
+import { generateHTML } from '@tiptap/html';
 import { notFound } from 'next/navigation';
 
 export default async function PostPage({
@@ -16,10 +18,12 @@ export default async function PostPage({
     notFound();
   }
 
+  const html = generateHTML(data.content, baseExtensions);
+
   return (
     <div>
       <h1>{data.title}</h1>
-      <article>{`${JSON.stringify(data.content)}`}</article>
+      <article dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
 }

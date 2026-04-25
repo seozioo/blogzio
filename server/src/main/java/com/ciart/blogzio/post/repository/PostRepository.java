@@ -12,4 +12,8 @@ public interface PostRepository extends JpaRepository<Post, UUID>{
     Page<Post> findAll(Pageable pageable);
 
     Page<Post> findAllByCategory(Pageable pageable, Category category);
+
+    Page<Post> findAllByThumbnailIsNotNull(Pageable pageable);
+
+    Page<Post> findAllByCategoryAndThumbnailIsNotNull(Pageable pageable, Category category);
 }

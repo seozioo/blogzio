@@ -118,14 +118,19 @@ public class PostService {
 
         // 목록읽기
         @Transactional(readOnly = true)
-        public Page<Post> GetAllPosts(@Nullable Category category, @Nullable Integer page) {
+        public Page<Post> GetAllPosts(@Nullable Category category, @Nullable Integer page,
+                        boolean thumbnailOnly) {
                 Pageable pageable = PageRequest.of(page != null ? page : 0, 12);
 
                 if (category == null) {
-                        return postRepository.findAll(pageable);
+                        return thumbnailOnly
+                                        ? postRepository.findAllByThumbnailIsNotNull(pageable)
+                                        : postRepository.findAll(pageable);
                 }
 
-                return postRepository.findAllByCategory(pageable, category);
+                return thumbnailOnly
+                                ? postRepository.findAllByCategoryAndThumbnailIsNotNull(pageable, category)
+                                : postRepository.findAllByCategory(pageable, category);
         }
 
         // category 체크
