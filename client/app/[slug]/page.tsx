@@ -17,7 +17,7 @@ export default async function Category({
 
   let category = categoryData?.find((c) => c.slug === slug);
   if (!category && slug === newCategory.slug) {
-    category = newCategory;
+    category = { ...newCategory, id: undefined };
   }
 
   const { data: postData } = await apiClient.GET('/post', {

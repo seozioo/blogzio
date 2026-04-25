@@ -3,6 +3,7 @@ import { BaseContainer } from '@/shared/components/BaseContainer';
 import { PostPanel } from '@/shared/components/posts/PostPanel';
 import { baseExtensions } from '@/shared/lib/editor-extensions';
 import { generateHTML } from '@tiptap/html';
+import { JSONContent } from '@tiptap/react';
 import { notFound } from 'next/navigation';
 
 export default async function PostPage({
@@ -20,7 +21,7 @@ export default async function PostPage({
     notFound();
   }
 
-  const html = generateHTML(data.content, baseExtensions);
+  const html = generateHTML(data.content as JSONContent, baseExtensions);
 
   const { data: postListData } = await apiClient.GET('/post', {
     params: {

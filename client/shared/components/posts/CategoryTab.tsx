@@ -13,11 +13,7 @@ import { CategoryCreateDialog } from './CategoryCreateDialog';
 import { useAuth } from '@/shared/hooks/use-auth';
 
 export type CategoryTabProps = Readonly<{
-  /**
-   * null일 경우 NEW 카테고리가 활성화됩니다.
-   * undefined일 경우 URL 기반 활성화가 적용됩니다.
-   */
-  overrideActiveCategory?: string | null;
+  overrideActiveCategory?: string;
 }>;
 
 export const CategoryTab = (props: CategoryTabProps) => {

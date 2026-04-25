@@ -61,6 +61,10 @@ openApi {
 	}
 }
 
+tasks.named('generateOpenApiDocs') {
+	doNotTrackState("outputDir is the project root")
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

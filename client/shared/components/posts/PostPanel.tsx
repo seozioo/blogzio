@@ -10,11 +10,7 @@ import { WritePostButton } from '../PostWriteButton';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
-  /**
-   * null일 경우 NEW 카테고리가 활성화됩니다.
-   * undefined일 경우 URL 기반 활성화가 적용됩니다.
-   */
-  overrideActiveCategory?: string | null;
+  overrideActiveCategory?: string;
   posts?: components['schemas']['PostSummaryResponse'][];
   currentPage?: number;
   totalPages?: number;
