@@ -276,12 +276,12 @@ export interface components {
             message?: string;
         };
         PostCreateRequest: {
-            title?: string;
-            content?: components["schemas"]["JsonNode"];
+            title: string;
+            content: components["schemas"]["JsonNode"];
             pinned?: boolean;
             isVisible?: boolean;
             /** Format: uuid */
-            categoryId?: string;
+            categoryId: string;
             tags?: string[];
         };
         CreateGuestbookMessageRequest: {
@@ -378,13 +378,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -431,13 +431,13 @@ export interface operations {
             };
         };
         responses: {
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -480,13 +480,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -540,13 +540,13 @@ export interface operations {
                     "*/*": components["schemas"]["CategoryResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -587,13 +587,13 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -638,13 +638,13 @@ export interface operations {
                     "*/*": components["schemas"]["UserResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -689,13 +689,13 @@ export interface operations {
                     "*/*": components["schemas"]["PostGetListResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -740,13 +740,13 @@ export interface operations {
                     "*/*": components["schemas"]["PostResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -787,13 +787,13 @@ export interface operations {
                     "*/*": components["schemas"]["GetAllGuestbookMessagesResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -838,13 +838,13 @@ export interface operations {
                     "*/*": components["schemas"]["CreateGuestbookMessageResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -885,13 +885,13 @@ export interface operations {
                     "*/*": components["schemas"]["CategoryResponse"][];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -936,13 +936,13 @@ export interface operations {
                     "*/*": components["schemas"]["CategoryResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -987,13 +987,13 @@ export interface operations {
                     "*/*": components["schemas"]["LoginResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -1038,13 +1038,13 @@ export interface operations {
                     "*/*": components["schemas"]["CreateAssetResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -1085,13 +1085,13 @@ export interface operations {
                     "*/*": components["schemas"]["UserAdminExistsResponse"];
                 };
             };
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */
@@ -1129,13 +1129,13 @@ export interface operations {
             };
         };
         responses: {
-            /** @description 유효성 검증 실패 */
+            /** @description 잘못된 요청 */
             400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": string;
+                    "text/plain": string;
                 };
             };
             /** @description 인증 실패 */

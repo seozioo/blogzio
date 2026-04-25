@@ -1,7 +1,7 @@
 import { apiClient } from '@/constants/api-client';
 import { Editor } from '@tiptap/core';
 
-export const ALLOWED_IMAGE_MIME_TYPES = [
+export const allowedImageMimeTypes = [
   'image/jpeg',
   'image/png',
   'image/gif',

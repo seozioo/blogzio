@@ -2,7 +2,7 @@ import { SubmitEventHandler, useRef, useState } from 'react';
 import { BaseDialog } from '../BaseDialog';
 import { Editor } from '@tiptap/react';
 import {
-  ALLOWED_IMAGE_MIME_TYPES,
+  allowedImageMimeTypes,
   uploadImageAndInsert,
 } from '@/shared/utils/upload-image';
 
@@ -81,7 +81,7 @@ export const ImageCreateDialog = ({
         <input
           ref={fileInputRef}
           type="file"
-          accept={ALLOWED_IMAGE_MIME_TYPES.join(',')}
+          accept={allowedImageMimeTypes.join(',')}
           onChange={handleFileChange}
           className="text-sm text-zinc-600 file:mr-3 file:rounded-lg file:border-0 file:bg-zinc-100 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-zinc-700 hover:file:bg-zinc-200"
         />

@@ -19,29 +19,15 @@ import {
 import { SubmitEventHandler, useState } from 'react';
 import { VisibilityToggle } from '@/shared/components/ToggleButton';
 import { Categorybox } from '@/shared/components/Categorybox';
-import { EditorContent, useEditor } from '@tiptap/react';
-import { StarterKit } from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import clsx from 'clsx';
 import { Toggle, ToggleGroup } from '@base-ui/react';
-import { Placeholder } from '@tiptap/extensions';
 import { Editor } from '@tiptap/core';
-import { TextStyle } from '@tiptap/extension-text-style';
-import FontSize from '@tiptap/extension-text-style/font-size';
-import { useEditorState } from '@tiptap/react';
-import FontFamily from '@tiptap/extension-font-family';
 import { CategoryCreateDialog } from '@/shared/components/posts/CategoryCreateDialog';
 import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
-import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
-import FileHandler from '@tiptap/extension-file-handler';
 import { apiClient } from '@/constants/api-client';
 import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
-import {
-  ALLOWED_IMAGE_MIME_TYPES,
-  uploadImageAndInsert,
-} from '@/shared/utils/upload-image';
+import { editorExtensions } from '@/shared/lib/editor-extensions';
 import { useRouter } from 'next/navigation';
 
 export default function Write() {
@@ -113,34 +99,7 @@ export default function Write() {
   };
 
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      Placeholder.configure({
-        placeholder: '내용을 입력하세요...',
-      }),
-      TextStyle,
-      FontSize,
-      FontFamily,
-      Link.configure({ openOnClick: false }),
-      Image,
-      FileHandler.configure({
-        allowedMimeTypes: [...ALLOWED_IMAGE_MIME_TYPES],
-        onDrop: (editor, files, pos) => {
-          for (const file of files) {
-            uploadImageAndInsert(editor, file, pos);
-          }
-        },
-        onPaste: (editor, files) => {
-          for (const file of files) {
-            uploadImageAndInsert(editor, file);
-          }
-        },
-      }),
-    ],
+    extensions: editorExtensions,
     editorProps: {
       attributes: {
         class:
