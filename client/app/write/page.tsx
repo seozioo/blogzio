@@ -18,7 +18,7 @@ import {
 } from '@phosphor-icons/react';
 import { SubmitEventHandler, useState } from 'react';
 import { VisibilityToggle } from '@/shared/components/ToggleButton';
-import { Categorybox } from '@/shared/components/Categorybox';
+import { CategoryBox } from '@/shared/components/Categorybox';
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import clsx from 'clsx';
 import { Toggle, ToggleGroup } from '@base-ui/react';
@@ -110,207 +110,213 @@ export default function Write() {
     immediatelyRender: false,
   });
 
-  const fontSize = useEditorState({
+  const editorState = useEditorState({
     editor,
-    selector: ({ editor }) => {
-      return editor?.getAttributes('textStyle').fontSize || '16px';
-    },
+    selector: ({ editor }) => ({
+      fontSize: editor?.getAttributes('textStyle').fontSize || '16px',
+      fontFamily: editor?.getAttributes('textStyle').fontFamily || 'Pretendard',
+      bold: editor?.isActive('bold') ?? false,
+      italic: editor?.isActive('italic') ?? false,
+      underline: editor?.isActive('underline') ?? false,
+      strike: editor?.isActive('strike') ?? false,
+    }),
   });
 
-  const fontType = useEditorState({
-    editor,
-    selector: ({ editor }) => {
-      return editor?.getAttributes('textStyle').fontFamily || 'Pretendard';
-    },
-  });
+  if (!editor || !editorState) {
+    return null;
+  }
+
   return (
     <BaseContainer className="w-full mt-5 py-10">
       <div>
-        <div className="flex items-center gap-2">
-          <EditorSelect
-            editor={editor}
-            value={fontType}
-            options={FONT_TYPE_OPTIONS}
-            onSelect={(value, editor) => {
-              if (!value) {
-                editor.chain().focus().unsetFontFamily().run();
-              } else {
-                editor.chain().focus().setFontFamily(value).run();
-              }
-            }}
-          />
-
-          <EditorSelect
-            editor={editor}
-            value={fontSize}
-            options={FONT_SIZE_OPTIONS}
-            onSelect={(value, editor) => {
-              if (!value) {
-                editor.chain().focus().unsetFontSize().run();
-              } else {
-                editor.chain().focus().setFontSize(value).run();
-              }
-            }}
-          />
-
-          <div className="w-px h-6 bg-border" />
-          <button
-            onClick={() => editor?.chain().focus().toggleBold().run()}
-            className={clsx(
-              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
-              editor?.isActive('bold') && 'bg-zinc-200',
-            )}
-          >
-            <TextBIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
+        <div className="relative overflow-hidden">
+          <div className="base:-left-4 pointer-events-none absolute inset-y-0 left-0 w-4 bg-linear-to-r from-35% from-zinc-50 to-transparent z-10 transition-all" />
+          <div className="base:-right-4 pointer-events-none absolute inset-y-0 right-0 w-4 bg-linear-to-l from-35% from-zinc-50 to-transparent z-10 transition-all" />
+          <div className="flex items-center gap-2 overflow-x-auto max-base:px-4 transition-[padding] scrollbar-hide *:shrink-0">
+            <EditorSelect
+              editor={editor}
+              value={editorState.fontFamily}
+              options={FONT_TYPE_OPTIONS}
+              onSelect={(value, editor) => {
+                if (!value) {
+                  editor.chain().focus().unsetFontFamily().run();
+                } else {
+                  editor.chain().focus().setFontFamily(value).run();
+                }
+              }}
             />
-          </button>
 
-          <button
-            onClick={() => editor?.chain().focus().toggleItalic().run()}
-            className={clsx(
-              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
-              editor?.isActive('italic') && 'bg-zinc-200',
-            )}
-          >
-            <TextItalicIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
+            <EditorSelect
+              editor={editor}
+              value={editorState.fontSize}
+              options={FONT_SIZE_OPTIONS}
+              onSelect={(value, editor) => {
+                if (!value) {
+                  editor.chain().focus().unsetFontSize().run();
+                } else {
+                  editor.chain().focus().setFontSize(value).run();
+                }
+              }}
             />
-          </button>
 
-          <button
-            onClick={() => editor?.chain().focus().toggleUnderline().run()}
-            className={clsx(
-              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
-              editor?.isActive('underline') && 'bg-zinc-200',
-            )}
-          >
-            <TextUnderlineIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
-            />
-          </button>
-
-          <button
-            onClick={() => editor?.chain().focus().toggleStrike().run()}
-            className={clsx(
-              'border border-border w-8 h-8 rounded-lg hover:bg-zinc-100 active:bg-zinc-200 active:[box-shadow:inset_0_2px_0_rgba(0,0,0,0.2)]',
-              editor?.isActive('strike') && 'bg-zinc-200',
-            )}
-          >
-            <TextStrikethroughIcon
-              className="m-auto text-zinc-600"
-              size={24}
-              weight="bold"
-            />
-          </button>
-
-          <div className="w-px h-6 bg-border" />
-
-          <div></div>
-          <LinkCreateDialog
-            open={linkDialogOpen}
-            editor={editor}
-            onOpenChange={setLinkDialogOpen}
-          ></LinkCreateDialog>
-
-          <Button
-            variant="link"
-            size="icon"
-            onClick={() => setLinkDialogOpen(true)}
-          >
-            <LinkIcon size={24} weight="bold" />
-          </Button>
-
-          <ImageCreateDialog
-            open={imageDialogOpen}
-            editor={editor}
-            onOpenChange={setImageDialogOpen}
-          ></ImageCreateDialog>
-
-          <Button
-            variant="link"
-            size="icon"
-            onClick={() => setImageDialogOpen(true)}
-          >
-            <ImageIcon size={24} weight="bold" />
-          </Button>
-
-          <div className="w-px h-6 bg-border" />
-          <ToggleGroup
-            defaultValue={['left']}
-            className="flex gap-1 bg-zinc-200 rounded-[10px] p-0.5"
-          >
-            <Toggle
-              aria-label="Align left"
-              value="left"
-              onPressedChange={() =>
-                editor?.chain().focus().setTextAlign('left').run()
-              }
-              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            <div className="w-px h-6 bg-border" />
+            <button
+              onClick={() => editor?.chain().focus().toggleBold().run()}
+              className={clsx(
+                'hover:border active:border border-border w-8 h-8 rounded-lg hover:bg-white active:bg-zinc-200 active:inset-shadow-active-button transition-all',
+                editorState.bold && 'bg-zinc-200 border',
+              )}
             >
-              <TextAlignLeftIcon size={24} weight="bold" />
-            </Toggle>
+              <TextBIcon
+                className="m-auto text-zinc-600"
+                size={24}
+                weight="bold"
+              />
+            </button>
 
-            <Toggle
-              aria-label="Align center"
-              value="center"
-              onPressedChange={() =>
-                editor?.chain().focus().setTextAlign('center').run()
-              }
-              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            <button
+              onClick={() => editor?.chain().focus().toggleItalic().run()}
+              className={clsx(
+                'hover:border active:border border-border w-8 h-8 rounded-lg hover:bg-white active:bg-zinc-200 active:inset-shadow-active-button transition-all',
+                editorState.italic && 'bg-zinc-200 border',
+              )}
             >
-              <TextAlignCenterIcon size={24} weight="bold" />
-            </Toggle>
+              <TextItalicIcon
+                className="m-auto text-zinc-600"
+                size={24}
+                weight="bold"
+              />
+            </button>
 
-            <Toggle
-              aria-label="Align right"
-              value="right"
-              onPressedChange={() =>
-                editor?.chain().focus().setTextAlign('right').run()
-              }
-              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            <button
+              onClick={() => editor?.chain().focus().toggleUnderline().run()}
+              className={clsx(
+                'hover:border active:border border-border w-8 h-8 rounded-lg hover:bg-white active:bg-zinc-200 active:inset-shadow-active-button transition-all',
+                editorState.underline && 'bg-zinc-200 border',
+              )}
             >
-              <TextAlignRightIcon size={24} weight="bold" />
-            </Toggle>
+              <TextUnderlineIcon
+                className="m-auto text-zinc-600"
+                size={24}
+                weight="bold"
+              />
+            </button>
 
-            <Toggle
-              aria-label="Justify"
-              value="justify"
-              onPressedChange={() =>
-                editor?.chain().focus().setTextAlign('justify').run()
-              }
-              className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+            <button
+              onClick={() => editor?.chain().focus().toggleStrike().run()}
+              className={clsx(
+                'hover:border active:border border-border w-8 h-8 rounded-lg hover:bg-white active:bg-zinc-200 active:inset-shadow-active-button transition-all',
+                editorState.strike && 'bg-zinc-200 border',
+              )}
             >
-              <TextAlignJustifyIcon size={24} weight="bold" />
-            </Toggle>
-          </ToggleGroup>
+              <TextStrikethroughIcon
+                className="m-auto text-zinc-600"
+                size={24}
+                weight="bold"
+              />
+            </button>
+
+            <div className="w-px h-6 bg-border" />
+
+            <LinkCreateDialog
+              open={linkDialogOpen}
+              editor={editor}
+              onOpenChange={setLinkDialogOpen}
+            ></LinkCreateDialog>
+
+            <Button
+              variant="editor"
+              size="editor"
+              onClick={() => setLinkDialogOpen(true)}
+            >
+              <LinkIcon size={24} weight="bold" />
+            </Button>
+
+            <ImageCreateDialog
+              open={imageDialogOpen}
+              editor={editor}
+              onOpenChange={setImageDialogOpen}
+            ></ImageCreateDialog>
+
+            <Button
+              variant="editor"
+              size="editor"
+              onClick={() => setImageDialogOpen(true)}
+            >
+              <ImageIcon size={24} weight="bold" />
+            </Button>
+
+            <div className="w-px h-6 bg-border" />
+            <ToggleGroup
+              defaultValue={['left']}
+              className="flex gap-1 bg-zinc-200 rounded-[10px] p-0.5"
+            >
+              <Toggle
+                aria-label="Align left"
+                value="left"
+                onPressedChange={() =>
+                  editor?.chain().focus().setTextAlign('left').run()
+                }
+                className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+              >
+                <TextAlignLeftIcon size={24} weight="bold" />
+              </Toggle>
+
+              <Toggle
+                aria-label="Align center"
+                value="center"
+                onPressedChange={() =>
+                  editor?.chain().focus().setTextAlign('center').run()
+                }
+                className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+              >
+                <TextAlignCenterIcon size={24} weight="bold" />
+              </Toggle>
+
+              <Toggle
+                aria-label="Align right"
+                value="right"
+                onPressedChange={() =>
+                  editor?.chain().focus().setTextAlign('right').run()
+                }
+                className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+              >
+                <TextAlignRightIcon size={24} weight="bold" />
+              </Toggle>
+
+              <Toggle
+                aria-label="Justify"
+                value="justify"
+                onPressedChange={() =>
+                  editor?.chain().focus().setTextAlign('justify').run()
+                }
+                className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-600 hover:bg-zinc-100 data-pressed:bg-white"
+              >
+                <TextAlignJustifyIcon size={24} weight="bold" />
+              </Toggle>
+            </ToggleGroup>
+          </div>
         </div>
 
         <div>
           <form id="postForm" onSubmit={handleSubmit}>
-            <div className="border border-border flex flex-col rounded-2xl px-10 py-8 my-5">
+            <div className="border border-border bg-white flex flex-col rounded-2xl px-4 py-4 my-4">
               <input
                 name="title"
-                className="font-semibold text-[24px] w-full outline-none"
+                className="font-semibold text-[24px] w-full outline-none px-1"
                 placeholder="제목"
               />
-              <hr className="my-4 border-t border-border" />
+              <hr className="my-3 border-t border-border" />
 
               <EditorContent
                 editor={editor}
                 name="content"
-                className="min-h-100"
+                className="min-h-100 px-1"
               />
             </div>
 
-            <div className="flex items-center gap-5">
-              <Categorybox
+            <div className="flex max-sm:flex-col items-center max-sm:items-stretch gap-4 max-base:px-4 transition-[padding]">
+              <CategoryBox
                 placeholder="카테고리"
                 onChange={(opt) => setCategoryId(opt.value)}
               />
@@ -318,7 +324,7 @@ export default function Write() {
               <VisibilityToggle
                 onChange={(v) => setIsVisible(v === 'public')}
               />
-              <div className="w-px h-6 bg-border" />
+              <div className="h-px max-sm:mx-2 sm:w-px sm:h-6 bg-border" />
               <Button type="submit" loading={submitting}>
                 게시
               </Button>

@@ -15,7 +15,7 @@ type Props = {
   onChange?: (value: Option) => void;
 };
 
-export const Categorybox = ({ placeholder, onChange }: Props) => {
+export const CategoryBox = ({ placeholder, onChange }: Props) => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const { data, mutate } = useApi('/category');
 
@@ -65,7 +65,7 @@ export const Categorybox = ({ placeholder, onChange }: Props) => {
       >
         <Combobox.InputGroup className="flex items-center h-9 px-2 rounded-2xl border border-border bg-white inset-shadow-button active:inset-shadow-active-button transition-all appearance-none">
           <Combobox.Input
-            className="px-1 outline-none text-[14px] text-zinc-600 field-sizing-content cursor-pointer"
+            className="flex-1 px-1 outline-none text-[14px] text-zinc-600 field-sizing-content cursor-pointer"
             placeholder={placeholder}
             readOnly
           />

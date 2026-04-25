@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
 
 const buttonVariants = cva(
-  'flex rounded-2xl justify-center items-center enabled:active:inset-shadow-active-button transition-all focus-visible:outline-2 outline-sky-400/20 font-semibold text-sm enabled:active:pt-1 select-none enabled:cursor-pointer disabled:opacity-50',
+  'flex justify-center items-center enabled:active:inset-shadow-active-button transition-all focus-visible:outline-2 outline-sky-400/20 font-semibold text-sm enabled:active:pt-1 select-none enabled:cursor-pointer disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -14,11 +14,13 @@ const buttonVariants = cva(
         outline:
           'text-zinc-600 bg-white enabled:hover:bg-zinc-50 enabled:active:bg-zinc-200 border border-border inset-shadow-button',
         flat: 'text-zinc-600 enabled:hover:bg-zinc-50 enabled:active:bg-zinc-200 enabled:active:border border-border',
-        link: 'text-zinc-600 hover:bg-white active:bg-zinc-200 hover:border border-border rounded-lg',
+        editor:
+          'text-zinc-600 hover:bg-white active:bg-zinc-200 hover:border border-border',
       },
       size: {
-        default: 'h-9 px-4',
-        icon: 'w-9 h-9',
+        default: 'h-9 px-4 rounded-2xl',
+        icon: 'w-9 h-9 rounded-2xl',
+        editor: 'w-8 h-8 rounded-lg',
       },
     },
     defaultVariants: {
