@@ -3,9 +3,12 @@ package com.ciart.blogzio.user.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.hibernate.annotations.UuidGenerator;
+
+import com.ciart.blogzio.asset.domain.Asset;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -38,8 +41,15 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(length = 100, nullable = true)
+    private String bio;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Asset profileImage;
+
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
