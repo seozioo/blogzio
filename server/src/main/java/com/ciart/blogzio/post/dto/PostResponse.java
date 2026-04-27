@@ -18,6 +18,7 @@ public class PostResponse {
     private String title;
     private JsonNode content;
     private UUID categoryId;
+    private String categoryName;
     private int likes;
     private Boolean is_visiable;
     private LocalDateTime postedAt;
@@ -29,6 +30,7 @@ public class PostResponse {
                 post.getTitle(),
                 post.getContent(),
                 post.getCategory().getId(),
+                post.getCategory().getName(),
                 post.getLikes(),
                 post.getIs_visiable(),
                 post.getPostedAt(),

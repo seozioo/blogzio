@@ -1,3 +1,5 @@
+'use client';
+
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { CircleNotchIcon } from '@phosphor-icons/react';
 import { cva, VariantProps } from 'class-variance-authority';

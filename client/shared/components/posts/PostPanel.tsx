@@ -28,7 +28,7 @@ export const PostPanel = (props: PostPanelProps) => {
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
       <BaseContainer className="select-none">
-        <div className="relative flex flex-col max-w-202 mx-auto gap-4 rounded-3xl px-4 py-4 bg-white shadow-xs">
+        <div className="relative flex flex-col max-w-202 mx-auto gap-4 rounded-2xl px-4 py-4 bg-white shadow-xs">
           <WritePostButton />
           <div className="flex justify-between items-center">
             <p className="p-1 text-zinc-400 text-sm">

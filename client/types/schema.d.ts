@@ -231,6 +231,7 @@ export interface components {
             content?: components["schemas"]["JsonNode"];
             /** Format: uuid */
             categoryId?: string;
+            categoryName?: string;
             /** Format: int32 */
             likes?: number;
             is_visiable?: boolean;
