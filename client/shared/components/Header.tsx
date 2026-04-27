@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SunIcon, UsersIcon } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { useAuth } from '../hooks/use-auth';
+import { useVisit } from '../hooks/use-visit';
 
 export const Header = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -14,6 +15,7 @@ export const Header = () => {
   const { token, setToken } = useAuth();
   const clickCountRef = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { isLoading: isLoadingVisit, today, total } = useVisit();
 
   useEffect(() => {
     setIsMounted(true);
@@ -70,12 +72,14 @@ export const Header = () => {
       {/* <div className="flex items-center justify-center w-8 h-8 text-zinc-400">
         <SunIcon size={24} weight="bold" />
       </div> */}
-      <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm">
-        <UsersIcon size={20} weight="bold" />
-        <span>128</span> {/* 전체 방문자 수 */}
-        <span>·</span>
-        <span>10</span> {/* 오늘 방문자 수 */}
-      </div>
+      {isLoadingVisit || (
+        <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm">
+          <UsersIcon size={20} weight="bold" />
+          <span>{total}</span> {/* 전체 방문자 수 */}
+          <span>·</span>
+          <span>{today}</span> {/* 오늘 방문자 수 */}
+        </div>
+      )}
     </header>
   );
 };
