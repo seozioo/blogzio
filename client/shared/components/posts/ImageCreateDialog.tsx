@@ -1,4 +1,9 @@
-import { SubmitEventHandler, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  SubmitEventHandler,
+  useRef,
+  useState,
+} from 'react';
 import { BaseDialog } from '../BaseDialog';
 import { Editor } from '@tiptap/react';
 import {
@@ -17,12 +22,15 @@ export const ImageCreateDialog = ({
   onOpenChange,
   editor,
 }: ImageCreateDialogProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File>();
 
-  const handleFileChange = () => {
-    const file = fileInputRef.current?.files?.[0];
+  const handleFileChange: ChangeEventHandler<
+    HTMLInputElement,
+    HTMLInputElement
+  > = (event) => {
+    const file = event.currentTarget?.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setPreview((prev) => {
@@ -35,13 +43,14 @@ export const ImageCreateDialog = ({
         return null;
       });
     }
+
+    setFile(file);
   };
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!editor) return;
 
-    const file = fileInputRef.current?.files?.[0];
     if (!file) return;
 
     setUploading(true);
@@ -79,7 +88,6 @@ export const ImageCreateDialog = ({
         onSubmit={handleSubmit}
       >
         <input
-          ref={fileInputRef}
           type="file"
           accept={allowedImageMimeTypes.join(',')}
           onChange={handleFileChange}
