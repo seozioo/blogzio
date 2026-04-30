@@ -41,6 +41,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.DELETE, "/guestbook/**").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/visit").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/visit/daily").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/asset").permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session.sessionCreationPolicy(
                                                 SessionCreationPolicy.STATELESS))
