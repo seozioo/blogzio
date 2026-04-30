@@ -62,6 +62,7 @@ public class GuestbookService {
         return guestbookMessage;
     }
 
+    @Transactional
     public void deleteMessage(UUID id, String password) {
         var guestbookMessage = guestbookMessageRepository
             .findById(id)
@@ -79,6 +80,11 @@ public class GuestbookService {
                 HttpStatus.BAD_REQUEST,
                 "비밀번호가 일치하지 않습니다."
             );
+        }
+
+        var assets = assetService.findAllByOwner(guestbookMessage);
+        for (var asset : assets) {
+            asset.setOwner(null);
         }
 
         guestbookMessageRepository.delete(guestbookMessage);
