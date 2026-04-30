@@ -2,6 +2,7 @@ package com.ciart.blogzio.asset.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "assets")
+@SQLRestriction("deleted_at IS NULL")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

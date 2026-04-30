@@ -16,5 +16,5 @@ public interface AssetRepository extends JpaRepository<Asset, UUID> {
 
     List<Asset> findAllByOwner(AssetOwner owner);
 
-    List<Asset> findAllByOwnerIsNullAndDeletedAtIsNullAndCreatedAtBefore(LocalDateTime dateTime);
+    List<Asset> findAllByOwnerIsNullAndCreatedAtBefore(LocalDateTime dateTime);
 }
