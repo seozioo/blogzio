@@ -99,7 +99,7 @@ public class AssetService {
     @Transactional
     public void cleanExpired() {
         var expiredAssets = assetRepository
-                .findAllByOwnerIsNullAndDeletedAtIsNullAndCreatedAtBefore(LocalDateTime.now().minusDays(1));
+                .findAllByOwnerIsNullAndCreatedAtBefore(LocalDateTime.now().minusDays(1));
 
         for (var asset : expiredAssets) {
             asset.softDelete();
