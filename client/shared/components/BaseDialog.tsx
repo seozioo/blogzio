@@ -6,7 +6,7 @@ import { Button } from './Button';
 export type BaseDialogProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  title: ReactNode;
+  title?: ReactNode;
   description?: ReactNode;
   children: ReactNode;
   popupClassName?: string;
@@ -43,9 +43,10 @@ const BaseDialogRoot = ({
             popupClassName,
           )}
         >
-          <Dialog.Title className="-mt-1.5 mb-1 text-lg font-medium">
+          {title && (<Dialog.Title className="-mt-1.5 mb-1 text-lg font-medium">
             {title}
-          </Dialog.Title>
+          </Dialog.Title>)}
+
           {description ? (
             <Dialog.Description className="mb-4 text-sm text-zinc-400">
               {description}

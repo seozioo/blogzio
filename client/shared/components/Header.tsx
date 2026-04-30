@@ -43,6 +43,7 @@ export const Header = () => {
     }
   };
 
+
   return (
     <header className="relative flex h-18 items-center justify-between px-5">
       <div className="flex items-center gap-4">

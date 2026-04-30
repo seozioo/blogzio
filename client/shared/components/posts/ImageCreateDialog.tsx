@@ -68,6 +68,7 @@ export const ImageCreateDialog = ({
     }
   };
 
+
   return (
     <BaseDialog
       popupClassName="w-full max-w-xs [&_h2]:sr-only"

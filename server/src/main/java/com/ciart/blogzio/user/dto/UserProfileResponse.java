@@ -7,8 +7,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserProfileRequest {
-    private String name;
+public class UserProfileResponse {
+    private String nickname;
     private String bio;
-    private Asset profileImage;
+    private String profileImageUrl;
 }

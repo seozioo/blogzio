@@ -9,6 +9,7 @@ import lombok.Builder;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.ciart.blogzio.asset.domain.Asset;
+import com.ciart.blogzio.asset.domain.AssetOwner;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,15 +20,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator
-    private UUID id;
+public class User extends AssetOwner {
 
     @Column(nullable = false)
     private String username;
+
+    @Column(nullable = true)
+    private String nickname;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -41,12 +40,11 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(length = 100, nullable = true)
+    @Column(length = 50, nullable = true)
     private String bio;
 
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Asset profileImage;
+    @Column(nullable = true)
+    private String profileImageUrl;
 
     @PrePersist
     public void prePersist() {
@@ -57,6 +55,15 @@ public class User {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public void update(String nickname, String bio, String profileImageUrl) {
+        if (nickname != null)
+            this.nickname = nickname;
+        if (bio != null)
+            this.bio = bio;
+        if (profileImageUrl != null)
+            this.profileImageUrl = profileImageUrl;
     }
 
 }

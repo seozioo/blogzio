@@ -1,17 +1,24 @@
 package com.ciart.blogzio.user.controller;
 
 import com.ciart.blogzio.user.dto.UserAdminExistsResponse;
+import com.ciart.blogzio.user.dto.UserProfileResponse;
+import com.ciart.blogzio.user.dto.UserProfileUpdateRequest;
 import com.ciart.blogzio.user.dto.UserRequest;
 import com.ciart.blogzio.user.dto.UserResponse;
 import com.ciart.blogzio.user.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,4 +47,17 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "관리자 계정 존재 여부 확인 중 오류가 발생했습니다.");
         }
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileResponse> getProfile(@AuthenticationPrincipal UUID userId) {
+        return ResponseEntity.ok(userService.getProfile(userId));
+    }
+
+    @PutMapping("/profile")
+    @Operation(description = "유저 프로필을 수정합니다.")
+    public ResponseEntity<UserProfileResponse> updateProfile(@AuthenticationPrincipal UUID userId,
+            @Valid @RequestBody UserProfileUpdateRequest request) {
+        return ResponseEntity.ok(userService.updateProfile(userId, request));
+    }
+
 }
