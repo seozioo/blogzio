@@ -33,8 +33,22 @@ public class Asset {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    private LocalDateTime deletedAt;
+
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void softDelete() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
+    }
+
+    public void restore() {
+        this.deletedAt = null;
     }
 }

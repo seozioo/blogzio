@@ -1,6 +1,7 @@
 package com.ciart.blogzio.asset.service;
 
 import com.ciart.blogzio.asset.domain.Asset;
+import com.ciart.blogzio.asset.domain.AssetOwner;
 import com.ciart.blogzio.asset.repository.AssetRepository;
 import io.awspring.cloud.s3.S3Template;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +9,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutBucketAclRequest;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -73,6 +75,10 @@ public class AssetService {
         return assetRepository.findByUrl(url).orElseThrow(() -> new IllegalArgumentException("해당 URL의 자산을 찾을 수 없습니다."));
     }
 
+    public List<Asset> findAllByOwner(AssetOwner owner) {
+        return assetRepository.findAllByOwner(owner);
+    }
+
     public void save(Asset asset) {
         assetRepository.save(asset);
     }
@@ -87,5 +93,29 @@ public class AssetService {
         var position = originalFilename.lastIndexOf('.');
         var extension = position != -1 ? originalFilename.substring(position + 1) : "";
         return newFileName + (extension.isEmpty() ? "" : "." + extension);
+    }
+
+    @Scheduled(cron = "0 0 3 * * *")
+    @Transactional
+    public void cleanExpired() {
+        var expiredAssets = assetRepository
+                .findAllByOwnerIsNullAndDeletedAtIsNullAndCreatedAtBefore(LocalDateTime.now().minusDays(1));
+
+        for (var asset : expiredAssets) {
+            asset.softDelete();
+
+            try {
+                var key = extractS3Key(asset.getUrl());
+                s3Template.deleteObject(bucketName, key);
+                log.info("S3 object deleted: {}", key);
+            } catch (Exception e) {
+                asset.restore();
+                log.error("Failed to delete S3 object: {}", asset.getUrl(), e);
+            }
+        }
+    }
+
+    private String extractS3Key(String url) {
+        return url.substring(url.lastIndexOf('/') + 1);
     }
 }
