@@ -8,11 +8,7 @@ export const allowedImageMimeTypes = [
   'image/webp',
 ] as const;
 
-export async function uploadImageAndInsert(
-  editor: Editor,
-  file: File,
-  position?: number,
-) {
+export async function uploadImage(file: File) {
   const { data } = await apiClient.POST('/asset', {
     body: { file } as any,
     bodySerializer: (body: any) => {
@@ -22,18 +18,28 @@ export async function uploadImageAndInsert(
     },
   });
 
-  if (data?.url) {
+  return data?.url;
+}
+
+export async function uploadImageAndInsert(
+  editor: Editor,
+  file: File,
+  position?: number,
+) {
+  const url = await uploadImage(file);
+
+  if (url) {
     if (position !== undefined) {
       editor
         .chain()
         .focus()
         .insertContentAt(position, {
           type: 'image',
-          attrs: { src: data.url },
+          attrs: { src: url },
         })
         .run();
     } else {
-      editor.chain().focus().setImage({ src: data.url }).run();
+      editor.chain().focus().setImage({ src: url }).run();
     }
   }
 }
