@@ -53,6 +53,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getProfile(userId));
     }
 
+    @GetMapping("/profileview")
+    public ResponseEntity<UserProfileResponse> getProfileview() {
+        return ResponseEntity.ok(userService.getProfileview());
+    }
+
     @PutMapping("/profile")
     @Operation(description = "유저 프로필을 수정합니다.")
     public ResponseEntity<UserProfileResponse> updateProfile(@AuthenticationPrincipal UUID userId,

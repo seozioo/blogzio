@@ -181,6 +181,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/profileview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getProfileview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/user/admin-exists": {
         parameters: {
             query?: never;
@@ -246,6 +262,9 @@ export interface components {
             url?: string;
             /** Format: date-time */
             createdAt?: string;
+            /** Format: date-time */
+            deletedAt?: string;
+            deleted?: boolean;
         };
         AssetOwner: {
             /** Format: uuid */
@@ -275,13 +294,20 @@ export interface components {
             updatedAt?: string;
             /** Format: date-time */
             postedAt?: string;
-            /** Format: int32 */
-            likes?: number;
             is_visiable?: boolean;
             contentText?: string;
             thumbnail?: components["schemas"]["Asset"];
             category?: components["schemas"]["Category"];
             tags?: components["schemas"]["Tag"][];
+            likes?: components["schemas"]["PostLike"][];
+        };
+        PostLike: {
+            /** Format: int64 */
+            id?: number;
+            post?: components["schemas"]["Post"];
+            ipHash?: string;
+            /** Format: date-time */
+            createdAt?: string;
         };
         PostResponse: {
             /** Format: uuid */
@@ -291,8 +317,6 @@ export interface components {
             /** Format: uuid */
             categoryId?: string;
             categoryName?: string;
-            /** Format: int32 */
-            likes?: number;
             is_visiable?: boolean;
             /** Format: date-time */
             postedAt?: string;
@@ -404,8 +428,6 @@ export interface components {
             title?: string;
             excerpt?: string;
             thumbnailUrl?: string;
-            /** Format: int32 */
-            likes?: number;
             is_visiable?: boolean;
             /** Format: date-time */
             postedAt?: string;
@@ -1322,6 +1344,53 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["VisitResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    getProfileview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UserProfileResponse"];
                 };
             };
             /** @description 유효성 검증 실패 */

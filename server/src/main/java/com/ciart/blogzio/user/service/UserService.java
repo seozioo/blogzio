@@ -38,6 +38,7 @@ public class UserService {
                 .username(username)
                 .nickname("유저")
                 .email(email)
+                .bio("어서오세요")
                 .password(passwordEncoder.encode(rawPassword))
                 .build();
 
@@ -71,6 +72,14 @@ public class UserService {
 
     public UserProfileResponse getProfile(UUID userid) {
         User user = userRepository.findById(userid)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));
+
+        return new UserProfileResponse(user.getNickname(), user.getBio(), user.getProfileImageUrl());
+    }
+
+    public UserProfileResponse getProfileview() {
+        User user = userRepository.findFirstByOrderByCreatedAtAsc()
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));
 
