@@ -101,6 +101,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/post/{postId}/like": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getLike"];
+        put?: never;
+        post: operations["incrementLike"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/guestbook": {
         parameters: {
             query?: never;
@@ -214,6 +230,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/post/{postId}/page": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/guestbook/{id}": {
         parameters: {
             query?: never;
@@ -300,10 +332,10 @@ export interface components {
             category?: components["schemas"]["Category"];
             tags?: components["schemas"]["Tag"][];
             likes?: components["schemas"]["PostLike"][];
+            /** Format: int64 */
+            likeCount?: number;
         };
         PostLike: {
-            /** Format: int64 */
-            id?: number;
             post?: components["schemas"]["Post"];
             ipHash?: string;
             /** Format: date-time */
@@ -311,15 +343,17 @@ export interface components {
         };
         PostResponse: {
             /** Format: uuid */
-            id?: string;
-            title?: string;
-            content?: components["schemas"]["JsonNode"];
+            id: string;
+            title: string;
+            content: components["schemas"]["JsonNode"];
             /** Format: uuid */
-            categoryId?: string;
-            categoryName?: string;
-            is_visiable?: boolean;
+            categoryId: string;
+            categoryName: string;
+            is_visiable: boolean;
+            /** Format: int64 */
+            likes: number;
             /** Format: date-time */
-            postedAt?: string;
+            postedAt: string;
             tags?: components["schemas"]["Tag"][];
         };
         Tag: {
@@ -373,6 +407,11 @@ export interface components {
             categoryId: string;
             tags?: string[];
         };
+        PostLikeResponse: {
+            /** Format: int64 */
+            like?: number;
+            isLiked?: boolean;
+        };
         CreateGuestbookMessageRequest: {
             nickname: string;
             /** @enum {string} */
@@ -424,14 +463,20 @@ export interface components {
         };
         PostSummaryResponse: {
             /** Format: uuid */
-            id?: string;
-            title?: string;
-            excerpt?: string;
+            id: string;
+            title: string;
+            excerpt: string;
             thumbnailUrl?: string;
-            is_visiable?: boolean;
+            is_visiable: boolean;
+            /** Format: int64 */
+            likes: number;
             /** Format: date-time */
-            postedAt?: string;
+            postedAt: string;
             tags?: components["schemas"]["Tag"][];
+        };
+        PostPageResponse: {
+            /** Format: int32 */
+            page: number;
         };
         GetAllGuestbookMessagesResponse: {
             messages?: components["schemas"]["GuestbookMessageDto"][];
@@ -1030,6 +1075,122 @@ export interface operations {
             };
         };
     };
+    getLike: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostLikeResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostLikeResponse"];
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    incrementLike: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostLikeResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostLikeResponse"];
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
     getAll: {
         parameters: {
             query?: never;
@@ -1456,6 +1617,66 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    getPage: {
+        parameters: {
+            query?: {
+                category?: string;
+            };
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostPageResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostPageResponse"];
                 };
             };
             /** @description 서버 내부 오류 */

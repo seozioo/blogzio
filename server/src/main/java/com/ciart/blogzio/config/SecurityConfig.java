@@ -43,6 +43,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/user/profileview").permitAll()
                                                 .requestMatchers("/v3/api-docs").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/post", "/post/**").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/post/*/like").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/category").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/guestbook").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/guestbook").permitAll()

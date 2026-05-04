@@ -16,4 +16,8 @@ public interface PostRepository extends JpaRepository<Post, UUID>{
     Page<Post> findAllByThumbnailIsNotNull(Pageable pageable);
 
     Page<Post> findAllByCategoryAndThumbnailIsNotNull(Pageable pageable, Category category);
+
+    long countByCategoryAndPostedAtGreaterThan(Category category, java.time.LocalDateTime postedAt);
+
+    long countByPostedAtGreaterThan(java.time.LocalDateTime postedAt);
 }

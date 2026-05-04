@@ -26,9 +26,18 @@ export default async function PostPage({
 
   const html = generateHTML(data.content as JSONContent, baseExtensions);
 
+  const { data: pageData } = await apiClient.GET('/post/{postId}/page', {
+    params: {
+      path: { postId: slug },
+      query: { category: data.categoryId } as Record<string, string>,
+    },
+  });
+
+  const currentPage = pageData?.page ?? 0;
+
   const { data: postListData } = await apiClient.GET('/post', {
     params: {
-      query: { category: data.categoryId },
+      query: { category: data.categoryId, page: currentPage },
     },
   });
 
@@ -70,13 +79,19 @@ export default async function PostPage({
             className="px-1 min-h-100 [&_p]:empty:before:content-['\a0']"
             dangerouslySetInnerHTML={{ __html: html }}
           />
-          <LikeButton className="mx-auto" />
+          <LikeButton
+            className="mx-auto"
+            postId={data.id}
+            initialLike={data.likes}
+          />
         </BaseContainer>
       </section>
       <section className="mt-50">
         <PostPanel
           overrideActiveCategory={data.categoryId}
           posts={postListData?.posts ?? []}
+          currentPage={currentPage + 1}
+          totalPages={postListData?.totalPages ?? 1}
         />
       </section>
     </div>

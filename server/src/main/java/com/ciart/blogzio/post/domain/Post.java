@@ -7,6 +7,7 @@ import com.ciart.blogzio.user.domain.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -66,6 +67,9 @@ public class Post extends AssetOwner {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostLike> likes = new ArrayList<>();
+
+    @Formula("(SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = id)")
+    private long likeCount;
 
     @PrePersist
     public void prePersisst() {

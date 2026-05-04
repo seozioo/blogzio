@@ -4,11 +4,15 @@ import com.ciart.blogzio.asset.domain.Asset;
 import com.ciart.blogzio.asset.repository.AssetRepository;
 import com.ciart.blogzio.category.domain.Category;
 import com.ciart.blogzio.category.repository.CategoryRepository;
+import com.ciart.blogzio.config.IpEncoder;
 import com.ciart.blogzio.post.domain.Post;
+import com.ciart.blogzio.post.domain.PostLike;
+import com.ciart.blogzio.post.domain.PostLikeId;
 import com.ciart.blogzio.post.domain.Tag;
 import com.ciart.blogzio.post.dto.PostCreateRequest;
 import com.ciart.blogzio.post.dto.PostResponse;
 import com.ciart.blogzio.post.dto.PostUpdateRequest;
+import com.ciart.blogzio.post.repository.PostLikeRepository;
 import com.ciart.blogzio.post.repository.PostRepository;
 import com.ciart.blogzio.post.repository.TagRepository;
 import com.ciart.blogzio.user.domain.User;
@@ -38,6 +42,8 @@ public class PostService {
         private final TagRepository tagRepository;
         private final CategoryRepository categoryRepository;
         private final AssetRepository assetRepository;
+        private final PostLikeRepository postLikeRepository;
+        private final IpEncoder ipEncoder;
 
         // get /post
         @Transactional
@@ -115,11 +121,62 @@ public class PostService {
                 return PostResponse.from(post);
         }
 
+        private static final int PAGE_SIZE = 12;
+
+        @Transactional(readOnly = true)
+        public int getPageOfPost(UUID postId, @Nullable Category category) {
+                Post post = postRepository.findById(postId)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+
+                long index = category != null
+                                ? postRepository.countByCategoryAndPostedAtGreaterThan(category, post.getPostedAt())
+                                : postRepository.countByPostedAtGreaterThan(post.getPostedAt());
+
+                return (int) (index / PAGE_SIZE);
+        }
+
+        @Transactional(readOnly = true)
+        public long getLikeOfPost(UUID postId) {
+                Post post = postRepository.findById(postId)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+
+                return postLikeRepository.countByPost(post);
+        }
+
+        @Transactional(readOnly = true)
+        public boolean isPostLikedByIp(UUID postId, String ip) {
+                String encodedIp = ipEncoder.encode(ip);
+
+                if (postLikeRepository.existsById(new PostLikeId(postId, encodedIp))) {
+                        return true;
+                }
+
+                return false;
+        }
+
+        @Transactional
+        public long incrementLikeOfPost(UUID postId, String ip) {
+                Post post = postRepository.findById(postId)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+
+                String encodedIp = ipEncoder.encode(ip);
+
+                if (!postLikeRepository.existsById(new PostLikeId(postId, encodedIp))) {
+                        PostLike like = PostLike.builder().post(post).ipHash(encodedIp).build();
+                        postLikeRepository.save(like);
+                }
+
+                return postLikeRepository.countByPost(post);
+        }
+
         // 목록읽기
         @Transactional(readOnly = true)
         public Page<Post> GetAllPosts(@Nullable Category category, @Nullable Integer page,
                         boolean thumbnailOnly) {
-                Pageable pageable = PageRequest.of(page != null ? page : 0, 12);
+                Pageable pageable = PageRequest.of(page != null ? page : 0, PAGE_SIZE);
 
                 if (category == null) {
                         return thumbnailOnly
