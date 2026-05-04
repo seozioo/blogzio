@@ -3,11 +3,11 @@ package com.ciart.blogzio.visit.service;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ciart.blogzio.config.IpEncoder;
 import com.ciart.blogzio.visit.domain.DailyVisit;
 import com.ciart.blogzio.visit.domain.VisitorLog;
 import com.ciart.blogzio.visit.dto.VisitResponse;
@@ -24,9 +24,7 @@ public class VisitService {
     private final VisitorLogRepository visitorLogRepository;
     private final DailyVisitRepository dailyVisitRepository;
     private final EntityManager entityManager;
-
-    @Value("${visitor.secret}")
-    private String visitorSecret;
+    private final IpEncoder ipEncoder;
 
     @PostConstruct
     @Transactional
@@ -41,9 +39,9 @@ public class VisitService {
 
     @Transactional
     public void log(String ip) {
-        String hashed = VisitorLog.hash(ip, visitorSecret);
-        if (!visitorLogRepository.existsById(hashed)) {
-            visitorLogRepository.save(new VisitorLog(ip, visitorSecret));
+        String encoded = ipEncoder.encode(ip);
+        if (!visitorLogRepository.existsById(encoded)) {
+            visitorLogRepository.save(new VisitorLog(encoded));
 
             LocalDate today = LocalDate.now();
             if (dailyVisitRepository.incrementVisitCount(today) == 0) {

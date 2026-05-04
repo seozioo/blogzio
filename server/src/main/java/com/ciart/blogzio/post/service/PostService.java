@@ -5,7 +5,6 @@ import com.ciart.blogzio.asset.repository.AssetRepository;
 import com.ciart.blogzio.category.domain.Category;
 import com.ciart.blogzio.category.repository.CategoryRepository;
 import com.ciart.blogzio.post.domain.Post;
-import com.ciart.blogzio.post.domain.ProseMirrorParser;
 import com.ciart.blogzio.post.domain.Tag;
 import com.ciart.blogzio.post.dto.PostCreateRequest;
 import com.ciart.blogzio.post.dto.PostResponse;

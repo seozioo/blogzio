@@ -47,9 +47,6 @@ public class Post extends AssetOwner {
     private LocalDateTime postedAt;
 
     @Column(nullable = false)
-    private int likes = 0;
-
-    @Column(nullable = false)
     private Boolean is_visiable = false;
 
     @Setter
@@ -66,6 +63,9 @@ public class Post extends AssetOwner {
     @ManyToMany
     @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> likes = new ArrayList<>();
 
     @PrePersist
     public void prePersisst() {

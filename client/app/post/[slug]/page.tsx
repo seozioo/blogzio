@@ -7,6 +7,7 @@ import { ExportIcon } from '@phosphor-icons/react/ssr';
 import { generateHTML } from '@tiptap/html';
 import { JSONContent } from '@tiptap/react';
 import { notFound } from 'next/navigation';
+import { LikeButton } from './_components/LikeButton';
 
 export default async function PostPage({
   params,
@@ -69,6 +70,7 @@ export default async function PostPage({
             className="px-1 min-h-100 [&_p]:empty:before:content-['\a0']"
             dangerouslySetInnerHTML={{ __html: html }}
           />
+          <LikeButton className="mx-auto" />
         </BaseContainer>
       </section>
       <section className="mt-50">

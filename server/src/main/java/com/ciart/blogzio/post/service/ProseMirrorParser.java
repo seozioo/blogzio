@@ -1,4 +1,4 @@
-package com.ciart.blogzio.post.domain;
+package com.ciart.blogzio.post.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -15,7 +15,8 @@ public class ProseMirrorParser {
     }
 
     private void walk(JsonNode node) {
-        if (node == null || node.isMissingNode()) return;
+        if (node == null || node.isMissingNode())
+            return;
 
         String type = node.has("type") ? node.get("type").asText() : null;
 

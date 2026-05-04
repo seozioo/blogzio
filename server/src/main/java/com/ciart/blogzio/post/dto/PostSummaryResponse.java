@@ -17,7 +17,6 @@ public class PostSummaryResponse {
     private String title;
     private String excerpt;
     private String thumbnailUrl;
-    private int likes;
     private Boolean is_visiable;
     private LocalDateTime postedAt;
     private List<Tag> tags;
@@ -40,10 +39,8 @@ public class PostSummaryResponse {
                 post.getTitle(),
                 excerpt,
                 thumbnailUrl,
-                post.getLikes(),
                 post.getIs_visiable(),
                 post.getPostedAt(),
-                post.getTags()
-        );
+                post.getTags());
     }
 }
