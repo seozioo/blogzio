@@ -5,6 +5,7 @@ import { Footer } from '@/shared/components/Footer';
 import { AuthProvider } from '@/shared/components/AuthProvider';
 import { Header } from '@/shared/components/Header';
 import { VisitTracker } from '@/shared/components/VisitTracker';
+import { ViewTransition } from 'react';
 
 export const metadata: Metadata = {
   title: 'BLOGZIO',
@@ -22,7 +23,9 @@ export default function RootLayout({
         <AuthProvider>
           <VisitTracker />
           <Header />
-          <main className="flex flex-col flex-1">{children}</main>
+          <main className="flex flex-col flex-1">
+            <ViewTransition>{children}</ViewTransition>
+          </main>
           <Footer />
         </AuthProvider>
       </body>

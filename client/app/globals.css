@@ -96,6 +96,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+::view-transition-group(*) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
 .tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
