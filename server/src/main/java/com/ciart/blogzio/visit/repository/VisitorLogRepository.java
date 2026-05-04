@@ -5,12 +5,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ciart.blogzio.visit.domain.VisitorLog;
+import com.ciart.blogzio.visit.domain.VisitorLogId;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-public interface VisitorLogRepository extends JpaRepository<VisitorLog, String> {
+public interface VisitorLogRepository extends JpaRepository<VisitorLog, VisitorLogId> {
+
+    boolean existsByIpHashAndVisitDate(String ipHash, LocalDate visitDate);
 
     @Modifying
-    @Query("DELETE FROM VisitorLog v WHERE v.visitedAt < :threshold")
-    void deleteExpired(LocalDateTime threshold);
+    @Query("DELETE FROM VisitorLog v WHERE v.visitDate < :threshold")
+    void deleteExpired(LocalDate threshold);
 }

@@ -15,7 +15,6 @@ import com.ciart.blogzio.visit.repository.DailyVisitRepository;
 import com.ciart.blogzio.visit.repository.VisitorLogRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -38,16 +37,21 @@ public class VisitService {
     }
 
     @Transactional
-    public void log(String ip) {
+    public boolean log(String ip) {
         String encoded = ipEncoder.encode(ip);
-        if (!visitorLogRepository.existsById(encoded)) {
+        LocalDate today = LocalDate.now();
+
+        if (!visitorLogRepository.existsByIpHashAndVisitDate(encoded, today)) {
             visitorLogRepository.save(new VisitorLog(encoded));
 
-            LocalDate today = LocalDate.now();
             if (dailyVisitRepository.incrementVisitCount(today) == 0) {
                 dailyVisitRepository.save(new DailyVisit(today));
             }
+
+            return true;
         }
+
+        return false;
     }
 
     @Transactional(readOnly = true)
@@ -59,9 +63,9 @@ public class VisitService {
         return new VisitResponse(today, total);
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void cleanExpired() {
-        visitorLogRepository.deleteExpired(LocalDateTime.now().minusDays(1));
+        visitorLogRepository.deleteExpired(LocalDate.now());
     }
 }
