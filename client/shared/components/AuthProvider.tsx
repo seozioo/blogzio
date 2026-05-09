@@ -1,5 +1,6 @@
 'use client';
 
+import { registerTokenrefresh, unregisterTokenrefresh } from '@/constants/api-client';
 import { createContext, useEffect, useMemo, useState } from 'react';
 
 export type AuthContextType = {
@@ -27,6 +28,12 @@ export const AuthProvider = (props: AuthProviderProps) => {
     if (stored) {
       setToken(stored);
     }
+
+    const handler = (t) => { setToken(t) };
+
+    registerTokenrefresh(handler);
+
+    return () => { unregisterTokenrefresh(handler) };
   }, []);
 
   useEffect(() => {
