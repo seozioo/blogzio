@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .setAuthentication(authentication);
 
         } catch (JwtException e) {
-            return;
+            request.setAttribute("invalidToken", true);
         }
 
         filterChain.doFilter(request, response);

@@ -54,8 +54,14 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/visit/daily").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/asset").permitAll()
                                                 .anyRequest().authenticated())
-                                .exceptionHandling(ex -> ex.authenticationEntryPoint(
-                                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                                .exceptionHandling(ex -> ex
+                                                .authenticationEntryPoint((request, response, authException) -> {
+                                                        if (Boolean.TRUE.equals(request.getAttribute("invalidToken"))) {
+                                                                response.sendError(401, "Invalid Token");
+                                                        } else {
+                                                                response.sendError(403, "Forbidden");
+                                                        }
+                                                }))
                                 .sessionManagement(session -> session.sessionCreationPolicy(
                                                 SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(
