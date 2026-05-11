@@ -1,7 +1,7 @@
 package com.ciart.blogzio.post.dto;
 
-import com.ciart.blogzio.user.domain.User;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -12,7 +12,9 @@ import java.util.UUID;
 @Setter
 public class PostUpdateRequest {
 
+    @Size(max = 200, message = "제목은 200자를 초과할 수 없습니다.")
     private String title;
+
     private JsonNode content;
     private Boolean pinned;
     private Boolean isVisible;

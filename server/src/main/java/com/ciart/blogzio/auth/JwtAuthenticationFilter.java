@@ -29,8 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+            FilterChain filterChain) throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
 
@@ -44,27 +43,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             UUID userId = jwtUtil.getUserId(token);
 
-            var authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userId,
-                            null,
-                            Collections.emptyList()
-                    );
+            var authentication = new UsernamePasswordAuthenticationToken(
+                    userId,
+                    null,
+                    Collections.emptyList());
 
             authentication.setDetails(
                     new WebAuthenticationDetailsSource()
-                            .buildDetails(request)
-            );
+                            .buildDetails(request));
 
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
 
-        } catch (ExpiredJwtException e) {
-            response.sendError(401, "Token expired");
-            return;
         } catch (JwtException e) {
-            response.sendError(401, "Invalid token");
-            return;
+            request.setAttribute("invalidToken", true);
         }
 
         filterChain.doFilter(request, response);

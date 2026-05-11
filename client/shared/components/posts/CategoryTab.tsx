@@ -3,8 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useApi } from '../../hooks/use-api';
+import { newCategory } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
+import { Button } from '../Button';
+import { PlusIcon } from '@phosphor-icons/react';
+import { CategoryCreateDialog } from './CategoryCreateDialog';
+import { useAuth } from '@/shared/hooks/use-auth';
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -18,21 +24,25 @@ export const CategoryTab = (props: CategoryTabProps) => {
     opacity: 0,
   });
   const [isHovering, setIsHovering] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const navItems = [
-    { name: 'New', slug: 'new' },
-    { name: 'Photo', slug: 'photo' },
-    { name: 'Article', slug: 'article' },
-  ];
+  const { data, mutate } = useApi('/category');
+
+  const categories = useMemo(() => {
+    if (!data) return [newCategory];
+    return [newCategory, ...data];
+  }, [data]);
+
+  const { isAdmin } = useAuth();
 
   return (
-    <BaseContainer className="relative">
+    <BaseContainer className="relative select-none" style={{ viewTransitionName: 'category-tab' }}>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-35% to-95% from-zinc-50 to-transparent z-20" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-35% to-95% from-zinc-50 to-transparent z-20" />
       <div className="flex overflow-x-auto px-20 scrollbar-hide">
         <nav
           aria-label="category navigation"
-          className="flex justify-center items-end group"
+          className="flex mx-auto items-end group"
         >
           <div
             className="relative flex gap-2"
@@ -53,13 +63,13 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 opacity: hoverStyle.opacity,
               }}
             />
-            {navItems.map((item, index) => {
+            {categories.map((item) => {
               const path = `/${item.slug}`;
 
               let isActive = pathname === path;
 
-              if (props.overrideActiveCategory) {
-                isActive = props.overrideActiveCategory === item.slug;
+              if (props.overrideActiveCategory !== undefined) {
+                isActive = props.overrideActiveCategory === item.id;
               }
 
               return (
@@ -128,6 +138,22 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 </Link>
               );
             })}
+            {isAdmin && (
+              <>
+                <Button
+                  variant="flat"
+                  size="icon"
+                  onClick={() => setIsCreateDialogOpen(true)}
+                >
+                  <PlusIcon size={16} weight="bold" />
+                </Button>
+                <CategoryCreateDialog
+                  open={isCreateDialogOpen}
+                  onOpenChange={setIsCreateDialogOpen}
+                  onCreate={() => mutate()}
+                />
+              </>
+            )}
           </div>
         </nav>
       </div>

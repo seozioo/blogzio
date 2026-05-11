@@ -1,63 +1,42 @@
-import {
-  CaretLeftIcon,
-  CaretRightIcon,
-  MagnifyingGlassIcon,
-} from '@phosphor-icons/react/ssr';
+import { MagnifyingGlassIcon } from '@phosphor-icons/react/ssr';
 import { BaseContainer } from '../BaseContainer';
 import { InputField } from '../InputField';
 import { PostPhotoLink } from './PostPhotoLink';
-import { Button } from '../Button';
 import { PostArticleLink } from './PostArticleLink';
 import { CategoryTab } from './CategoryTab';
-
-const dummy = [
-  {
-    id: '1',
-    title: '게시글 제목',
-    summary:
-      '게시글 요약 게시글 요약 게시글 요약 게시글 요약 게시글 요약 게시글 요약 게시글 요약 게시글 요약 게시글 요약 게시글 요약',
-    postedAt: '2024-06-01',
-    tags: ['태그1', '태그2'],
-  },
-  {
-    id: '2',
-    title: '게시글 제목 2',
-    summary:
-      '게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2 게시글 요약 2',
-    postedAt: '2024-06-02',
-    tags: ['태그3', '태그4'],
-  },
-  {
-    id: '3',
-    title: '게시글 제목 3',
-    summary:
-      '게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3 게시글 요약 3',
-    postedAt: '2024-06-03',
-    tags: ['태그5', '태그6'],
-  },
-  {
-    id: '4',
-    title: '게시글 제목 4',
-    summary:
-      '게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4 게시글 요약 4',
-    postedAt: '2024-06-04',
-    tags: ['태그7', '태그8'],
-  },
-];
+import { PaginationBar } from './PaginationBar';
+import { components } from '@/types/schema';
+import { WritePostButton } from '../PostWriteButton';
 
 export type PostPanelProps = Readonly<{
-  viewType: 'article' | 'photo';
+  viewType?: 'GALLERY' | 'LIST';
   overrideActiveCategory?: string;
+  posts?: components['schemas']['PostSummaryResponse'][];
+  currentPage?: number;
+  totalPages?: number;
 }>;
 
 export const PostPanel = (props: PostPanelProps) => {
+  const posts = props.posts ?? [];
+  const sortedPosts = [...posts].sort((a, b) => {
+    const dateA = new Date(a.postedAt ?? '').getTime();
+    const dateB = new Date(b.postedAt ?? '').getTime();
+    return dateB - dateA;
+  });
+
   return (
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
-      <BaseContainer>
-        <div className="flex flex-col max-w-202 mx-auto gap-4 rounded-3xl px-4 py-4 bg-white shadow-xs">
+      <BaseContainer className="select-none">
+        <div
+          className="relative flex flex-col max-w-202 mx-auto gap-4 rounded-2xl px-4 py-4 bg-white shadow-xs"
+          style={{ viewTransitionName: 'post-panel' }}
+        >
+          <WritePostButton />
           <div className="flex justify-between items-center">
-            <p className="p-1 text-zinc-400 text-sm">1 / 30</p>
+            <p className="p-1 text-zinc-400 text-sm">
+              {props.currentPage ?? 1} / {props.totalPages ?? 1}
+            </p>
             <InputField
               className="w-50"
               placeholder="검색"
@@ -70,46 +49,43 @@ export const PostPanel = (props: PostPanelProps) => {
               }
             />
           </div>
-          {props.viewType === 'article' ? (
+          {sortedPosts?.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-75">
+              <p className="text-zinc-400 text-sm">
+                아직 게시글이 없습니다. ㅜ.ㅜ
+              </p>
+            </div>
+          ) : props.viewType === 'LIST' ? (
             <div className="flex flex-col divide-y divide-border -my-4">
-              {dummy.map((article, index) => (
+              {sortedPosts?.map((article, index) => (
                 <PostArticleLink
                   key={article.id}
-                  tags={article.tags}
-                  title={article.title}
-                  summary={article.summary}
-                  postedAt={article.postedAt}
+                  postId={article.id!}
+                  tags={article.tags?.map((t) => t.title ?? '') ?? []}
+                  title={article.title!}
+                  thumbnailUrl={article.thumbnailUrl}
+                  excerpt={article.excerpt!}
+                  postedAt={article.postedAt!}
                 />
               ))}
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {dummy.map((photo) => (
+              {sortedPosts?.map((photo) => (
                 <PostPhotoLink
                   key={photo.id}
-                  title={photo.title}
-                  tags={photo.tags}
+                  postId={photo.id!}
+                  title={photo.title!}
+                  thumbnailUrl={photo.thumbnailUrl}
+                  tags={photo.tags?.map((t) => t.title ?? '') ?? []}
                 />
               ))}
             </div>
           )}
-          <div className="flex justify-center items-center">
-            <Button variant="flat" size="icon" disabled>
-              <CaretLeftIcon size={16} weight="bold" />
-            </Button>
-            <Button variant="flat" size="icon">
-              <span className="text-sky-500">1</span>
-            </Button>
-            <Button variant="flat" size="icon">
-              2
-            </Button>
-            <Button variant="flat" size="icon">
-              3
-            </Button>
-            <Button variant="flat" size="icon">
-              <CaretRightIcon size={16} weight="bold" />
-            </Button>
-          </div>
+          <PaginationBar
+            currentPage={props.currentPage ?? 1}
+            totalPages={props.totalPages ?? 1}
+          />
         </div>
       </BaseContainer>
     </>

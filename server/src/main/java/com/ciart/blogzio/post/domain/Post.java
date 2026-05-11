@@ -1,11 +1,13 @@
 package com.ciart.blogzio.post.domain;
 
+import com.ciart.blogzio.asset.domain.Asset;
+import com.ciart.blogzio.asset.domain.AssetOwner;
 import com.ciart.blogzio.category.domain.Category;
 import com.ciart.blogzio.user.domain.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.Formula;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -13,22 +15,15 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 
 @Entity
 @Table(name = "posts")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 빌더로만 만들도록 강제 
-public class Post {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator
-    private UUID id;
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 빌더로만 만들도록 강제
+public class Post extends AssetOwner {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="author_id", nullable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
     @Column(nullable = false)
@@ -53,36 +48,45 @@ public class Post {
     private LocalDateTime postedAt;
 
     @Column(nullable = false)
-    private int likes = 0;
-
-    @Column(nullable = false)
     private Boolean is_visiable = false;
+
+    @Setter
+    @Column(columnDefinition = "text")
+    private String contentText;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Asset thumbnail;
 
     @ManyToOne
     private Category category;
 
     @ManyToMany
-    @JoinTable(
-            name = "post_tag",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> likes = new ArrayList<>();
+
+    @Formula("(SELECT COUNT(*) FROM post_likes pl WHERE pl.post_id = id)")
+    private long likeCount;
+
     @PrePersist
-    public void prePersisst(){
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        this.postedAt = LocalDateTime.now();
+    public void prePersisst() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+        this.postedAt = now;
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 
     @Builder
-    public Post(User author, String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags) {
+    public Post(User author, String title, JsonNode content, Boolean pinned, Boolean is_visiable, Category category,
+            List<Tag> tags) {
         this.author = author;
         this.title = title;
         this.content = content;
@@ -92,13 +96,19 @@ public class Post {
         this.tags = tags;
     }
 
-
-    public void update( String title, JsonNode content, Boolean pinned,Boolean is_visiable, Category category, List<Tag> tags){
-        if(title != null) this.title = title;
-        if(content != null) this.content = content;
-        if(pinned != null) this.pinned = pinned;
-        if(is_visiable != null) this.is_visiable = is_visiable;
-        if(category != null) this.category = category;
-        if(tags != null) this.tags = tags;
+    public void update(String title, JsonNode content, Boolean pinned, Boolean is_visiable, Category category,
+            List<Tag> tags) {
+        if (title != null)
+            this.title = title;
+        if (content != null)
+            this.content = content;
+        if (pinned != null)
+            this.pinned = pinned;
+        if (is_visiable != null)
+            this.is_visiable = is_visiable;
+        if (category != null)
+            this.category = category;
+        if (tags != null)
+            this.tags = tags;
     }
 }

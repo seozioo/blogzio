@@ -7,9 +7,9 @@ import Link from 'next/link';
 
 export const Footer = () => {
   return (
-    <footer className="flex justify-between items-center bg-zinc-200 px-5 text-zinc-400 h-18 text-sm font-medium">
+    <footer className="flex justify-between items-center bg-zinc-200 px-5 text-zinc-400 h-16 text-sm font-medium">
       Copyright © 2026 Zio. All rights reserved.
-      <div className="flex">
+      <div className="flex relative -right-2">
         <Link
           className="p-1"
           href="https://x.com"

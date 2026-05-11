@@ -13,22 +13,18 @@ import java.util.UUID;
 public class JwtUtil {
 
     private final Key key;
-    private final long EXP = 1000L * 60 * 60 * 24 * 7; // 1000 * 60 * 60; 1시간
 
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(UUID userId, String username,String email) {
+    public String generateToken(UUID userId, long EXP) {
 
         return Jwts.builder()
                 .setSubject(userId.toString())
-                .claim("username", username)
-                .claim("email", email)
                 .setIssuedAt(new Date())
                 .setExpiration(
-                        new Date(System.currentTimeMillis() + EXP)
-                )
+                        new Date(System.currentTimeMillis() + EXP))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -41,7 +37,6 @@ public class JwtUtil {
                         .build()
                         .parseClaimsJws(token)
                         .getBody()
-                        .getSubject()
-        );
+                        .getSubject());
     }
 }

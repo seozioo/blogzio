@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { apiClient } from '../hooks/use-api';
 import { RefObject, useEffect, useState } from 'react';
 import { Dialog } from '@base-ui/react';
 import { Button } from './Button';
@@ -9,6 +8,7 @@ import {
 } from '@/constants/guestbook-message-color';
 import { GuestbookBgSelector } from './GuestbookBgSelector';
 import { GuestbookCanvas } from './guestbooks/GuestbookCanvas';
+import { apiClient } from '@/constants/api-client';
 
 type Inputs = {
   content: string;

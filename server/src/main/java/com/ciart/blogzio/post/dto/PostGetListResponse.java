@@ -12,14 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 public class PostGetListResponse {
     @NotNull
-    private List<PostResponse> posts;
+    private List<PostSummaryResponse> posts;
 
     @NotNull
     private int totalPages;
 
     public static PostGetListResponse from(Page<Post> page) {
-        List<PostResponse> postResponses = page.getContent().stream()
-                .map(PostResponse::from)
+        List<PostSummaryResponse> postResponses = page.getContent().stream()
+                .map(PostSummaryResponse::from)
                 .toList();
 
         return new PostGetListResponse(postResponses, page.getTotalPages());

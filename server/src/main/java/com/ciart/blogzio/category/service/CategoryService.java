@@ -22,6 +22,9 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Optional<Category> find(UUID categoryId) {
+        if (categoryId == null) {
+            return Optional.empty();
+        }
         return categoryRepository.findById(categoryId);
     }
 

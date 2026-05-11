@@ -30,19 +30,18 @@ public class GuestbookService {
 
     @Transactional
     public GuestbookMessage createMessage(
-        String nickname,
-        GuestbookMessageContentType contentType,
-        String content,
-        GuestbookMessageBackgroundColor backgroundColor,
-        String password
-    ) {
+            String nickname,
+            GuestbookMessageContentType contentType,
+            String content,
+            GuestbookMessageBackgroundColor backgroundColor,
+            String password) {
         var guestbookMessage = GuestbookMessage.builder()
-            .nickname(nickname)
-            .contentType(contentType)
-            .content(content)
-            .password(passwordEncoder.encode(password))
-            .backgroundColor(backgroundColor)
-            .build();
+                .nickname(nickname)
+                .contentType(contentType)
+                .content(content)
+                .password(passwordEncoder.encode(password))
+                .backgroundColor(backgroundColor)
+                .build();
 
         guestbookMessageRepository.save(guestbookMessage);
 
@@ -62,23 +61,23 @@ public class GuestbookService {
         return guestbookMessage;
     }
 
+    @Transactional
     public void deleteMessage(UUID id, String password) {
         var guestbookMessage = guestbookMessageRepository
-            .findById(id)
-            .orElseThrow(() ->
-                new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "방명록 메시지를 찾을 수 없습니다."
-                )
-            );
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        "방명록 메시지를 찾을 수 없습니다."));
 
-        if (
-            !passwordEncoder.matches(password, guestbookMessage.getPassword())
-        ) {
+        if (!passwordEncoder.matches(password, guestbookMessage.getPassword())) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "비밀번호가 일치하지 않습니다."
-            );
+                    HttpStatus.BAD_REQUEST,
+                    "비밀번호가 일치하지 않습니다.");
+        }
+
+        var assets = assetService.findAllByOwner(guestbookMessage);
+        for (var asset : assets) {
+            asset.setOwner(null);
         }
 
         guestbookMessageRepository.delete(guestbookMessage);

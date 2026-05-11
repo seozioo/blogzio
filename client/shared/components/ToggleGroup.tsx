@@ -10,7 +10,6 @@ import {
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
-// 애니메이션 효과 넣기
 
 export const PostToggleGroup = () => {
   const editor = useEditor({
