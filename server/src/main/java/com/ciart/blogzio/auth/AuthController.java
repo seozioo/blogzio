@@ -26,7 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class AuthController {
         private final UserService userService;
         private final JwtUtil jwtUtil;
-        private final long ATEXP = 1000L * 60; // 1000 * 60 * 60; 1시간
+        private final long ATEXP = 1000L * 60 * 30; // 1000 * 60 * 60; 1시간
         private final Duration RT_DURATION = Duration.ofDays(30);
         private final long RTEXP = RT_DURATION.toMillis();
 

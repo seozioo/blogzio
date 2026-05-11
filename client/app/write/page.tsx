@@ -28,14 +28,16 @@ import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
 import { editorExtensions } from '@/shared/lib/editor-extensions';
 import { notFound, useRouter } from 'next/navigation';
 import { useAuth } from '@/shared/hooks/use-auth';
+import { TagInput } from '@/shared/components/TagInput';
 
 export default function Write() {
   const router = useRouter();
   const { isAdmin } = useAuth();
 
-  if (!isAdmin) {
-    notFound();
-  }
+
+  // if (!isAdmin) {
+  //   notFound();
+  // }
 
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
@@ -70,10 +72,6 @@ export default function Write() {
 
     const formData = new FormData(e.currentTarget);
     const title = formData.get('title') as string;
-    const tags = (formData.get('tags') as string)
-      .split(',')
-      .map((t) => t.trim())
-      .filter(Boolean);
 
     setSubmitting(true);
     const { data, error } = await apiClient.POST('/post', {
@@ -324,7 +322,7 @@ export default function Write() {
                 placeholder="카테고리"
                 onChange={(opt) => setCategoryId(opt.value)}
               />
-              <InputField name="tags" className="flex-1" placeholder="태그" />
+              <TagInput value={tags} onChange={setTags} placeholder='태그' className='flex-1'></TagInput>
               <VisibilityToggle
                 onChange={(v) => setIsVisible(v === 'public')}
               />
