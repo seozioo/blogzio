@@ -7,6 +7,7 @@ import { CategoryTab } from './CategoryTab';
 import { PaginationBar } from './PaginationBar';
 import { components } from '@/types/schema';
 import { WritePostButton } from '../PostWriteButton';
+import { SearchForm } from './SearchForm';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
@@ -14,15 +15,18 @@ export type PostPanelProps = Readonly<{
   posts?: components['schemas']['PostSummaryResponse'][];
   currentPage?: number;
   totalPages?: number;
+  isDisableSort?: boolean;
 }>;
 
 export const PostPanel = (props: PostPanelProps) => {
   const posts = props.posts ?? [];
-  const sortedPosts = [...posts].sort((a, b) => {
-    const dateA = new Date(a.postedAt ?? '').getTime();
-    const dateB = new Date(b.postedAt ?? '').getTime();
-    return dateB - dateA;
-  });
+  const sortedPosts = props.isDisableSort
+    ? posts
+    : [...posts].sort((a, b) => {
+        const dateA = new Date(a.postedAt ?? '').getTime();
+        const dateB = new Date(b.postedAt ?? '').getTime();
+        return dateB - dateA;
+      });
 
   return (
     <>
@@ -37,17 +41,7 @@ export const PostPanel = (props: PostPanelProps) => {
             <p className="p-1 text-zinc-400 text-sm">
               {props.currentPage ?? 1} / {props.totalPages ?? 1}
             </p>
-            <InputField
-              className="w-50"
-              placeholder="검색"
-              suffixIcon={
-                <MagnifyingGlassIcon
-                  className="text-zinc-400"
-                  size={20}
-                  weight="bold"
-                />
-              }
-            />
+            <SearchForm />
           </div>
           {sortedPosts?.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-75">

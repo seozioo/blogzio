@@ -172,6 +172,14 @@ public class PostService {
                 return postLikeRepository.countByPost(post);
         }
 
+        // 검색
+        @Transactional(readOnly = true)
+        public Page<Post> searchPosts(String keyword, @Nullable Category category, @Nullable Integer page) {
+                Pageable pageable = PageRequest.of(page != null ? page : 0, PAGE_SIZE);
+                UUID categoryId = category != null ? category.getId() : null;
+                return postRepository.searchByKeyword(pageable, keyword, categoryId);
+        }
+
         // 목록읽기
         @Transactional(readOnly = true)
         public Page<Post> GetAllPosts(@Nullable Category category, @Nullable Integer page,

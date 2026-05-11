@@ -13,7 +13,7 @@
 1. 컨테이너 실행
 
    ```bash
-   docker compose -f docker-compose.local.yml up -d
+   docker compose -f docker-compose.local.yml up -d --build
    ```
 
    > minIO 콘솔에 접속하여 Access Policy를 public으로 변경해야 합니다.
