@@ -8,7 +8,10 @@ export type BaseContainerProps = Readonly<{
 
 export const BaseContainer = (props: BaseContainerProps) => {
   return (
-    <div className={clsx('w-full max-w-210 mx-auto', props.className)} style={props.style}>
+    <div
+      className={clsx('w-full max-w-210 mx-auto', props.className)}
+      style={props.style}
+    >
       {props.children}
     </div>
   );
