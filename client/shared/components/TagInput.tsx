@@ -2,6 +2,8 @@ import { XIcon } from "@phosphor-icons/react";
 import clsx from "clsx";
 import { KeyboardEvent, useState } from "react";
 
+const NOT_TAG_KEY = /[~!@#$%";'^,&*()_+|<>=?:{}\[\]\/\\\-]/;
+
 type TagInputProps = {
   value: string[];
   onChange: (tags: string[]) => void;
@@ -44,7 +46,7 @@ export const TagInput = ({
   return (
     <div
       className={clsx(
-        "flex flex-wrap items-center gap-1 border border-border rounded-2xl px-2 min-h-9 text-sm transition-all focus-within:ring-2 ring-sky-400/20",
+        "flex flex-wrap items-center gap-1 border border-border rounded-2xl px-3 min-h-9 text-sm bg-white transition-all focus-within:ring-2 ring-sky-400/20",
         className,
       )}
     >
@@ -65,7 +67,7 @@ export const TagInput = ({
       ))}
       <input
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => setInput(e.target.value.replace(NOT_TAG_KEY, ''))}
         onKeyDown={handleKeyDown}
         onBlur={() => addTag(input)}
         placeholder={value.length === 0 ? placeholder : ""}
