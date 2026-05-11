@@ -32,7 +32,7 @@ export const apiClient = createClient<paths>({
       }
     }
 
-    const response = await fetch(request);
+    const response = await fetch(request.clone());
 
     if (response.status === 401) {
       const res = await fetch("/api/auth/refresh", { method: 'POST' });
