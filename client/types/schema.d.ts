@@ -165,6 +165,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/login": {
         parameters: {
             query?: never;
@@ -318,61 +334,6 @@ export interface components {
             categoryId?: string;
             tags?: string[];
         };
-        Asset: {
-            /** Format: uuid */
-            id?: string;
-            owner?: components["schemas"]["AssetOwner"];
-            originalFilename?: string;
-            url?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            deletedAt?: string;
-            deleted?: boolean;
-        };
-        AssetOwner: {
-            /** Format: uuid */
-            id?: string;
-        };
-        Category: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            /** Format: int32 */
-            sortOrder?: number;
-            /** @enum {string} */
-            type?: "GALLERY" | "LIST";
-            posts?: components["schemas"]["Post"][];
-        };
-        Post: {
-            /** Format: uuid */
-            id?: string;
-            author?: components["schemas"]["User"];
-            title?: string;
-            content?: components["schemas"]["JsonNode"];
-            pinned?: boolean;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-            /** Format: date-time */
-            postedAt?: string;
-            is_visiable?: boolean;
-            contentText?: string;
-            thumbnail?: components["schemas"]["Asset"];
-            category?: components["schemas"]["Category"];
-            tags?: components["schemas"]["Tag"][];
-            likes?: components["schemas"]["PostLike"][];
-            /** Format: int64 */
-            likeCount?: number;
-        };
-        PostLike: {
-            post?: components["schemas"]["Post"];
-            ipHash?: string;
-            /** Format: date-time */
-            createdAt?: string;
-        };
         PostResponse: {
             /** Format: uuid */
             id: string;
@@ -392,21 +353,6 @@ export interface components {
             /** Format: uuid */
             id?: string;
             title?: string;
-            posts?: components["schemas"]["Post"][];
-        };
-        User: {
-            /** Format: uuid */
-            id?: string;
-            username?: string;
-            nickname?: string;
-            email?: string;
-            password?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-            bio?: string;
-            profileImageUrl?: string;
         };
         CategoryUpdateRequest: {
             name: string;
@@ -1438,6 +1384,51 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["LoginResponse"];
                 };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description 유효성 검증 실패 */
             400: {
