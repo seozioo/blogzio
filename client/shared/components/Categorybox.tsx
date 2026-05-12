@@ -1,3 +1,5 @@
+'use client';
+
 import { Combobox } from '@base-ui/react/combobox';
 import { CaretDownIcon, PlusIcon } from '@phosphor-icons/react';
 import { useMemo, useState } from 'react';
@@ -12,11 +14,21 @@ type Option = {
 
 type Props = {
   placeholder?: string;
+  showCreateButton?: boolean;
+  showClear?: boolean;
   onChange?: (value: Option) => void;
+  onClear?: () => void;
 };
 
-export const CategoryBox = ({ placeholder, onChange }: Props) => {
+export const CategoryBox = ({
+  placeholder,
+  showCreateButton,
+  showClear,
+  onChange,
+  onClear,
+}: Props) => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const { data, mutate } = useApi('/category');
 
   const options: Option[] = useMemo(
@@ -30,12 +42,18 @@ export const CategoryBox = ({ placeholder, onChange }: Props) => {
   );
 
   const handleValueChange = (value: string | null) => {
+    setSelectedValue(value);
     if (value && onChange) {
       const selected = options.find((opt) => opt.id === value);
       if (selected) {
         onChange(selected);
       }
     }
+  };
+
+  const handleClear = () => {
+    setSelectedValue(null);
+    onClear?.();
   };
 
   const handleCreateCategory = () => {
@@ -58,6 +76,7 @@ export const CategoryBox = ({ placeholder, onChange }: Props) => {
       />
       <Combobox.Root
         items={options}
+        value={selectedValue}
         onValueChange={handleValueChange}
         itemToStringLabel={(value) =>
           options.find((v) => v.id === value)?.label ?? ''
@@ -81,6 +100,15 @@ export const CategoryBox = ({ placeholder, onChange }: Props) => {
               style={{ minWidth: `${longestLabel.length * 14}px` }}
             >
               <Combobox.List>
+                {showClear && (
+                  <Combobox.Item
+                    value=""
+                    className="flex items-center justify-center gap-1 px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-50 cursor-pointer"
+                    onClick={handleClear}
+                  >
+                    <span>{placeholder}</span>
+                  </Combobox.Item>
+                )}
                 {options.map((option) => (
                   <Combobox.Item
                     key={option.id}
@@ -90,13 +118,15 @@ export const CategoryBox = ({ placeholder, onChange }: Props) => {
                     {option.label}
                   </Combobox.Item>
                 ))}
-                <Combobox.Item
-                  className="flex items-center px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-50 cursor-pointer"
-                  onClick={handleCreateCategory}
-                >
-                  <PlusIcon size={14} weight="bold" />
-                  <span className="px-1">새 카테고리</span>
-                </Combobox.Item>
+                {showCreateButton && (
+                  <Combobox.Item
+                    className="flex items-center px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-50 cursor-pointer"
+                    onClick={handleCreateCategory}
+                  >
+                    <PlusIcon size={14} weight="bold" />
+                    <span className="px-1">새 카테고리</span>
+                  </Combobox.Item>
+                )}
               </Combobox.List>
             </Combobox.Popup>
           </Combobox.Positioner>

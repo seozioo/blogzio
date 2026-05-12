@@ -8,6 +8,7 @@ import { SunIcon, UsersIcon } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { useAuth } from '../hooks/use-auth';
 import { useVisit } from '../hooks/use-visit';
+import { apiClient } from '@/constants/api-client';
 
 export const Header = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -21,7 +22,7 @@ export const Header = () => {
     setIsMounted(true);
   }, []);
 
-  const handleProfileClick = () => {
+  const handleProfileClick = async () => {
     clickCountRef.current += 1;
 
     if (timeoutRef.current) {
@@ -31,6 +32,7 @@ export const Header = () => {
     if (clickCountRef.current >= 5) {
       if (token) {
         setToken(null);
+        await apiClient.POST('/auth/logout');
         alert('로그아웃되었습니다.');
       } else {
         router.push('/login');
@@ -42,7 +44,6 @@ export const Header = () => {
       }, 500);
     }
   };
-
 
   return (
     <header className="relative flex h-18 items-center justify-between px-5">

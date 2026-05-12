@@ -7,6 +7,7 @@ import { CategoryTab } from './CategoryTab';
 import { PaginationBar } from './PaginationBar';
 import { components } from '@/types/schema';
 import { WritePostButton } from '../PostWriteButton';
+import { SearchForm } from './SearchForm';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
@@ -29,7 +30,7 @@ export const PostPanel = (props: PostPanelProps) => {
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
       <BaseContainer className="select-none">
         <div
-          className="relative flex flex-col max-w-202 mx-auto gap-4 rounded-2xl px-4 py-4 bg-white shadow-xs"
+          className="relative flex flex-col gap-10 rounded-2xl px-10 py-8 bg-white shadow-xs"
           style={{ viewTransitionName: 'post-panel' }}
         >
           <WritePostButton />
@@ -37,17 +38,7 @@ export const PostPanel = (props: PostPanelProps) => {
             <p className="p-1 text-zinc-400 text-sm">
               {props.currentPage ?? 1} / {props.totalPages ?? 1}
             </p>
-            <InputField
-              className="w-50"
-              placeholder="검색"
-              suffixIcon={
-                <MagnifyingGlassIcon
-                  className="text-zinc-400"
-                  size={20}
-                  weight="bold"
-                />
-              }
-            />
+            <SearchForm className="w-50" />
           </div>
           {sortedPosts?.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-75">
@@ -56,7 +47,7 @@ export const PostPanel = (props: PostPanelProps) => {
               </p>
             </div>
           ) : props.viewType === 'LIST' ? (
-            <div className="flex flex-col divide-y divide-border -my-4">
+            <div className="flex flex-col divide-y divide-zinc-100 -my-4">
               {sortedPosts?.map((article, index) => (
                 <PostArticleLink
                   key={article.id}

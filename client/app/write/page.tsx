@@ -3,7 +3,6 @@
 import { BaseContainer } from '@/shared/components/BaseContainer';
 import { Button } from '@/shared/components/Button';
 import { EditorSelect } from '@/shared/components/Combobox';
-import { InputField } from '@/shared/components/InputField';
 import {
   ImageIcon,
   LinkIcon,
@@ -26,18 +25,11 @@ import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
 import { apiClient } from '@/constants/api-client';
 import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
 import { editorExtensions } from '@/shared/lib/editor-extensions';
-import { notFound, useRouter } from 'next/navigation';
-import { useAuth } from '@/shared/hooks/use-auth';
+import { useRouter } from 'next/navigation';
 import { TagInput } from '@/shared/components/TagInput';
 
 export default function Write() {
   const router = useRouter();
-  const { isAdmin } = useAuth();
-
-
-  // if (!isAdmin) {
-  //   notFound();
-  // }
 
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
@@ -129,7 +121,7 @@ export default function Write() {
   }
 
   return (
-    <BaseContainer className="w-full mt-5 py-10">
+    <BaseContainer className="w-full py-10">
       <div>
         <div className="relative overflow-hidden">
           <div className="base:-left-4 pointer-events-none absolute inset-y-0 left-0 w-4 bg-linear-to-r from-35% from-zinc-50 to-transparent z-10 transition-all" />
@@ -302,7 +294,7 @@ export default function Write() {
 
         <div>
           <form id="postForm" onSubmit={handleSubmit}>
-            <div className="border border-border bg-white flex flex-col rounded-2xl px-4 py-4 my-4">
+            <div className="border border-border bg-white flex flex-col rounded-2xl px-10 py-8 my-4">
               <input
                 name="title"
                 className="font-semibold text-[24px] w-full outline-none px-1"
@@ -317,12 +309,18 @@ export default function Write() {
               />
             </div>
 
-            <div className="flex max-sm:flex-col items-center max-sm:items-stretch gap-4 max-base:px-4 transition-[padding]">
+            <div className="flex max-sm:flex-col items-center max-sm:items-stretch gap-2 max-sm:gap-4 max-base:px-4 transition-[padding]">
               <CategoryBox
                 placeholder="카테고리"
+                showCreateButton
                 onChange={(opt) => setCategoryId(opt.value)}
               />
-              <TagInput value={tags} onChange={setTags} placeholder='태그' className='flex-1'></TagInput>
+              <TagInput
+                value={tags}
+                onChange={setTags}
+                placeholder="태그"
+                className="flex-1"
+              ></TagInput>
               <VisibilityToggle
                 onChange={(v) => setIsVisible(v === 'public')}
               />

@@ -13,7 +13,7 @@
 1. 컨테이너 실행
 
    ```bash
-   docker compose -f docker-compose.local.yml up -d
+   docker compose -f docker-compose.local.yml up -d --build
    ```
 
    > minIO 콘솔에 접속하여 Access Policy를 public으로 변경해야 합니다.
@@ -66,3 +66,4 @@ npm run build -w client
 
 - https://mangkyu.tistory.com/204
 - https://alstn113.tistory.com/56#Overlap%20Period-1-10
+- https://velog.io/@identity230c/postgresql-%EB%AC%B8%EC%9E%90%EC%97%B4-%EA%B2%80%EC%83%89

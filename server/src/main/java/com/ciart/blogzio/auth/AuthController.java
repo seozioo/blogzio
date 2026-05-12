@@ -56,6 +56,20 @@ public class AuthController {
                                 .body(new LoginResponse(token));
         }
 
+        @PostMapping("/logout")
+        public ResponseEntity<Void> logout() {
+                ResponseCookie deleteCookie = ResponseCookie.from("RT", "")
+                                .maxAge(0)
+                                .secure(true)
+                                .httpOnly(true)
+                                .path("/")
+                                .build();
+
+                return ResponseEntity.ok()
+                                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                                .build();
+        }
+
         @PostMapping("/refresh")
         public ResponseEntity<LoginResponse> refresh(@CookieValue("RT") String refreshToken) {
 
