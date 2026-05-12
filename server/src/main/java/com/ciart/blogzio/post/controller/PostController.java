@@ -74,6 +74,15 @@ public class PostController {
                 return ResponseEntity.ok(PostGetListResponse.from(pageData));
         }
 
+        @GetMapping("/search")
+        public ResponseEntity<PostGetListResponse> search(
+                        @RequestParam String q,
+                        @RequestParam(required = false) UUID category,
+                        @RequestParam(required = false) Integer page) {
+                var pageData = postService.searchPosts(q, categoryService.find(category).orElse(null), page);
+                return ResponseEntity.ok(PostGetListResponse.from(pageData));
+        }
+
         @PostMapping
         public PostResponse create(@AuthenticationPrincipal UUID userId,
                         @Valid @RequestBody PostCreateRequest request) {

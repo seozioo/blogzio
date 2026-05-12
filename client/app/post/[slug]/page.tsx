@@ -42,9 +42,9 @@ export default async function PostPage({
   });
 
   return (
-    <div>
+    <div className="my-10">
       <section>
-        <BaseContainer className="bg-white rounded-2xl px-4 py-4 flex flex-col gap-4">
+        <BaseContainer className="bg-white rounded-2xl gap-4 px-10 py-8 flex flex-col">
           <div className="px-1">
             <p className="text-sm font-semibold text-zinc-600">
               {data.categoryName}
@@ -79,6 +79,13 @@ export default async function PostPage({
             className="px-1 min-h-100 [&_p]:empty:before:content-['\a0']"
             dangerouslySetInnerHTML={{ __html: html }}
           />
+          {data.tags && (
+            <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-400">
+              {data.tags?.map((tag) => (
+                <span key={tag.title}>{`#${tag.title}`}</span>
+              ))}
+            </div>
+          )}
           <LikeButton
             className="mx-auto"
             postId={data.id}

@@ -22,7 +22,7 @@ export const PostPhotoLink = (props: PostPhotoLinkProps) => {
         alt={`${props.title} thumbnail`}
       ></Image>
       {props.tags && (
-        <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-600">
+        <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-400">
           {props.tags?.map((tag) => (
             <span key={tag}>{`#${tag}`}</span>
           ))}

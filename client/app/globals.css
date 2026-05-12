@@ -101,6 +101,19 @@ body {
   animation-timing-function: ease-in-out;
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-old(category-tab) {
+  display: none;
+}
+
+::view-transition-new(category-tab) {
+  animation: none;
+}
+
 .tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
