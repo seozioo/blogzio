@@ -32,12 +32,6 @@ import { TagInput } from '@/shared/components/TagInput';
 
 export default function Write() {
   const router = useRouter();
-  const { isAdmin } = useAuth();
-
-
-  // if (!isAdmin) {
-  //   notFound();
-  // }
 
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
