@@ -16,10 +16,14 @@ export default async function Home({
     params: { query: { page: page - 1, thumbnailOnly: true } },
   });
 
+  const { data: playlist } = await apiClient.GET('/youtube/playlist/{playlistId}', {
+    params: { path: { playlistId: 'PLsD66AsnhZHQyP8w4MWGg6bG-KkPZvl2s' } },
+  });
+
   return (
     <div className="flex flex-col">
       <section>
-        <MusicPlayer />
+        <MusicPlayer playlist={playlist ?? []} />
       </section>
       <section className="mb-50">
         <PostPanel

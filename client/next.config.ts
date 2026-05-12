@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/blogziobucket/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        port: '',
+        pathname: '/**',
+      },
+
     ],
   },
 

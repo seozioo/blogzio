@@ -5,6 +5,17 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { AlbumCover } from './AlbumCover';
 
+type PlaylistItem = {
+  videoId: string;
+  thumbnailUrl: string;
+  videoUrl: string;
+};
+
+type Props = {
+  playlist: PlaylistItem[];
+};
+
+
 const positionClassNames = [
   '-translate-x-200 -translate-z-120 opacity-0',
   '-translate-x-160 -translate-z-80 opacity-50',
@@ -14,6 +25,7 @@ const positionClassNames = [
   'translate-x-160 -translate-z-80 opacity-50',
   'translate-x-200 -translate-z-120 opacity-0',
 ];
+
 
 const dummyPlaylist = [
   {
@@ -59,12 +71,12 @@ const dummyPlaylist = [
 ];
 
 // 높이는 calc(100svh-144px)로 고정한다.
-export const MusicPlayer = () => {
+export const MusicPlayer = ({ playlist }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSelectedIndex((prevIndex) => (prevIndex + 1) % dummyPlaylist.length);
+      setSelectedIndex((prevIndex) => (prevIndex + 1) % playlist.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -72,8 +84,8 @@ export const MusicPlayer = () => {
   return (
     <div className="overflow-hidden w-full">
       <BaseContainer className="flex flex-col justify-center items-center h-[calc(100svh-144px)] transform-3d perspective-normal">
-        {dummyPlaylist.map((song, index) => {
-          const len = dummyPlaylist.length;
+        {playlist.map((song, index) => {
+          const len = playlist.length;
           let offset = index - selectedIndex;
           if (offset > Math.floor(len / 2)) offset -= len;
           if (offset < -Math.floor(len / 2)) offset += len;
@@ -82,14 +94,14 @@ export const MusicPlayer = () => {
 
           return (
             <AlbumCover
-              key={song.id}
+              key={song.videoId}
               className={clsx(
                 'transition-all duration-500',
                 positionClassNames[posIndex] || 'hidden',
               )}
               popDisc={index === selectedIndex}
               hiddenDisc={Math.abs(offset) > 1}
-              coverUrl={`https://placehold.co/240x240@3x.png?text=${encodeURIComponent(song.title)}`}
+              coverUrl={song.thumbnailUrl}
             />
           );
         })}

@@ -9,6 +9,7 @@ export type AlbumCoverProps = Readonly<{
 }>;
 
 export const AlbumCover = (props: AlbumCoverProps) => {
+
   return (
     <div className={clsx('size-60 absolute', props.className)}>
       <div
@@ -43,9 +44,11 @@ export const AlbumCover = (props: AlbumCoverProps) => {
         </svg>
       </div>
       <Image
-        className="rounded-2xl aspect-square shadow-lg"
+        className="rounded-2xl aspect-square shadow-lg object-cover"
         width={240}
         height={240}
+        quality={90}
+        sizes="240px"
         src={props.coverUrl ?? 'https://placehold.co/240x240.png'}
         alt={''}
       ></Image>

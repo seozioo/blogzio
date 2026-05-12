@@ -53,6 +53,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.GET, "/visit").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/visit/daily").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/asset").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/youtube/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .exceptionHandling(ex -> ex
                                                 .authenticationEntryPoint((request, response, authException) -> {
