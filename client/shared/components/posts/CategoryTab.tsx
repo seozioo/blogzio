@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useApi } from '../../hooks/use-api';
 import { newCategory } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
@@ -11,6 +11,7 @@ import { Button } from '../Button';
 import { PlusIcon } from '@phosphor-icons/react';
 import { CategoryCreateDialog } from './CategoryCreateDialog';
 import { useAuth } from '@/shared/hooks/use-auth';
+import { useActiveTabPosition } from './ActiveTabContext';
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -18,6 +19,7 @@ export type CategoryTabProps = Readonly<{
 
 export const CategoryTab = (props: CategoryTabProps) => {
   const pathname = usePathname();
+  const savedPosition = useActiveTabPosition();
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
     width: 0,
@@ -25,6 +27,13 @@ export const CategoryTab = (props: CategoryTabProps) => {
   });
   const [isHovering, setIsHovering] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [activeStyle, setActiveStyle] = useState(() => {
+    const prev = savedPosition?.current;
+    if (prev) return { left: prev.left, width: prev.width, opacity: 1 };
+    return { left: 0, width: 0, opacity: 0 };
+  });
+  const [shouldAnimate, setShouldAnimate] = useState(() => !!savedPosition?.current);
+  const tabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
 
   const { data, mutate } = useApi('/category');
 
@@ -35,8 +44,38 @@ export const CategoryTab = (props: CategoryTabProps) => {
 
   const { isAdmin } = useAuth();
 
+  const updateActiveStyle = useCallback(() => {
+    const activeSlug = categories.find((item) => {
+      if (props.overrideActiveCategory !== undefined) {
+        return props.overrideActiveCategory === item.id;
+      }
+      return pathname === `/${item.slug}`;
+    })?.slug;
+
+    if (activeSlug) {
+      const el = tabRefs.current.get(activeSlug);
+      if (el) {
+        const newPos = { left: el.offsetLeft, width: el.offsetWidth };
+        setActiveStyle({ ...newPos, opacity: 1 });
+        if (savedPosition) savedPosition.current = newPos;
+        if (!shouldAnimate) {
+          requestAnimationFrame(() => setShouldAnimate(true));
+        }
+      }
+    } else {
+      setActiveStyle((prev) => ({ ...prev, opacity: 0 }));
+    }
+  }, [pathname, categories, shouldAnimate, savedPosition]);
+
+  useEffect(() => {
+    updateActiveStyle();
+  }, [updateActiveStyle]);
+
   return (
-    <BaseContainer className="relative select-none" style={{ viewTransitionName: 'category-tab' }}>
+    <BaseContainer
+      className="relative select-none"
+      style={{ viewTransitionName: 'category-tab' }}
+    >
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-35% to-95% from-zinc-50 to-transparent z-20" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-35% to-95% from-zinc-50 to-transparent z-20" />
       <div className="flex overflow-x-auto px-20 scrollbar-hide">
@@ -63,6 +102,37 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 opacity: hoverStyle.opacity,
               }}
             />
+            <div
+              aria-hidden="true"
+              className={clsx(
+                'absolute bottom-0 h-10 bg-sky-500 rounded-t-2xl pointer-events-none z-10',
+                shouldAnimate ? 'transition-all duration-300 ease-in-out' : 'transition-opacity',
+              )}
+              style={{
+                left: `${activeStyle.left}px`,
+                width: `${activeStyle.width}px`,
+                opacity: activeStyle.opacity,
+              }}
+            >
+              <svg
+                aria-hidden="true"
+                className="absolute -left-4 bottom-0 w-4.25 h-4 text-sky-500 pointer-events-none"
+                viewBox="0 0 17 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M 17 16 H 0 A 16 16 0 0 0 16 0 H 17 V 16 Z" />
+              </svg>
+              <svg
+                aria-hidden="true"
+                className="absolute -right-4 bottom-0 w-4.25 h-4 text-sky-500 pointer-events-none"
+                viewBox="0 0 17 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M 0 16 V 0 H 1 A 16 16 0 0 0 17 16 H 0 Z" />
+              </svg>
+            </div>
             {categories.map((item) => {
               const path = `/${item.slug}`;
 
@@ -76,6 +146,10 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 <Link
                   key={item.name}
                   href={path}
+                  ref={(el) => {
+                    if (el) tabRefs.current.set(item.slug!, el);
+                    else tabRefs.current.delete(item.slug!);
+                  }}
                   onMouseEnter={(e) => {
                     setHoverStyle({
                       left: e.currentTarget.offsetLeft,
@@ -108,32 +182,10 @@ export const CategoryTab = (props: CategoryTabProps) => {
                   className={clsx(
                     'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
                     isActive
-                      ? 'bg-sky-500 text-white z-10 rounded-t-2xl'
+                      ? 'text-white z-20'
                       : 'text-zinc-600 hover:text-zinc-900 bg-transparent',
                   )}
                 >
-                  {isActive && (
-                    <>
-                      <svg
-                        aria-hidden="true"
-                        className="absolute -left-4 bottom-0 w-4.25 h-4 text-sky-500 pointer-events-none"
-                        viewBox="0 0 17 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M 17 16 H 0 A 16 16 0 0 0 16 0 H 17 V 16 Z" />
-                      </svg>
-                      <svg
-                        aria-hidden="true"
-                        className="absolute -right-4 bottom-0 w-4.25 h-4 text-sky-500 pointer-events-none"
-                        viewBox="0 0 17 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M 0 16 V 0 H 1 A 16 16 0 0 0 17 16 H 0 Z" />
-                      </svg>
-                    </>
-                  )}
                   {item.name}
                 </Link>
               );

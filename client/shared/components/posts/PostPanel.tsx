@@ -15,25 +15,22 @@ export type PostPanelProps = Readonly<{
   posts?: components['schemas']['PostSummaryResponse'][];
   currentPage?: number;
   totalPages?: number;
-  isDisableSort?: boolean;
 }>;
 
 export const PostPanel = (props: PostPanelProps) => {
   const posts = props.posts ?? [];
-  const sortedPosts = props.isDisableSort
-    ? posts
-    : [...posts].sort((a, b) => {
-        const dateA = new Date(a.postedAt ?? '').getTime();
-        const dateB = new Date(b.postedAt ?? '').getTime();
-        return dateB - dateA;
-      });
+  const sortedPosts = [...posts].sort((a, b) => {
+    const dateA = new Date(a.postedAt ?? '').getTime();
+    const dateB = new Date(b.postedAt ?? '').getTime();
+    return dateB - dateA;
+  });
 
   return (
     <>
       <CategoryTab overrideActiveCategory={props.overrideActiveCategory} />
       <BaseContainer className="select-none">
         <div
-          className="relative flex flex-col max-w-202 mx-auto gap-4 rounded-2xl px-4 py-4 bg-white shadow-xs"
+          className="relative flex flex-col gap-10 rounded-2xl px-10 py-8 bg-white shadow-xs"
           style={{ viewTransitionName: 'post-panel' }}
         >
           <WritePostButton />
@@ -41,7 +38,7 @@ export const PostPanel = (props: PostPanelProps) => {
             <p className="p-1 text-zinc-400 text-sm">
               {props.currentPage ?? 1} / {props.totalPages ?? 1}
             </p>
-            <SearchForm />
+            <SearchForm className="w-50" />
           </div>
           {sortedPosts?.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-75">
@@ -50,7 +47,7 @@ export const PostPanel = (props: PostPanelProps) => {
               </p>
             </div>
           ) : props.viewType === 'LIST' ? (
-            <div className="flex flex-col divide-y divide-border -my-4">
+            <div className="flex flex-col divide-y divide-zinc-100 -my-4">
               {sortedPosts?.map((article, index) => (
                 <PostArticleLink
                   key={article.id}

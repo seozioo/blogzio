@@ -66,3 +66,4 @@ npm run build -w client
 
 - https://mangkyu.tistory.com/204
 - https://alstn113.tistory.com/56#Overlap%20Period-1-10
+- https://velog.io/@identity230c/postgresql-%EB%AC%B8%EC%9E%90%EC%97%B4-%EA%B2%80%EC%83%89
