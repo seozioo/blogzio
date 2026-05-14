@@ -5,10 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag,Long> {
     Optional<Tag> findByTitle(String title);
+
+    List<Tag> findByTitleIn(List<String> titles);
 
     @Modifying
     @Query("Delete From Tag t WHERE t.posts IS EMPTY")

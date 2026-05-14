@@ -1,44 +1,52 @@
 'use client';
 
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { InputField } from '../InputField';
+import { useState } from 'react';
+import { TagInput } from '../TagInput';
 import { CategoryBox } from '../Categorybox';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 
-type Inputs = {
-  category?: string;
-  query: string;
-};
-
 export type SearchFormProps = Readonly<{
   className?: string;
   showCategory?: boolean;
+  defaultQuery?: string;
+  defaultTags?: string[];
 }>;
 
 export const SearchForm = (props: SearchFormProps) => {
-  const { register, handleSubmit, setValue } = useForm<Inputs>();
+  const [query, setQuery] = useState(props.defaultQuery ?? '');
+  const [tags, setTags] = useState<string[]>(props.defaultTags ?? []);
+  const [category, setCategory] = useState<string>();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (data.query.trim()) {
-      const params = new URLSearchParams({ q: data.query.trim() });
-      if (data.category) {
-        params.set('category', data.category);
-      }
-      router.push(`/search?${params}`);
-    }
+  const submit = () => {
+    const q = query.trim();
+    if (!q && tags.length === 0) return;
+
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (category) params.set('category', category);
+    tags.forEach((tag) => params.append('tag', tag));
+    router.push(`/search?${params}`);
   };
 
   const form = (
     <form
       className={props.showCategory ? 'w-full' : props.className}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        submit();
+      }}
     >
-      <InputField
+      <TagInput
         className="w-full"
-        placeholder="검색"
-        {...register('query')}
+        value={tags}
+        onChange={setTags}
+        text={query}
+        onTextChange={setQuery}
+        onSubmit={submit}
+        placeholder="검색어 또는 #태그"
+        hashOnly
         suffixIcon={
           <MagnifyingGlassIcon
             className="text-zinc-400"
@@ -57,8 +65,8 @@ export const SearchForm = (props: SearchFormProps) => {
       <CategoryBox
         placeholder="전체"
         showClear
-        onChange={(opt) => setValue('category', opt.id)}
-        onClear={() => setValue('category', undefined)}
+        onChange={(opt) => setCategory(opt.id)}
+        onClear={() => setCategory(undefined)}
       />
       {form}
     </div>
