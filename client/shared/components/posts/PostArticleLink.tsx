@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { TagList } from './TagList';
 
 export type PostArticleLinkProps = Readonly<{
   postId: string;
@@ -18,7 +19,12 @@ export const PostArticleLink = (props: PostArticleLinkProps) => {
   });
 
   return (
-    <Link href={`/post/${props.postId}`} className="px-1 py-4">
+    <div className="relative px-1 py-4">
+      <Link
+        href={`/post/${props.postId}`}
+        className="absolute inset-0 z-0"
+        aria-label={props.title}
+      />
       <div className="h-15 flex justify-between items-start gap-2">
         <div className="min-w-0">
           <p className="text-xl font-semibold">{props.title}</p>
@@ -37,13 +43,11 @@ export const PostArticleLink = (props: PostArticleLinkProps) => {
         )}
       </div>
       <div className="flex justify-between items-center mt-3 text-sm">
-        <div className="flex gap-2 font-semibold text-zinc-400">
-          {props.tags?.map((tag) => (
-            <span key={tag}>{`#${tag}`}</span>
-          ))}
+        <div>
+          {props.tags && <TagList tags={props.tags} />}
         </div>
         <p className="text-zinc-600">{formattedDate}</p>
       </div>
-    </Link>
+    </div>
   );
 };

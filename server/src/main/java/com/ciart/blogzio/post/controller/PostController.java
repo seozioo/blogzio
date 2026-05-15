@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 
 import com.ciart.blogzio.post.dto.PostPageResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -65,21 +66,14 @@ public class PostController {
         }
 
         @GetMapping
-        public ResponseEntity<PostGetListResponse> getList(@RequestParam(required = false) UUID category,
-                        @RequestParam(required = false) Integer page,
-                        @RequestParam(required = false, defaultValue = "false") boolean thumbnailOnly) {
-                var pageData = postService.GetAllPosts(categoryService.find(category).orElse(null), page,
-                                thumbnailOnly);
-
-                return ResponseEntity.ok(PostGetListResponse.from(pageData));
-        }
-
-        @GetMapping("/search")
-        public ResponseEntity<PostGetListResponse> search(
-                        @RequestParam String q,
+        public ResponseEntity<PostGetListResponse> getList(
+                        @RequestParam(required = false) String q,
                         @RequestParam(required = false) UUID category,
-                        @RequestParam(required = false) Integer page) {
-                var pageData = postService.searchPosts(q, categoryService.find(category).orElse(null), page);
+                        @RequestParam(required = false) Integer page,
+                        @RequestParam(required = false, defaultValue = "false") boolean thumbnailOnly,
+                        @RequestParam(required = false) List<String> tag) {
+                var pageData = postService.getPosts(q, categoryService.find(category).orElse(null), page,
+                                thumbnailOnly, tag);
                 return ResponseEntity.ok(PostGetListResponse.from(pageData));
         }
 

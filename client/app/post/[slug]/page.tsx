@@ -7,6 +7,7 @@ import { ExportIcon } from '@phosphor-icons/react/ssr';
 import { generateHTML } from '@tiptap/html';
 import { JSONContent } from '@tiptap/react';
 import { notFound } from 'next/navigation';
+import { TagList } from '@/shared/components/posts/TagList';
 import { LikeButton } from './_components/LikeButton';
 
 export default async function PostPage({
@@ -80,11 +81,10 @@ export default async function PostPage({
             dangerouslySetInnerHTML={{ __html: html }}
           />
           {data.tags && (
-            <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-400">
-              {data.tags?.map((tag) => (
-                <span key={tag.title}>{`#${tag.title}`}</span>
-              ))}
-            </div>
+            <TagList
+              tags={data.tags.map((tag) => tag.title!)}
+              className="mt-2 px-1"
+            />
           )}
           <LikeButton
             className="mx-auto"

@@ -2,6 +2,7 @@ package com.ciart.blogzio.auth;
 
 import com.ciart.blogzio.auth.dto.LoginRequest;
 import com.ciart.blogzio.auth.dto.LoginResponse;
+import com.ciart.blogzio.user.dto.UserProfileResponse;
 import com.ciart.blogzio.user.service.UserService;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -75,6 +76,7 @@ public class AuthController {
 
                 try {
                         UUID userId = jwtUtil.getUserId(refreshToken);
+                        userService.getProfile(userId);
 
                         String token = jwtUtil.generateToken(userId, ATEXP);
 

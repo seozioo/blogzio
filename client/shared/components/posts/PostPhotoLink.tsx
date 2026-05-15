@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { TagList } from './TagList';
 
 export type PostPhotoLinkProps = Readonly<{
   postId: string;
@@ -10,10 +11,12 @@ export type PostPhotoLinkProps = Readonly<{
 
 export const PostPhotoLink = (props: PostPhotoLinkProps) => {
   return (
-    <Link
-      href={`/post/${props.postId}`}
-      className="w-full h-auto cursor-pointer"
-    >
+    <div className="relative w-full h-auto">
+      <Link
+        href={`/post/${props.postId}`}
+        className="absolute inset-0 z-0"
+        aria-label={props.title}
+      />
       <Image
         className="rounded-2xl aspect-square object-cover"
         width={1000}
@@ -21,13 +24,7 @@ export const PostPhotoLink = (props: PostPhotoLinkProps) => {
         src={props.thumbnailUrl ?? 'https://placehold.co/1000x1000.png'}
         alt={`${props.title} thumbnail`}
       ></Image>
-      {props.tags && (
-        <div className="mt-2 px-1 flex gap-2 font-semibold text-sm text-zinc-400">
-          {props.tags?.map((tag) => (
-            <span key={tag}>{`#${tag}`}</span>
-          ))}
-        </div>
-      )}
-    </Link>
+      {props.tags && <TagList tags={props.tags} className="mt-2 px-1" />}
+    </div>
   );
 };

@@ -172,29 +172,20 @@ public class PostService {
                 return postLikeRepository.countByPost(post);
         }
 
-        // 검색
         @Transactional(readOnly = true)
-        public Page<Post> searchPosts(String keyword, @Nullable Category category, @Nullable Integer page) {
+        public Page<Post> getPosts(@Nullable String keyword, @Nullable Category category,
+                        @Nullable Integer page, boolean thumbnailOnly, @Nullable List<String> tagNames) {
                 Pageable pageable = PageRequest.of(page != null ? page : 0, PAGE_SIZE);
                 UUID categoryId = category != null ? category.getId() : null;
-                return postRepository.searchByKeyword(pageable, keyword, categoryId);
-        }
-
-        // 목록읽기
-        @Transactional(readOnly = true)
-        public Page<Post> GetAllPosts(@Nullable Category category, @Nullable Integer page,
-                        boolean thumbnailOnly) {
-                Pageable pageable = PageRequest.of(page != null ? page : 0, PAGE_SIZE);
-
-                if (category == null) {
-                        return thumbnailOnly
-                                        ? postRepository.findAllByThumbnailIsNotNull(pageable)
-                                        : postRepository.findAll(pageable);
+                List<UUID> tagIds = null;
+                if (tagNames != null && !tagNames.isEmpty()) {
+                        List<Tag> foundTags = tagRepository.findByTitleIn(tagNames);
+                        if (foundTags.size() != tagNames.size()) {
+                                return Page.empty(pageable);
+                        }
+                        tagIds = foundTags.stream().map(Tag::getId).toList();
                 }
-
-                return thumbnailOnly
-                                ? postRepository.findAllByCategoryAndThumbnailIsNotNull(pageable, category)
-                                : postRepository.findAllByCategory(pageable, category);
+                return postRepository.findAllDynamic(pageable, keyword, categoryId, thumbnailOnly, tagIds);
         }
 
         // category 체크
