@@ -42,6 +42,10 @@ ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Next.js inlines NEXT_PUBLIC_* env vars at build time, so we must provide them here.
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
 # Build Next.js application from client workspace
 WORKDIR /app/client
 RUN npx next build

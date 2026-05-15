@@ -1,5 +1,6 @@
 services:
   blogzio-server:
+    container_name: server
     build:
       context: .
       dockerfile: server/dockerfile
@@ -21,9 +22,12 @@ services:
       VISITOR_SECRET: ${VISITOR_SECRET}
       YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
   blogzio-client:
+    container_name: client
     build:
       context: .
       dockerfile: client/dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     restart: unless-stopped
     ports:
       - '3000:3000'

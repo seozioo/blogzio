@@ -3,7 +3,7 @@ import createClient from 'openapi-fetch';
 
 const baseUrl =
   typeof window === 'undefined'
-    ? `${process.env.NEXT_PUBLIC_API_URL || 'http://blogzio-server:4000'}/api`
+    ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api`
     : '/api';
 
 export type TokenRefreshHandelr = (token: string) => void;
