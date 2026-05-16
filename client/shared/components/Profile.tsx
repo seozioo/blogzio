@@ -7,6 +7,7 @@ import { apiClient } from '@/constants/api-client';
 import { components } from '@/types/schema';
 import { ImageIcon, XCircleIcon } from '@phosphor-icons/react';
 import { useAuth } from '../hooks/use-auth';
+import { uploadImage } from '../utils/upload-image';
 
 
 export const Profile = () => {
@@ -35,18 +36,11 @@ export const Profile = () => {
         formData.append('file', file);
 
 
-        const { data } = await apiClient.POST('/asset', {
-            body: { file: file as unknown as string },
-            bodySerializer: (body) => {
-                const formData = new FormData();
-                formData.append('file', body!.file);
-                return formData;
-            },
-        });
+        const data = await uploadImage(file);
 
-
-        if (data?.url) {
-            setProfiledata({ ...profiledata, profileImageUrl: data.url });
+        ㄴ
+        if (data) {
+            setProfiledata({ ...profiledata, profileImageUrl: data });
         }
     }
 

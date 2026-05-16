@@ -17,6 +17,17 @@ export const Header = () => {
   const clickCountRef = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { isLoading: isLoadingVisit, today, total } = useVisit();
+  const [profileImage, setProfileImage] = useState<string>('https://placehold.co/1000x1000.png');
+
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await apiClient.GET('/user/profileview');
+      if (data?.profileImageUrl) {
+        setProfileImage(data.profileImageUrl);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -57,7 +68,7 @@ export const Header = () => {
               )}
               width={40}
               height={40}
-              src={'https://placehold.co/1000x1000.png'}
+              src={profileImage}
               alt={''}
             ></Image>
           ) : (
