@@ -27,49 +27,6 @@ const positionClassNames = [
 ];
 
 
-const dummyPlaylist = [
-  {
-    id: 1,
-    title: 'Song 1',
-  },
-  {
-    id: 2,
-    title: 'Song 2',
-  },
-  {
-    id: 3,
-    title: 'Song 3',
-  },
-  {
-    id: 4,
-    title: 'Song 4',
-  },
-  {
-    id: 5,
-    title: 'Song 5',
-  },
-  {
-    id: 6,
-    title: 'Song 6',
-  },
-  {
-    id: 7,
-    title: 'Song 7',
-  },
-  {
-    id: 8,
-    title: 'Song 8',
-  },
-  {
-    id: 9,
-    title: 'Song 9',
-  },
-  {
-    id: 10,
-    title: 'Song 10',
-  },
-];
-
 // 높이는 calc(100svh-144px)로 고정한다.
 export const MusicPlayer = ({ playlist }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -102,6 +59,7 @@ export const MusicPlayer = ({ playlist }: Props) => {
               popDisc={index === selectedIndex}
               hiddenDisc={Math.abs(offset) > 1}
               coverUrl={song.thumbnailUrl}
+              onClick={() => window.open(song.videoUrl)}
             />
           );
         })}

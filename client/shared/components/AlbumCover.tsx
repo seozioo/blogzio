@@ -6,6 +6,7 @@ export type AlbumCoverProps = Readonly<{
   coverUrl?: string;
   popDisc?: boolean;
   hiddenDisc?: boolean;
+  onClick?: () => void;
 }>;
 
 export const AlbumCover = (props: AlbumCoverProps) => {
@@ -47,10 +48,12 @@ export const AlbumCover = (props: AlbumCoverProps) => {
         className="rounded-2xl aspect-square shadow-lg object-cover"
         width={240}
         height={240}
-        quality={90}
+        quality={100}
+        unoptimized
         sizes="240px"
         src={props.coverUrl ?? 'https://placehold.co/240x240.png'}
         alt={''}
+        onClick={props.onClick}
       ></Image>
     </div>
   );
