@@ -15,7 +15,6 @@ type Props = {
   playlist: PlaylistItem[];
 };
 
-
 const positionClassNames = [
   '-translate-x-200 -translate-z-120 opacity-0',
   '-translate-x-160 -translate-z-80 opacity-50 z-10',
@@ -26,15 +25,13 @@ const positionClassNames = [
   'translate-x-200 -translate-z-120 opacity-0',
 ];
 
-
 // 높이는 calc(100svh-144px)로 고정한다.
 export const MusicPlayer = ({ playlist }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const goPrev = () =>
     setSelectedIndex((i) => (i - 1 + playlist.length) % playlist.length);
-  const goNext = () =>
-    setSelectedIndex((i) => (i + 1) % playlist.length);
+  const goNext = () => setSelectedIndex((i) => (i + 1) % playlist.length);
 
   useEffect(() => {
     const interval = setInterval(() => {
