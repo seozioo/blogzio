@@ -12,7 +12,7 @@ export type AlbumCoverProps = Readonly<{
 export const AlbumCover = (props: AlbumCoverProps) => {
 
   return (
-    <div className={clsx('size-60 absolute', props.className)}>
+    <div className={clsx('size-60 absolute', props.className, !props.onClick && 'pointer-events-none')}>
       <div
         className={clsx(
           'absolute left-5 size-50 -z-10 rounded-full bg-[linear-gradient(to_bottom,#ffffff33_0%,transparent_45%),radial-gradient(circle,var(--color-zinc-900)_38%,var(--color-zinc-800)_40%)] flex items-center justify-center overflow-hidden transition-all duration-700',
