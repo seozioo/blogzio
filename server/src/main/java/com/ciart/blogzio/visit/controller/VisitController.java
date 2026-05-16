@@ -24,7 +24,13 @@ public class VisitController {
 
     @PostMapping("/daily")
     public ResponseEntity<Void> logDailyVisitor(HttpServletRequest request) {
-        visitService.log(request.getRemoteAddr());
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.isEmpty()) {
+            ip = request.getRemoteAddr();
+        } else {
+            ip = ip.split(",")[0].trim();
+        }
+        visitService.log(ip);
         return ResponseEntity.ok().build();
     }
 }
