@@ -24,13 +24,29 @@ export const Profile = () => {
         })();
     }, [token]);
 
-    const handleFileChange: ChangeEventHandler<HTMLInputElement, HTMLInputElement> = (event) => {
+    const handleFileChange: ChangeEventHandler<HTMLInputElement, HTMLInputElement> = async (event) => {
         const file = event.currentTarget.files?.[0];
 
-        console.log(file?.name)
+        if (!file) return;
 
-        if (file) {
-            setPreview(URL.createObjectURL(file));
+        setPreview(URL.createObjectURL(file));
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+
+        const { data } = await apiClient.POST('/asset', {
+            body: { file: file as unknown as string },
+            bodySerializer: (body) => {
+                const formData = new FormData();
+                formData.append('file', body!.file);
+                return formData;
+            },
+        });
+
+
+        if (data?.url) {
+            setProfiledata({ ...profiledata, profileImageUrl: data.url });
         }
     }
 
