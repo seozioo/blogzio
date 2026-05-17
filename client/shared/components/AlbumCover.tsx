@@ -21,7 +21,7 @@ export const AlbumCover = (props: AlbumCoverProps) => {
       >
         <div className="bg-sky-300 size-20 rounded-full z-10"></div>
         <Image
-          className="absolute mix-blend-multiply animate-[spin_8s_linear_infinite]"
+          className="absolute mix-blend-multiply animate-[spin_8s_linear_infinite] rounded-full"
           width={200}
           height={200}
           quality={100}
