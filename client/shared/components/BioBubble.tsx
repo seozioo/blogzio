@@ -29,6 +29,7 @@ export const BioBubble = (props: BioBubble) => {
     <>
       <Popover.Trigger
         id={BIO_BUBBLE_TRIGGER_ID}
+        className="outline-none"
         handle={popover}
         openOnHover
         delay={0}
