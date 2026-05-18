@@ -43,7 +43,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/user/signup").permitAll()
                                                 .requestMatchers("/user/admin-exists").permitAll()
                                                 .requestMatchers("/user/profileview").permitAll()
-                                                .requestMatchers("/user/profil").permitAll()
+                                                .requestMatchers("/user/profile").permitAll()
                                                 .requestMatchers("/v3/api-docs").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/post", "/post/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/post/*/like").permitAll()
