@@ -50,9 +50,6 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileResponse> getProfile(@AuthenticationPrincipal UUID userId) {
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "인증이 필요합니다.");
-        }
         return ResponseEntity.ok(userService.getProfile(userId));
 
     }
@@ -66,9 +63,6 @@ public class UserController {
     @Operation(description = "유저 프로필을 수정합니다.")
     public ResponseEntity<UserProfileResponse> updateProfile(@AuthenticationPrincipal UUID userId,
             @Valid @RequestBody UserProfileUpdateRequest request) {
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "인증이 필요합니다.");
-        }
         return ResponseEntity.ok(userService.updateProfile(userId, request));
     }
 
