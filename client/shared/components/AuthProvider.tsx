@@ -4,7 +4,13 @@ import {
   registerTokenrefresh,
   unregisterTokenrefresh,
 } from '@/constants/api-client';
-import { createContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 export type AuthContextType = {
   token: string | null;
@@ -19,7 +25,21 @@ export type AuthProviderProps = Readonly<{
 }>;
 
 export const AuthProvider = (props: AuthProviderProps) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setTokenState] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+
+    return localStorage.getItem('accessToken');
+  });
+
+  const setToken = useCallback((token: string | null) => {
+    setTokenState(token);
+
+    if (token) {
+      localStorage.setItem('accessToken', token);
+    } else {
+      localStorage.removeItem('accessToken');
+    }
+  }, []);
 
   const isAdmin = useMemo(() => {
     // TODO: 임시 구현입니다. 아직 관리자 계정 뿐이라 이렇게 처리합니다.
@@ -27,11 +47,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
   }, [token]);
 
   useEffect(() => {
-    const stored = localStorage.getItem('accessToken');
-    if (stored) {
-      setToken(stored);
-    }
-
     const handler = (t: string) => {
       setToken(t);
     };
@@ -41,15 +56,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
     return () => {
       unregisterTokenrefresh(handler);
     };
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem('accessToken', token);
-    } else {
-      localStorage.removeItem('accessToken');
-    }
-  }, [token]);
+  }, [setToken]);
 
   return (
     <AuthContext.Provider value={{ token, setToken, isAdmin }}>
