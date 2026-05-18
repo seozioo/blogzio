@@ -15,4 +15,10 @@ public class PlaylistItemResponse {
 
     @NotBlank
     private String videoUrl;
+
+    @NotBlank
+    private String title;
+
+    @NotBlank
+    private String channelTitle;
 }

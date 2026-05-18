@@ -429,6 +429,8 @@ export interface components {
             videoId: string;
             thumbnailUrl: string;
             videoUrl: string;
+            title: string;
+            channelTitle: string;
         };
         VisitResponse: {
             /** Format: int32 */

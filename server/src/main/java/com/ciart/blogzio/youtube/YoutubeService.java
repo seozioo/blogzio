@@ -81,10 +81,14 @@ public class YoutubeService {
         var snippet = item.getSnippet();
         String videoId = snippet.getResourceId().getVideoId();
         String thumbnailUrl = pickBestThumbnail(snippet.getThumbnails());
+        String title = snippet.getTitle();
+        String channelTitle = snippet.getVideoOwnerChannelTitle();
         return new PlaylistItemResponse(
                 videoId,
                 thumbnailUrl,
-                VIDEO_URL_PREFIX + videoId);
+                VIDEO_URL_PREFIX + videoId,
+                title,
+                channelTitle);
     }
 
     private String pickBestThumbnail(ThumbnailDetails thumbnails) {
