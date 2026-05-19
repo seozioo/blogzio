@@ -76,7 +76,10 @@ public class AuthController {
 
                 try {
                         UUID userId = jwtUtil.getUserId(refreshToken);
-                        userService.getProfile(userId);
+
+                        if (!userService.existsById(userId)) {
+                                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid token");
+                        }
 
                         String token = jwtUtil.generateToken(userId, ATEXP);
 

@@ -23,9 +23,7 @@ export const Profile = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = token
-        ? await apiClient.GET('/user/profile')
-        : await apiClient.GET('/user/profileview');
+      const { data } = await apiClient.GET('/user/profileview');
       setProfiledata(data);
       setPreview(data?.profileImageUrl);
     })();

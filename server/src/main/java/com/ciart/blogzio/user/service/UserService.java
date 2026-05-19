@@ -70,14 +70,6 @@ public class UserService {
         }
     }
 
-    public UserProfileResponse getProfile(UUID userid) {
-        User user = userRepository.findById(userid)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));
-
-        return new UserProfileResponse(user.getNickname(), user.getBio(), user.getProfileImageUrl());
-    }
-
     public UserProfileResponse getProfileview() {
         User user = userRepository.findFirstByOrderByCreatedAtAsc()
                 .orElseThrow(() -> new ResponseStatusException(
@@ -93,11 +85,43 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."));
 
+        // 기존 프로필 이미지의 owner 해제
+        if (user.getProfileImageUrl() != null) {
+            try {
+                Asset existingAsset = assetRepository.findByUrl(user.getProfileImageUrl()).orElse(null);
+                if (existingAsset != null) {
+                    existingAsset.setOwner(null);
+                }
+            } catch (Exception e) {
+                log.warn("기존 프로필 이미지 owner 해제 실패: {}", user.getProfileImageUrl());
+            }
+        }
+
+        // 새로운 프로필 이미지의 owner 설정
+        if (request.getProfileImageUrl() != null && !request.getProfileImageUrl().isEmpty()) {
+            try {
+                Asset newAsset = assetRepository.findByUrl(request.getProfileImageUrl())
+                        .orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST, "등록되지 않은 이미지입니다."));
+                newAsset.setOwner(user);
+                assetRepository.save(newAsset);
+            } catch (ResponseStatusException e) {
+                throw e;
+            } catch (Exception e) {
+                log.error("프로필 이미지 owner 설정 실패: {}", request.getProfileImageUrl(), e);
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "프로필 이미지 저장에 실패했습니다.");
+            }
+        }
+
         user.update(request.getNickname(), request.getBio(), request.getProfileImageUrl());
 
         userRepository.save(user);
 
         return new UserProfileResponse(request.getNickname(), request.getBio(), request.getProfileImageUrl());
+    }
+
+    public boolean existsById(UUID userId) {
+        return userRepository.existsById(userId);
     }
 
 }
