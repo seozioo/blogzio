@@ -48,12 +48,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserProfileResponse> getProfile(@AuthenticationPrincipal UUID userId) {
-        return ResponseEntity.ok(userService.getProfile(userId));
-
-    }
-
     @GetMapping("/profileview")
     public ResponseEntity<UserProfileResponse> getProfileview() {
         return ResponseEntity.ok(userService.getProfileview());
