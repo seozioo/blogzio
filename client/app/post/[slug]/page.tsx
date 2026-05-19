@@ -1,14 +1,14 @@
 import { apiClient } from '@/constants/api-client';
 import { BaseContainer } from '@/shared/components/BaseContainer';
-import { Button } from '@/shared/components/Button';
 import { PostPanel } from '@/shared/components/posts/PostPanel';
 import { baseExtensions } from '@/shared/lib/editor-extensions';
-import { ExportIcon } from '@phosphor-icons/react/ssr';
 import { generateHTML } from '@tiptap/html';
 import { JSONContent } from '@tiptap/react';
 import { notFound } from 'next/navigation';
 import { TagList } from '@/shared/components/posts/TagList';
 import { LikeButton } from './_components/LikeButton';
+import { ExportButton } from './_components/ExportButton';
+import { EditButton } from './_components/EditButton';
 
 export default async function PostPage({
   params,
@@ -60,18 +60,16 @@ export default async function PostPage({
                     day: 'numeric',
                   })}
               </p>
-              <div className="size-5 relative">
-                <Button
-                  className="absolute -top-2 -left-2"
-                  variant="flat"
-                  size="icon"
-                >
-                  <ExportIcon
-                    className="text-zinc-400"
-                    size={20}
-                    weight="bold"
+              <div className="flex gap-4">
+                <div className="size-5 relative">
+                  <EditButton
+                    className="absolute -top-2 -left-2"
+                    postId={data.id}
                   />
-                </Button>
+                </div>
+                <div className="size-5 relative">
+                  <ExportButton className="absolute -top-2 -left-2" />
+                </div>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { TagInput } from '../TagInput';
-import { CategoryBox } from '../Categorybox';
+import { CategoryBox } from '../CategoryBox';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 

@@ -15,28 +15,42 @@ import {
   TextStrikethroughIcon,
   TextUnderlineIcon,
 } from '@phosphor-icons/react';
-import { SubmitEventHandler, useState } from 'react';
+import { SubmitEventHandler, useEffect, useMemo, useState } from 'react';
 import { VisibilityToggle } from '@/shared/components/ToggleButton';
-import { CategoryBox } from '@/shared/components/Categorybox';
-import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
+import { CategoryBox } from '@/shared/components/CategoryBox';
+import {
+  EditorContent,
+  JSONContent,
+  useEditor,
+  useEditorState,
+} from '@tiptap/react';
 import clsx from 'clsx';
 import { Toggle, ToggleGroup } from '@base-ui/react';
 import { LinkCreateDialog } from '@/shared/components/posts/LinkCreateDialog';
 import { apiClient } from '@/constants/api-client';
 import { ImageCreateDialog } from '@/shared/components/posts/ImageCreateDialog';
 import { editorExtensions } from '@/shared/lib/editor-extensions';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { TagInput } from '@/shared/components/TagInput';
+import { set } from 'react-hook-form';
+import { components } from '@/types/schema';
 
 export default function Write() {
+  const searchParams = useSearchParams();
+
   const router = useRouter();
 
+  const [title, setTitle] = useState<string>('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [isVisible, setIsVisible] = useState(true);
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+
+  const editId = useMemo(() => {
+    return searchParams.get('edit');
+  }, [searchParams]);
 
   const FONT_SIZE_OPTIONS = [
     { label: '6px', value: '6px' },
@@ -66,7 +80,8 @@ export default function Write() {
     const title = formData.get('title') as string;
 
     setSubmitting(true);
-    const { data, error } = await apiClient.POST('/post', {
+
+    const requestData = {
       headers: { 'Content-Type': 'application/json' },
       body: {
         title,
@@ -76,7 +91,14 @@ export default function Write() {
         isVisible,
         pinned: false,
       },
-    });
+    };
+
+    const { data, error } = editId
+      ? await apiClient.PUT(`/post/{postId}`, {
+          ...requestData,
+          params: { path: { postId: editId } },
+        })
+      : await apiClient.POST('/post', requestData);
 
     if (error) {
       alert(error);
@@ -100,9 +122,29 @@ export default function Write() {
           'w-full min-h-100 flex-1 resize-none field-sizing-content outline-none',
       },
     },
-    content: '',
     immediatelyRender: false,
   });
+
+  useEffect(() => {
+    (async () => {
+      if (!editId) {
+        return;
+      }
+
+      const { data } = await apiClient.GET('/post/{postId}', {
+        params: { path: { postId: editId } },
+      });
+
+      setTitle(data?.title ?? '');
+      setCategoryId(data?.categoryId ?? '');
+      setIsVisible(data?.is_visiable ?? true);
+      setTags(
+        data?.tags?.map((t: components['schemas']['Tag']) => t.title!) ?? [],
+      );
+
+      editor?.commands.setContent(data?.content as JSONContent);
+    })();
+  }, [editId, editor]);
 
   const editorState = useEditorState({
     editor,
@@ -299,6 +341,8 @@ export default function Write() {
                 name="title"
                 className="font-semibold text-[24px] w-full outline-none px-1"
                 placeholder="제목"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <hr className="my-3 border-t border-border" />
 
@@ -313,6 +357,7 @@ export default function Write() {
               <CategoryBox
                 placeholder="카테고리"
                 showCreateButton
+                value={categoryId}
                 onChange={(opt) => setCategoryId(opt.value)}
               />
               <TagInput
@@ -326,7 +371,7 @@ export default function Write() {
               />
               <div className="h-px max-sm:mx-2 sm:w-px sm:h-6 bg-border" />
               <Button type="submit" loading={submitting}>
-                게시
+                {editId ? '수정' : '게시'}
               </Button>
             </div>
           </form>
