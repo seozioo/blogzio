@@ -26,6 +26,7 @@
     "@tiptap/starter-kit": "^3.22.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fast-average-color": "^9.5.2",
     "motion": "^12.38.0",
     "next": "^16.2.0",
     "openapi-fetch": "^0.17.0",

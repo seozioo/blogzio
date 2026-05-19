@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '../'),
   images: {
     dangerouslyAllowLocalIP: process.env.NODE_ENV === 'development',
+    qualities: [100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -31,7 +32,6 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-
     ],
   },
 
