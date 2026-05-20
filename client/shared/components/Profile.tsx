@@ -10,16 +10,20 @@ import {
 import { BaseDialog } from './BaseDialog';
 import { apiClient } from '@/constants/api-client';
 import { components } from '@/types/schema';
-import { ImageIcon, XCircleIcon } from '@phosphor-icons/react';
+import { ImageIcon, TrashIcon, XCircleIcon } from '@phosphor-icons/react';
 import { useAuth } from '../hooks/use-auth';
 import { uploadImage } from '../utils/upload-image';
 
-export const Profile = () => {
+export type ProfileProps = Readonly<{
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}>;
+
+export const Profile = ({ open, onOpenChange }: ProfileProps) => {
   const { token } = useAuth();
   const [preview, setPreview] = useState<string>();
   const [profiledata, setProfiledata] =
     useState<components['schemas']['UserProfileResponse']>();
-  const [open, setOpen] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -28,6 +32,13 @@ export const Profile = () => {
       setPreview(data?.profileImageUrl);
     })();
   }, [token]);
+
+  const handleImageDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setPreview(undefined);
+    setProfiledata({ ...profiledata, profileImageUrl: undefined });
+  };
+
 
   const handleFileChange: ChangeEventHandler<
     HTMLInputElement,
@@ -64,7 +75,7 @@ export const Profile = () => {
   };
 
   return (
-    <BaseDialog open={open} onOpenChange={setOpen}>
+    <BaseDialog open={open} onOpenChange={onOpenChange}>
       {token ? (
         <form
           onSubmit={handleSubmit}
@@ -81,6 +92,19 @@ export const Profile = () => {
 
             <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
               <ImageIcon size={32} weight="bold" className="text-white" />
+              {preview && (
+                <TrashIcon
+                  size={32}
+                  weight="fill"
+                  className="absolute top-2 left-2 text-white cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setPreview(undefined);
+                    setProfiledata({ ...profiledata, profileImageUrl: undefined });
+                  }}
+                />
+              )}
             </div>
 
             <input type="file" onChange={handleFileChange} className="hidden" />
@@ -106,7 +130,7 @@ export const Profile = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
+              onClick={() => onOpenChange(false)}
             >
               취소
             </Button>
@@ -133,7 +157,7 @@ export const Profile = () => {
             <XCircleIcon
               size={32}
               weight="bold"
-              onClick={() => setOpen(false)}
+              onClick={() => onOpenChange(false)}
               className="text-sky-500 transition-colors  hover:text-sky-300 cursor-pointer"
             />
           </div>
