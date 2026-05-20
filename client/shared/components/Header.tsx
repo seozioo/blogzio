@@ -7,12 +7,13 @@ import { useEffect, useRef, useState } from 'react';
 import { UsersIcon } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { useAuth } from '../hooks/use-auth';
+import { useIsMount } from '../hooks/use-is-mount';
 import { useVisit } from '../hooks/use-visit';
 import { apiClient } from '@/constants/api-client';
 import { BioBubble } from './BioBubble';
 
 export const Header = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsMount();
   const router = useRouter();
   const { token, setToken } = useAuth();
   const clickCountRef = useRef(0);
@@ -29,10 +30,6 @@ export const Header = () => {
         setProfileImage(data.profileImageUrl);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    setIsMounted(true);
   }, []);
 
   const handleProfileClick = async () => {

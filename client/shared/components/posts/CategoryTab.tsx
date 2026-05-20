@@ -3,7 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useApi } from '../../hooks/use-api';
 import { newCategory } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
@@ -11,7 +17,9 @@ import { Button } from '../Button';
 import { PlusIcon } from '@phosphor-icons/react';
 import { CategoryCreateDialog } from './CategoryCreateDialog';
 import { useAuth } from '@/shared/hooks/use-auth';
+import { useIsMount } from '@/shared/hooks/use-is-mount';
 import { useActiveTabPosition } from './ActiveTabContext';
+import { BaseContextMenu } from '../BaseContextMenu';
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -19,20 +27,21 @@ export type CategoryTabProps = Readonly<{
 
 export const CategoryTab = (props: CategoryTabProps) => {
   const pathname = usePathname();
-  const savedPosition = useActiveTabPosition();
+  const savedPositionRef = useActiveTabPosition();
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
   const [isHovering, setIsHovering] = useState(false);
+  const isMounted = useIsMount();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [activeStyle, setActiveStyle] = useState(() => {
-    const prev = savedPosition?.current;
-    if (prev) return { left: prev.left, width: prev.width, opacity: 1 };
-    return { left: 0, width: 0, opacity: 0 };
+  const [activeStyle, setActiveStyle] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
   });
-  const [shouldAnimate, setShouldAnimate] = useState(() => !!savedPosition?.current);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const tabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
 
   const { data, mutate } = useApi('/category');
@@ -57,7 +66,7 @@ export const CategoryTab = (props: CategoryTabProps) => {
       if (el) {
         const newPos = { left: el.offsetLeft, width: el.offsetWidth };
         setActiveStyle({ ...newPos, opacity: 1 });
-        if (savedPosition) savedPosition.current = newPos;
+        if (savedPositionRef) savedPositionRef.current = newPos;
         if (!shouldAnimate) {
           requestAnimationFrame(() => setShouldAnimate(true));
         }
@@ -65,7 +74,13 @@ export const CategoryTab = (props: CategoryTabProps) => {
     } else {
       setActiveStyle((prev) => ({ ...prev, opacity: 0 }));
     }
-  }, [pathname, categories, shouldAnimate, savedPosition]);
+  }, [
+    pathname,
+    categories,
+    props.overrideActiveCategory,
+    shouldAnimate,
+    savedPositionRef,
+  ]);
 
   useEffect(() => {
     updateActiveStyle();
@@ -106,7 +121,9 @@ export const CategoryTab = (props: CategoryTabProps) => {
               aria-hidden="true"
               className={clsx(
                 'absolute bottom-0 h-10 bg-sky-500 rounded-t-2xl pointer-events-none z-10',
-                shouldAnimate ? 'transition-all duration-300 ease-in-out' : 'transition-opacity',
+                shouldAnimate
+                  ? 'transition-all duration-300 ease-in-out'
+                  : 'transition-opacity',
               )}
               style={{
                 left: `${activeStyle.left}px`,
@@ -143,54 +160,61 @@ export const CategoryTab = (props: CategoryTabProps) => {
               }
 
               return (
-                <Link
+                <BaseContextMenu
                   key={item.name}
-                  href={path}
-                  ref={(el) => {
-                    if (el) tabRefs.current.set(item.slug!, el);
-                    else tabRefs.current.delete(item.slug!);
-                  }}
-                  onMouseEnter={(e) => {
-                    setHoverStyle({
-                      left: e.currentTarget.offsetLeft,
-                      width: e.currentTarget.offsetWidth,
-                      opacity: 1,
-                    });
-                    if (!isHovering) {
-                      requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                          setIsHovering(true);
+                  trigger={
+                    <Link
+                      href={path}
+                      ref={(el) => {
+                        if (el) tabRefs.current.set(item.slug!, el);
+                        else tabRefs.current.delete(item.slug!);
+                      }}
+                      onMouseEnter={(e) => {
+                        setHoverStyle({
+                          left: e.currentTarget.offsetLeft,
+                          width: e.currentTarget.offsetWidth,
+                          opacity: 1,
                         });
-                      });
-                    }
-                  }}
-                  onFocus={(e) => {
-                    setHoverStyle({
-                      left: e.currentTarget.offsetLeft,
-                      width: e.currentTarget.offsetWidth,
-                      opacity: 1,
-                    });
-                    if (!isHovering) {
-                      requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                          setIsHovering(true);
+                        if (!isHovering) {
+                          requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                              setIsHovering(true);
+                            });
+                          });
+                        }
+                      }}
+                      onFocus={(e) => {
+                        setHoverStyle({
+                          left: e.currentTarget.offsetLeft,
+                          width: e.currentTarget.offsetWidth,
+                          opacity: 1,
                         });
-                      });
-                    }
-                  }}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={clsx(
-                    'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
-                    isActive
-                      ? 'text-white z-20'
-                      : 'text-zinc-600 hover:text-zinc-900 bg-transparent',
-                  )}
+                        if (!isHovering) {
+                          requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                              setIsHovering(true);
+                            });
+                          });
+                        }
+                      }}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={clsx(
+                        'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
+                        isActive
+                          ? 'text-white z-20'
+                          : 'text-zinc-600 hover:text-zinc-900 bg-transparent',
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  }
                 >
-                  {item.name}
-                </Link>
+                  <BaseContextMenu.Item>수정</BaseContextMenu.Item>
+                  <BaseContextMenu.Item>삭제</BaseContextMenu.Item>
+                </BaseContextMenu>
               );
             })}
-            {isAdmin && (
+            {isMounted && isAdmin && (
               <>
                 <Button
                   variant="flat"

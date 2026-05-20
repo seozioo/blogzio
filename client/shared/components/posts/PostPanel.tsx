@@ -1,13 +1,11 @@
-import { MagnifyingGlassIcon } from '@phosphor-icons/react/ssr';
 import { BaseContainer } from '../BaseContainer';
-import { InputField } from '../InputField';
 import { PostPhotoLink } from './PostPhotoLink';
 import { PostArticleLink } from './PostArticleLink';
-import { CategoryTab } from './CategoryTab';
 import { PaginationBar } from './PaginationBar';
 import { components } from '@/types/schema';
 import { WritePostButton } from '../PostWriteButton';
 import { SearchForm } from './SearchForm';
+import { CategoryTab } from './CategoryTab';
 
 export type PostPanelProps = Readonly<{
   viewType?: 'GALLERY' | 'LIST';
@@ -48,7 +46,7 @@ export const PostPanel = (props: PostPanelProps) => {
             </div>
           ) : props.viewType === 'LIST' ? (
             <div className="flex flex-col divide-y divide-zinc-100 -my-4">
-              {sortedPosts?.map((article, index) => (
+              {sortedPosts?.map((article) => (
                 <PostArticleLink
                   key={article.id}
                   postId={article.id!}
