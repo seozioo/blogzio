@@ -21,15 +21,15 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       VISITOR_SECRET: ${VISITOR_SECRET}
       YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
-  blogzio-client:
-    container_name: client
-    build:
-      context: .
-      dockerfile: client/dockerfile
-      args:
-        API_URL: ${API_URL}
-    restart: unless-stopped
-    ports:
-      - '3000:3000'
-    environment:
-      API_URL: ${API_URL}
+  # blogzio-client:
+  #   container_name: client
+  #   build:
+  #     context: .
+  #     dockerfile: client/dockerfile
+  #     args:
+  #       API_URL: ${API_URL}
+  #   restart: unless-stopped
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     API_URL: ${API_URL}
