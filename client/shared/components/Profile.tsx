@@ -56,7 +56,7 @@ export const Profile = () => {
 
     if (!profiledata?.nickname) return;
 
-    await apiClient.PUT('/user/profile', {
+    await apiClient.PATCH('/user/profile', {
       body: {
         nickname: profiledata.nickname,
         bio: profiledata.bio,

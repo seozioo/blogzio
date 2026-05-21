@@ -94,7 +94,7 @@ export default function Write() {
     };
 
     const { data, error } = editId
-      ? await apiClient.PUT(`/post/{postId}`, {
+      ? await apiClient.PATCH(`/post/{postId}`, {
           ...requestData,
           params: { path: { postId: editId } },
         })

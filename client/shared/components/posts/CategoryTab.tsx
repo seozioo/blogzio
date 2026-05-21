@@ -20,6 +20,12 @@ import { useAuth } from '@/shared/hooks/use-auth';
 import { useIsMount } from '@/shared/hooks/use-is-mount';
 import { useActiveTabPosition } from './ActiveTabContext';
 import { BaseContextMenu } from '../BaseContextMenu';
+import { apiClient } from '@/constants/api-client';
+import { components } from '@/types/schema';
+import { CategoryEditDialog } from './CategoryEditDialog';
+import { CategoryDeleteDialog } from './CategoryDeleteDialog';
+
+type Category = components['schemas']['CategoryResponse'];
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -43,15 +49,45 @@ export const CategoryTab = (props: CategoryTabProps) => {
   });
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const tabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [deletingCategory, setDeletingCategory] = useState<Category | null>(
+    null,
+  );
 
   const { data, mutate } = useApi('/category');
+  const categoryData = useMemo(() => data?.categories ?? [], [data]);
 
   const categories = useMemo(() => {
-    if (!data) return [newCategory];
-    return [newCategory, ...data];
-  }, [data]);
+    return [newCategory, ...categoryData];
+  }, [categoryData]);
 
   const { isAdmin } = useAuth();
+
+  const handleMoveCategory = useCallback(
+    async (categoryId: string | undefined, move: number) => {
+      if (!categoryId || categoryId === newCategory.id || move === 0) return;
+
+      const { data: updatedCategories, error } = await apiClient.PATCH(
+        '/category/{categoryId}/order',
+        {
+          params: { path: { categoryId } },
+          body: { move },
+        },
+      );
+
+      if (error) {
+        alert(error);
+        return;
+      }
+
+      if (updatedCategories) {
+        await mutate(updatedCategories, { revalidate: false });
+      } else {
+        await mutate();
+      }
+    },
+    [mutate],
+  );
 
   const updateActiveStyle = useCallback(() => {
     const activeSlug = categories.find((item) => {
@@ -152,6 +188,13 @@ export const CategoryTab = (props: CategoryTabProps) => {
             </div>
             {categories.map((item) => {
               const path = `/${item.slug}`;
+              const categoryIndex = categoryData.findIndex(
+                (category) => category.id === item.id,
+              );
+              const shouldOpenContextMenu =
+                isAdmin && item.id !== newCategory.id && categoryIndex !== -1;
+              const moveToFront = -categoryIndex;
+              const moveToBack = categoryData.length - 1 - categoryIndex;
 
               let isActive = pathname === path;
 
@@ -159,58 +202,95 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 isActive = props.overrideActiveCategory === item.id;
               }
 
+              const trigger = (
+                <Link
+                  href={path}
+                  ref={(el) => {
+                    if (el) tabRefs.current.set(item.slug!, el);
+                    else tabRefs.current.delete(item.slug!);
+                  }}
+                  onMouseEnter={(e) => {
+                    setHoverStyle({
+                      left: e.currentTarget.offsetLeft,
+                      width: e.currentTarget.offsetWidth,
+                      opacity: 1,
+                    });
+                    if (!isHovering) {
+                      requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                          setIsHovering(true);
+                        });
+                      });
+                    }
+                  }}
+                  onFocus={(e) => {
+                    setHoverStyle({
+                      left: e.currentTarget.offsetLeft,
+                      width: e.currentTarget.offsetWidth,
+                      opacity: 1,
+                    });
+                    if (!isHovering) {
+                      requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                          setIsHovering(true);
+                        });
+                      });
+                    }
+                  }}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={clsx(
+                    'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
+                    isActive
+                      ? 'text-white z-20'
+                      : 'text-zinc-600 hover:text-zinc-900 bg-transparent',
+                  )}
+                >
+                  {item.name}
+                </Link>
+              );
+
+              if (!shouldOpenContextMenu) {
+                return <div key={item.name}>{trigger}</div>;
+              }
+
               return (
                 <BaseContextMenu
                   key={item.name}
-                  trigger={
-                    <Link
-                      href={path}
-                      ref={(el) => {
-                        if (el) tabRefs.current.set(item.slug!, el);
-                        else tabRefs.current.delete(item.slug!);
-                      }}
-                      onMouseEnter={(e) => {
-                        setHoverStyle({
-                          left: e.currentTarget.offsetLeft,
-                          width: e.currentTarget.offsetWidth,
-                          opacity: 1,
-                        });
-                        if (!isHovering) {
-                          requestAnimationFrame(() => {
-                            requestAnimationFrame(() => {
-                              setIsHovering(true);
-                            });
-                          });
-                        }
-                      }}
-                      onFocus={(e) => {
-                        setHoverStyle({
-                          left: e.currentTarget.offsetLeft,
-                          width: e.currentTarget.offsetWidth,
-                          opacity: 1,
-                        });
-                        if (!isHovering) {
-                          requestAnimationFrame(() => {
-                            requestAnimationFrame(() => {
-                              setIsHovering(true);
-                            });
-                          });
-                        }
-                      }}
-                      aria-current={isActive ? 'page' : undefined}
-                      className={clsx(
-                        'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
-                        isActive
-                          ? 'text-white z-20'
-                          : 'text-zinc-600 hover:text-zinc-900 bg-transparent',
-                      )}
-                    >
-                      {item.name}
-                    </Link>
-                  }
+                  trigger={trigger}
                 >
-                  <BaseContextMenu.Item>수정</BaseContextMenu.Item>
-                  <BaseContextMenu.Item>삭제</BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={moveToFront === 0}
+                    onClick={() => void handleMoveCategory(item.id, moveToFront)}
+                  >
+                    맨앞으로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={categoryIndex === 0}
+                    onClick={() => void handleMoveCategory(item.id, -1)}
+                  >
+                    앞으로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={categoryIndex === categoryData.length - 1}
+                    onClick={() => void handleMoveCategory(item.id, 1)}
+                  >
+                    뒤로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={moveToBack === 0}
+                    onClick={() => void handleMoveCategory(item.id, moveToBack)}
+                  >
+                    맨뒤로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Separator />
+                  <BaseContextMenu.Item onClick={() => setEditingCategory(item)}>
+                    수정
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    onClick={() => setDeletingCategory(item)}
+                  >
+                    삭제
+                  </BaseContextMenu.Item>
                 </BaseContextMenu>
               );
             })}
@@ -230,6 +310,22 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 />
               </>
             )}
+            <CategoryEditDialog
+              category={editingCategory}
+              open={editingCategory !== null}
+              onOpenChange={(open) => {
+                if (!open) setEditingCategory(null);
+              }}
+              onEdit={() => mutate()}
+            />
+            <CategoryDeleteDialog
+              category={deletingCategory}
+              open={deletingCategory !== null}
+              onOpenChange={(open) => {
+                if (!open) setDeletingCategory(null);
+              }}
+              onDelete={() => mutate()}
+            />
           </div>
         </nav>
       </div>

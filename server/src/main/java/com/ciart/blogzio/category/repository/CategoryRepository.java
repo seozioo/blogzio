@@ -15,4 +15,7 @@ public interface CategoryRepository extends CrudRepository<Category, UUID> {
     int findMaxSortOrder();
 
     List<Category> findAllByOrderBySortOrderAsc();
+
+    @Query("SELECT c FROM Category c ORDER BY c.sortOrder ASC")
+    List<Category> findAllByOrderBySortOrderAscForUpdate();
 }

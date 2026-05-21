@@ -96,7 +96,7 @@ public class PostController {
                 return ResponseEntity.ok(new PostLikeResponse(likes, isLiked));
         }
 
-        @PutMapping("/{postId}")
+        @PatchMapping("/{postId}")
         @ApiResponses({
                         @ApiResponse(responseCode = "200"),
                         @ApiResponse(responseCode = "404", description = "해당 게시글을 찾을 수 없습니다.")

@@ -1,6 +1,7 @@
 import { apiClient } from '@/constants/api-client';
 import { newCategory } from '@/constants/category';
 import { PostPanel } from '@/shared/components/posts/PostPanel';
+import { notFound } from 'next/navigation';
 
 export default async function Category({
   params,
@@ -15,9 +16,13 @@ export default async function Category({
 
   const { data: categoryData } = await apiClient.GET('/category');
 
-  let category = categoryData?.find((c) => c.slug === slug);
+  let category = categoryData?.categories.find((c) => c.slug === slug);
   if (!category && slug === newCategory.slug) {
     category = { ...newCategory, id: undefined };
+  }
+
+  if (!category) {
+    notFound();
   }
 
   const { data: postData } = await apiClient.GET('/post', {

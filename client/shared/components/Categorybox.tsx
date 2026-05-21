@@ -39,7 +39,7 @@ export const CategoryBox = ({
 
   const options: Option[] = useMemo(
     () =>
-      data?.map((c) => ({
+      data?.categories.map((c) => ({
         id: c.id!,
         label: c.name!,
         value: c.id!,

@@ -52,8 +52,13 @@ public class Category {
         this.type = type;
     }
 
-    public void update(String name, String slug) {
+    public void update(String name, String slug, CategoryType type) {
         this.name = name;
         this.slug = slug;
+        this.type = type;
+    }
+
+    public void updateSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }
