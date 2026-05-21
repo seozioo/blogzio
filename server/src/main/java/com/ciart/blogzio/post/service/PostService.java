@@ -2,6 +2,7 @@ package com.ciart.blogzio.post.service;
 
 import com.ciart.blogzio.asset.domain.Asset;
 import com.ciart.blogzio.asset.repository.AssetRepository;
+import com.ciart.blogzio.asset.service.AssetService;
 import com.ciart.blogzio.category.domain.Category;
 import com.ciart.blogzio.category.repository.CategoryRepository;
 import com.ciart.blogzio.config.IpEncoder;
@@ -30,6 +31,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,6 +46,7 @@ public class PostService {
         private final AssetRepository assetRepository;
         private final PostLikeRepository postLikeRepository;
         private final IpEncoder ipEncoder;
+        private final AssetService assetService;
 
         // get /post
         @Transactional
@@ -106,17 +109,28 @@ public class PostService {
                                 .orElseThrow(() -> new ResponseStatusException(
                                                 HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
 
-                postRepository.delete(post);
+                var assets = assetService.findAllByOwner(post);
+                for (var asset : assets) {
+                        asset.setOwner(null);
+                }
 
+                postRepository.delete(post);
                 tagRepository.deleteUnusedTags();
         }
 
-        // 단건 읽기
         @Transactional(readOnly = true)
-        public PostResponse GetPost(UUID postId) {
-                Post post = postRepository.findById(postId)
-                                .orElseThrow(() -> new ResponseStatusException(
-                                                HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+        public PostResponse getPost(UUID postId) {
+                return getPost(postId, false);
+        }
+
+        @Transactional(readOnly = true)
+        public PostResponse getPost(UUID postId, boolean includeHidden) {
+                Optional<Post> postOptional = includeHidden
+                                ? postRepository.findById(postId)
+                                : postRepository.findByIdAndIsVisibleTrue(postId);
+
+                Post post = postOptional.orElseThrow(() -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
 
                 return PostResponse.from(post);
         }
@@ -125,20 +139,24 @@ public class PostService {
 
         @Transactional(readOnly = true)
         public int getPageOfPost(UUID postId, @Nullable Category category) {
-                Post post = postRepository.findById(postId)
+                return getPageOfPost(postId, category, false);
+        }
+
+        @Transactional(readOnly = true)
+        public int getPageOfPost(UUID postId, @Nullable Category category, boolean includeHidden) {
+                Post post = postRepository.findByIdAndIsVisibleTrue(postId)
                                 .orElseThrow(() -> new ResponseStatusException(
                                                 HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+                Boolean isVisible = includeHidden ? null : true;
 
-                long index = category != null
-                                ? postRepository.countByCategoryAndPostedAtGreaterThan(category, post.getPostedAt())
-                                : postRepository.countByPostedAtGreaterThan(post.getPostedAt());
+                long index = postRepository.countNewerThan(category, isVisible, post.getPostedAt());
 
                 return (int) (index / PAGE_SIZE);
         }
 
         @Transactional(readOnly = true)
         public long getLikeOfPost(UUID postId) {
-                Post post = postRepository.findById(postId)
+                Post post = postRepository.findByIdAndIsVisibleTrue(postId)
                                 .orElseThrow(() -> new ResponseStatusException(
                                                 HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
 
@@ -149,7 +167,12 @@ public class PostService {
         public boolean isPostLikedByIp(UUID postId, String ip) {
                 String encodedIp = ipEncoder.encode(ip);
 
-                if (postLikeRepository.existsById(new PostLikeId(postId, encodedIp))) {
+                // Post가 존재하고 공개 상태인지 확인합니다
+                Post post = postRepository.findByIdAndIsVisibleTrue(postId)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
+
+                if (postLikeRepository.existsById(new PostLikeId(post.getId(), encodedIp))) {
                         return true;
                 }
 
@@ -158,7 +181,7 @@ public class PostService {
 
         @Transactional
         public long incrementLikeOfPost(UUID postId, String ip) {
-                Post post = postRepository.findById(postId)
+                Post post = postRepository.findByIdAndIsVisibleTrue(postId)
                                 .orElseThrow(() -> new ResponseStatusException(
                                                 HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."));
 
@@ -174,7 +197,15 @@ public class PostService {
 
         @Transactional(readOnly = true)
         public Page<Post> getPosts(@Nullable String keyword, @Nullable Category category,
-                        @Nullable Integer page, boolean thumbnailOnly, @Nullable List<String> tagNames) {
+                        @Nullable Integer page, boolean thumbnailOnly,
+                        @Nullable List<String> tagNames) {
+                return getPosts(keyword, category, page, thumbnailOnly, tagNames, false);
+        }
+
+        @Transactional(readOnly = true)
+        public Page<Post> getPosts(@Nullable String keyword, @Nullable Category category,
+                        @Nullable Integer page, boolean thumbnailOnly,
+                        @Nullable List<String> tagNames, boolean includeHidden) {
                 Pageable pageable = PageRequest.of(page != null ? page : 0, PAGE_SIZE);
                 UUID categoryId = category != null ? category.getId() : null;
                 List<UUID> tagIds = null;
@@ -184,8 +215,12 @@ public class PostService {
                                 return Page.empty(pageable);
                         }
                         tagIds = foundTags.stream().map(Tag::getId).toList();
+
                 }
-                return postRepository.findAllDynamic(pageable, keyword, categoryId, thumbnailOnly, tagIds);
+                Boolean isVisible = includeHidden ? null : true;
+
+                return postRepository.findAllDynamic(pageable, keyword, categoryId, isVisible,
+                                thumbnailOnly, tagIds);
         }
 
         // category 체크

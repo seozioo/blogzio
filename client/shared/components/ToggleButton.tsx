@@ -4,16 +4,32 @@ import clsx from 'clsx';
 
 type Visibility = 'public' | 'private';
 
-export const VisibilityToggle = ({
-  onChange,
-}: {
+export type VisibilityToggleProps = Readonly<{
+  value?: Visibility;
+  defaultValue?: Visibility;
   onChange?: (value: Visibility) => void;
-}) => {
-  const [selected, setSelected] = useState<Visibility>('public');
+}>;
+
+export const VisibilityToggle = ({
+  value,
+  defaultValue = 'public',
+  onChange,
+}: VisibilityToggleProps) => {
+  const [uncontrolledSelected, setUncontrolledSelected] =
+    useState<Visibility>(defaultValue);
+  const selected = value ?? uncontrolledSelected;
   const publicRef = useRef<HTMLButtonElement>(null);
   const privateRef = useRef<HTMLButtonElement>(null);
   const [sliderStyle, setSliderStyle] = useState({ width: 0, translateX: 0 });
   const [animate, setAnimate] = useState(false);
+
+  const handleChange = (nextValue: Visibility) => {
+    if (value === undefined) {
+      setUncontrolledSelected(nextValue);
+    }
+
+    onChange?.(nextValue);
+  };
 
   const updateSlider = useCallback(() => {
     const publicBtn = publicRef.current;
@@ -67,8 +83,7 @@ export const VisibilityToggle = ({
         ref={publicRef}
         pressed={selected === 'public'}
         onPressedChange={() => {
-          setSelected('public');
-          onChange?.('public');
+          handleChange('public');
         }}
         className={clsx(
           'relative z-10 flex-1 min-w-fit px-3 py-1.5 text-sm rounded-2xl transition-colors duration-200',
@@ -84,8 +99,7 @@ export const VisibilityToggle = ({
         ref={privateRef}
         pressed={selected === 'private'}
         onPressedChange={() => {
-          setSelected('private');
-          onChange?.('private');
+          handleChange('private');
         }}
         className={clsx(
           'relative z-10 flex-1 min-w-fit px-3 py-1.5 text-sm rounded-2xl transition-colors duration-200',

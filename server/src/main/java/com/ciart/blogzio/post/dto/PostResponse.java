@@ -33,7 +33,7 @@ public class PostResponse {
     private String categoryName;
 
     @NotNull
-    private Boolean is_visiable;
+    private Boolean isVisible;
 
     @NotNull
     private Long likes;
@@ -50,7 +50,7 @@ public class PostResponse {
                 post.getContent(),
                 post.getCategory().getId(),
                 post.getCategory().getName(),
-                post.getIs_visiable(),
+                post.getIsVisible(),
                 post.getLikeCount(),
                 post.getPostedAt(),
                 post.getTags());

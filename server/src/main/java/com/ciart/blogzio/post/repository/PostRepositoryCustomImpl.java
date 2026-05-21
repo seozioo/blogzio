@@ -1,5 +1,6 @@
 package com.ciart.blogzio.post.repository;
 
+import com.ciart.blogzio.category.domain.Category;
 import com.ciart.blogzio.category.domain.Category_;
 import com.ciart.blogzio.post.domain.Post;
 import com.ciart.blogzio.post.domain.Post_;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +33,8 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     private EntityManager em;
 
     @Override
-    public Page<Post> findAllDynamic(Pageable pageable, String keyword, UUID categoryId, boolean thumbnailOnly, List<UUID> tagIds) {
+    public Page<Post> findAllDynamic(Pageable pageable, String keyword, UUID categoryId, Boolean isVisible,
+            boolean thumbnailOnly, List<UUID> tagIds) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         boolean hasKeyword = keyword != null && !keyword.isBlank();
 
@@ -40,7 +43,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         Root<Post> post = cq.from(Post.class);
         SimilarityExpressions sim = hasKeyword ? new SimilarityExpressions(cb, post, keyword) : null;
 
-        cq.where(buildWhere(cb, sim, post, categoryId, thumbnailOnly, tagIds));
+        cq.where(buildWhere(cb, sim, post, categoryId, isVisible, thumbnailOnly, tagIds));
 
         if (hasKeyword) {
             cq.orderBy(cb.desc(sim.max()), cb.desc(post.get(Post_.postedAt)));
@@ -59,15 +62,38 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
         SimilarityExpressions countSim = hasKeyword ? new SimilarityExpressions(cb, countRoot, keyword) : null;
 
         countCq.select(cb.count(countRoot));
-        countCq.where(buildWhere(cb, countSim, countRoot, categoryId, thumbnailOnly, tagIds));
+        countCq.where(buildWhere(cb, countSim, countRoot, categoryId, isVisible, thumbnailOnly, tagIds));
 
         long total = em.createQuery(countCq).getSingleResult();
 
         return new PageImpl<>(results, pageable, total);
     }
 
+    @Override
+    public long countNewerThan(Category category, Boolean isVisible, LocalDateTime postedAt) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Post> post = cq.from(Post.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(cb.greaterThan(post.get(Post_.postedAt), postedAt));
+
+        if (category != null) {
+            predicates.add(cb.equal(post.get(Post_.category), category));
+        }
+
+        if (isVisible != null) {
+            predicates.add(cb.equal(post.get(Post_.isVisible), isVisible));
+        }
+
+        cq.select(cb.count(post));
+        cq.where(cb.and(predicates.toArray(new Predicate[0])));
+
+        return em.createQuery(cq).getSingleResult();
+    }
+
     private Predicate buildWhere(CriteriaBuilder cb, SimilarityExpressions sim,
-            Root<Post> post, UUID categoryId, boolean thumbnailOnly, List<UUID> tagIds) {
+            Root<Post> post, UUID categoryId, Boolean isVisible, boolean thumbnailOnly, List<UUID> tagIds) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (sim != null) {
@@ -83,6 +109,10 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
         if (categoryId != null) {
             predicates.add(cb.equal(post.get(Post_.category).get(Category_.id), categoryId));
+        }
+
+        if (isVisible != null) {
+            predicates.add(cb.equal(post.get(Post_.isVisible), isVisible));
         }
 
         if (thumbnailOnly) {

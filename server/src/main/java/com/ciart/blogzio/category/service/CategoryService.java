@@ -9,6 +9,7 @@ import com.ciart.blogzio.category.categoryDto.CategoryCreateRequset;
 
 import com.ciart.blogzio.category.categoryDto.CategoryResponse;
 import com.ciart.blogzio.category.domain.Category;
+import com.ciart.blogzio.category.domain.CategoryType;
 import com.ciart.blogzio.category.repository.CategoryRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -46,29 +47,65 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryResponse updateCategory(UUID categoryId, String name, String slug) {
+    public CategoryResponse updateCategory(UUID categoryId, String name, String slug, CategoryType type) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NoSuchElementException(
                         "해당 카테고리를 찾을 수 없습니다."));
 
         category.update(
                 name,
-                slug);
+                slug,
+                type);
         return CategoryResponse.from(category);
     }
 
     @Transactional
-    public ResponseEntity<Void> deleteCategory(UUID categoryId) {
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new NoSuchElementException(
-                        "해당 카테고리를 찾을 수 없습니다."));
+    public List<Category> updateCategoryOrder(UUID categoryId, int move) {
+        List<Category> categories = categoryRepository.findAllByOrderBySortOrderAscForUpdate();
+        int currentIndex = findCategoryIndex(categories, categoryId);
+        int startSortOrder = categories.get(0).getSortOrder();
 
-        categoryRepository.deleteById(categoryId);
+        Category category = categories.remove(currentIndex);
+        int targetIndex = Math.max(0, Math.min(categories.size(), currentIndex + move));
+        categories.add(targetIndex, category);
+
+        normalizeSortOrder(categories, startSortOrder);
+
+        return categories;
+    }
+
+    @Transactional
+    public ResponseEntity<Void> deleteCategory(UUID categoryId) {
+        List<Category> categories = categoryRepository.findAllByOrderBySortOrderAscForUpdate();
+        int categoryIndex = findCategoryIndex(categories, categoryId);
+        Category category = categories.remove(categoryIndex);
+        int deletedSortOrder = category.getSortOrder();
+
+        categoryRepository.delete(category);
+        categories.stream()
+                .filter(nextCategory -> nextCategory.getSortOrder() > deletedSortOrder)
+                .forEach(nextCategory -> nextCategory.updateSortOrder(nextCategory.getSortOrder() - 1));
+
         return ResponseEntity.noContent().build();
     }
 
     @Transactional(readOnly = true)
     public List<Category> getAllCategories() {
         return categoryRepository.findAllByOrderBySortOrderAsc();
+    }
+
+    private int findCategoryIndex(List<Category> categories, UUID categoryId) {
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getId().equals(categoryId)) {
+                return i;
+            }
+        }
+        throw new NoSuchElementException("해당 카테고리를 찾을 수 없습니다.");
+    }
+
+    private void normalizeSortOrder(List<Category> categories, int startSortOrder) {
+        for (int i = 0; i < categories.size(); i++) {
+            categories.get(i).updateSortOrder(startSortOrder + i);
+        }
     }
 }

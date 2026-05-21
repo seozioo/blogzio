@@ -16,6 +16,7 @@ type Props = {
   placeholder?: string;
   showCreateButton?: boolean;
   showClear?: boolean;
+  value?: string;
   onChange?: (value: Option) => void;
   onClear?: () => void;
 };
@@ -24,16 +25,21 @@ export const CategoryBox = ({
   placeholder,
   showCreateButton,
   showClear,
+  value,
   onChange,
   onClear,
 }: Props) => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [internalSelectedValue, setInternalSelectedValue] = useState<
+    string | null
+  >(null);
   const { data, mutate } = useApi('/category');
+  const selectedValue =
+    value !== undefined ? value || null : internalSelectedValue;
 
   const options: Option[] = useMemo(
     () =>
-      data?.map((c) => ({
+      data?.categories.map((c) => ({
         id: c.id!,
         label: c.name!,
         value: c.id!,
@@ -42,7 +48,7 @@ export const CategoryBox = ({
   );
 
   const handleValueChange = (value: string | null) => {
-    setSelectedValue(value);
+    setInternalSelectedValue(value);
     if (value && onChange) {
       const selected = options.find((opt) => opt.id === value);
       if (selected) {
@@ -52,7 +58,7 @@ export const CategoryBox = ({
   };
 
   const handleClear = () => {
-    setSelectedValue(null);
+    setInternalSelectedValue(null);
     onClear?.();
   };
 

@@ -11,9 +11,15 @@ import { Button } from '../Button';
 import { PlusIcon, XIcon } from '@phosphor-icons/react';
 import { CategoryCreateDialog } from './CategoryCreateDialog';
 import { useAuth } from '@/shared/hooks/use-auth';
+import { useIsMount } from '@/shared/hooks/use-is-mount';
 import { useActiveTabPosition } from './ActiveTabContext';
+import { BaseContextMenu } from '../BaseContextMenu';
 import { apiClient } from '@/constants/api-client';
+import { components } from '@/types/schema';
+import { CategoryEditDialog } from './CategoryEditDialog';
+import { CategoryDeleteDialog } from './CategoryDeleteDialog';
 
+type Category = components['schemas']['CategoryResponse'];
 
 export type CategoryTabProps = Readonly<{
   overrideActiveCategory?: string;
@@ -21,32 +27,66 @@ export type CategoryTabProps = Readonly<{
 
 export const CategoryTab = (props: CategoryTabProps) => {
   const pathname = usePathname();
-  const savedPosition = useActiveTabPosition();
+  const savedPositionRef = useActiveTabPosition();
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
   const [isHovering, setIsHovering] = useState(false);
+  const isMounted = useIsMount();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [activeStyle, setActiveStyle] = useState(() => {
-    const prev = savedPosition?.current;
-    if (prev) return { left: prev.left, width: prev.width, opacity: 1 };
-    return { left: 0, width: 0, opacity: 0 };
+  const [activeStyle, setActiveStyle] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
   });
-  const [shouldAnimate, setShouldAnimate] = useState(() => !!savedPosition?.current);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const tabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [deletingCategory, setDeletingCategory] = useState<Category | null>(
+    null,
+  );
 
   const { data, mutate } = useApi('/category');
+  const categoryData = useMemo(() => data?.categories ?? [], [data]);
 
   const categories = useMemo(() => {
-    if (!data) return [newCategory];
-    return [newCategory, ...data];
-  }, [data]);
+    return [newCategory, ...categoryData];
+  }, [categoryData]);
 
   const { isAdmin } = useAuth();
 
-  const handleDeleteCategory = async (e: React.MouseEvent, categoryId: string) => {
+  const handleMoveCategory = useCallback(
+    async (categoryId: string | undefined, move: number) => {
+      if (!categoryId || categoryId === newCategory.id || move === 0) return;
+
+      const { data: updatedCategories, error } = await apiClient.PATCH(
+        '/category/{categoryId}/order',
+        {
+          params: { path: { categoryId } },
+          body: { move },
+        },
+      );
+
+      if (error) {
+        alert(error);
+        return;
+      }
+
+      if (updatedCategories) {
+        await mutate(updatedCategories, { revalidate: false });
+      } else {
+        await mutate();
+      }
+    },
+    [mutate],
+  );
+
+  const handleDeleteCategory = async (
+    e: React.MouseEvent,
+    categoryId: string,
+  ) => {
     e.preventDefault();
     e.stopPropagation();
     await apiClient.DELETE('/category/{categoryId}', {
@@ -68,7 +108,7 @@ export const CategoryTab = (props: CategoryTabProps) => {
       if (el) {
         const newPos = { left: el.offsetLeft, width: el.offsetWidth };
         setActiveStyle({ ...newPos, opacity: 1 });
-        if (savedPosition) savedPosition.current = newPos;
+        if (savedPositionRef) savedPositionRef.current = newPos;
         if (!shouldAnimate) {
           requestAnimationFrame(() => setShouldAnimate(true));
         }
@@ -76,7 +116,13 @@ export const CategoryTab = (props: CategoryTabProps) => {
     } else {
       setActiveStyle((prev) => ({ ...prev, opacity: 0 }));
     }
-  }, [pathname, categories, shouldAnimate, savedPosition]);
+  }, [
+    pathname,
+    categories,
+    props.overrideActiveCategory,
+    shouldAnimate,
+    savedPositionRef,
+  ]);
 
   useEffect(() => {
     updateActiveStyle();
@@ -117,7 +163,9 @@ export const CategoryTab = (props: CategoryTabProps) => {
               aria-hidden="true"
               className={clsx(
                 'absolute bottom-0 h-10 bg-sky-500 rounded-t-2xl pointer-events-none z-10',
-                shouldAnimate ? 'transition-all duration-300 ease-in-out' : 'transition-opacity',
+                shouldAnimate
+                  ? 'transition-all duration-300 ease-in-out'
+                  : 'transition-opacity',
               )}
               style={{
                 left: `${activeStyle.left}px`,
@@ -146,6 +194,13 @@ export const CategoryTab = (props: CategoryTabProps) => {
             </div>
             {categories.map((item) => {
               const path = `/${item.slug}`;
+              const categoryIndex = categoryData.findIndex(
+                (category) => category.id === item.id,
+              );
+              const shouldOpenContextMenu =
+                isAdmin && item.id !== newCategory.id && categoryIndex !== -1;
+              const moveToFront = -categoryIndex;
+              const moveToBack = categoryData.length - 1 - categoryIndex;
 
               let isActive = pathname === path;
 
@@ -153,9 +208,8 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 isActive = props.overrideActiveCategory === item.id;
               }
 
-              return (
+              const trigger = (
                 <Link
-                  key={item.name}
                   href={path}
                   ref={(el) => {
                     if (el) tabRefs.current.set(item.slug!, el);
@@ -199,24 +253,71 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 >
                   {item.name}
                   {isAdmin && item.id !== '__NEW__' && isActive && (
-                    <span
-                      className="overflow-hidden w-0 group-hover/link:w-6 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in-out flex items-center shrink-0"
-                    >
+                    <span className="overflow-hidden w-0 group-hover/link:w-6 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in-out flex items-center shrink-0">
                       <button
                         className="pl-1 shrink-0"
                         onClick={(e) => handleDeleteCategory(e, item.id!)}
                       >
                         <span className="flex items-center justify-center bg-red-500 rounded-full p-0.5">
-                          <XIcon size={10} weight="bold" className="text-white" />
+                          <XIcon
+                            size={10}
+                            weight="bold"
+                            className="text-white"
+                          />
                         </span>
                       </button>
-
                     </span>
                   )}
                 </Link>
               );
+
+              if (!shouldOpenContextMenu) {
+                return <div key={item.name}>{trigger}</div>;
+              }
+
+              return (
+                <BaseContextMenu key={item.name} trigger={trigger}>
+                  <BaseContextMenu.Item
+                    disabled={moveToFront === 0}
+                    onClick={() =>
+                      void handleMoveCategory(item.id, moveToFront)
+                    }
+                  >
+                    맨앞으로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={categoryIndex === 0}
+                    onClick={() => void handleMoveCategory(item.id, -1)}
+                  >
+                    앞으로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={categoryIndex === categoryData.length - 1}
+                    onClick={() => void handleMoveCategory(item.id, 1)}
+                  >
+                    뒤로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    disabled={moveToBack === 0}
+                    onClick={() => void handleMoveCategory(item.id, moveToBack)}
+                  >
+                    맨뒤로
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Separator />
+                  <BaseContextMenu.Item
+                    onClick={() => setEditingCategory(item)}
+                  >
+                    수정
+                  </BaseContextMenu.Item>
+                  <BaseContextMenu.Item
+                    onClick={() => setDeletingCategory(item)}
+                  >
+                    삭제
+                  </BaseContextMenu.Item>
+                </BaseContextMenu>
+              );
             })}
-            {isAdmin && (
+            {isMounted && isAdmin && (
               <>
                 <Button
                   variant="flat"
@@ -232,6 +333,22 @@ export const CategoryTab = (props: CategoryTabProps) => {
                 />
               </>
             )}
+            <CategoryEditDialog
+              category={editingCategory}
+              open={editingCategory !== null}
+              onOpenChange={(open) => {
+                if (!open) setEditingCategory(null);
+              }}
+              onEdit={() => mutate()}
+            />
+            <CategoryDeleteDialog
+              category={deletingCategory}
+              open={deletingCategory !== null}
+              onOpenChange={(open) => {
+                if (!open) setDeletingCategory(null);
+              }}
+              onDelete={() => mutate()}
+            />
           </div>
         </nav>
       </div>

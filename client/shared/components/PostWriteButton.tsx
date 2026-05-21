@@ -1,14 +1,11 @@
 'use client';
 
-import { useRef, useSyncExternalStore } from 'react';
+import { useRef } from 'react';
 import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { useAuth } from '../hooks/use-auth';
 import * as motion from 'motion/react-client';
 import { useRouter } from 'next/navigation';
-
-const subscribe = () => () => { };
-const getSnapshot = () => true;
-const getServerSnapshot = () => false;
+import { useIsMount } from '../hooks/use-is-mount';
 
 const box = {
     width: 64,
@@ -21,7 +18,7 @@ const CLICK_THRESHOLD = 5;
 
 export const WritePostButton = () => {
     const { token } = useAuth();
-    const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+    const isMounted = useIsMount();
 
     const constraintsRef = useRef<HTMLDivElement>(null);
     const pointerStartRef = useRef<{ x: number; y: number } | null>(null);

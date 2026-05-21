@@ -1,6 +1,7 @@
 import { apiClient } from '@/constants/api-client';
 import { newCategory } from '@/constants/category';
-import { PostPanel } from '@/shared/components/posts/PostPanel';
+import { notFound } from 'next/navigation';
+import { CategoryPostPanel } from './_components/CategoryPostPanel';
 
 export default async function Category({
   params,
@@ -15,9 +16,14 @@ export default async function Category({
 
   const { data: categoryData } = await apiClient.GET('/category');
 
-  let category = categoryData?.find((c) => c.slug === slug);
-  if (!category && slug === newCategory.slug) {
+  const isNewCategory = slug === newCategory.slug;
+  let category = categoryData?.categories.find((c) => c.slug === slug);
+  if (!category && isNewCategory) {
     category = { ...newCategory, id: undefined };
+  }
+
+  if (!category) {
+    notFound();
   }
 
   const { data: postData } = await apiClient.GET('/post', {
@@ -25,18 +31,20 @@ export default async function Category({
       query: {
         category: category?.id,
         page: page - 1,
-        thumbnailOnly: category === newCategory,
+        thumbnailOnly: isNewCategory,
       },
     },
   });
 
   return (
     <section className="my-10">
-      <PostPanel
+      <CategoryPostPanel
+        categoryId={category?.id}
         posts={postData?.posts ?? []}
         viewType={category?.type}
-        currentPage={page}
+        page={page}
         totalPages={postData?.totalPages ?? 1}
+        thumbnailOnly={isNewCategory}
       />
     </section>
   );
