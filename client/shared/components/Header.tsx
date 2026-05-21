@@ -11,6 +11,7 @@ import { useIsMount } from '../hooks/use-is-mount';
 import { useVisit } from '../hooks/use-visit';
 import { apiClient } from '@/constants/api-client';
 import { BioBubble } from './BioBubble';
+import { Profile } from "@/shared/components/Profile";
 
 export const Header = () => {
   const isMounted = useIsMount();
@@ -18,6 +19,8 @@ export const Header = () => {
   const { token, setToken } = useAuth();
   const clickCountRef = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
   const { isLoading: isLoadingVisit, today, total } = useVisit();
   const [profileImage, setProfileImage] = useState<string>(
     'https://placehold.co/1000x1000.png',
@@ -35,9 +38,7 @@ export const Header = () => {
   const handleProfileClick = async () => {
     clickCountRef.current += 1;
 
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     if (clickCountRef.current >= 5) {
       if (token) {
@@ -59,7 +60,7 @@ export const Header = () => {
     <header className="relative flex h-18 items-center justify-between px-5">
       <div className="flex items-center gap-4">
         <BioBubble>
-          <div onClick={handleProfileClick} className="select-none">
+          <div className="select-none cursor-pointer" onClick={() => setIsProfileOpen(true)}>
             {isMounted ? (
               <Image
                 className={clsx(
@@ -87,13 +88,15 @@ export const Header = () => {
         <SunIcon size={24} weight="bold" />
       </div> */}
       {isLoadingVisit || (
-        <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm">
+        <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm"
+          onClick={handleProfileClick}>
           <UsersIcon size={20} weight="bold" />
           <span>{total}</span> {/* 전체 방문자 수 */}
           <span>·</span>
           <span>{today}</span> {/* 오늘 방문자 수 */}
         </div>
       )}
+      <Profile open={isProfileOpen} onOpenChange={setIsProfileOpen} />
     </header>
   );
 };

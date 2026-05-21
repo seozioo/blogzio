@@ -4,2106 +4,2059 @@
  */
 
 export interface paths {
-    "/visit/daily": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["logDailyVisitor"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  '/visit/daily': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/user/signup": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["signup"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['logDailyVisitor'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/user/signup': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/post/{postId}/like": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getLike"];
-        put?: never;
-        post: operations["incrementLike"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['signup'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/post/{postId}/like': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/guestbook": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAll"];
-        put?: never;
-        post: operations["create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getLike'];
+    put?: never;
+    post: operations['incrementLike'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/guestbook': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/category": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAll_1"];
-        put?: never;
-        post: operations["create_1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getAll'];
+    put?: never;
+    post: operations['create'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/category': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/refresh": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["refresh"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getAll_1'];
+    put?: never;
+    post: operations['create_1'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/refresh': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["logout"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['refresh'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/logout': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['logout'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/login': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/asset": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["create_2"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['login'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/asset': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/admin/post": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getList"];
-        put?: never;
-        post: operations["create_3"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    post: operations['create_2'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/admin/post': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/user/profile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getProfile"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** @description 유저 프로필을 수정합니다. */
-        patch: operations["updateProfile"];
-        trace?: never;
+    get: operations['getList'];
+    put?: never;
+    post: operations['create_3'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/user/profile': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/category/{categoryId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["delete"];
-        options?: never;
-        head?: never;
-        patch: operations["update"];
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** @description 유저 프로필을 수정합니다. */
+    patch: operations['updateProfile'];
+    trace?: never;
+  };
+  '/category/{categoryId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/category/{categoryId}/order": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["updateOrder"];
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    delete: operations['delete'];
+    options?: never;
+    head?: never;
+    patch: operations['update'];
+    trace?: never;
+  };
+  '/category/{categoryId}/order': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/admin/post/{postId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["get"];
-        put?: never;
-        post?: never;
-        delete: operations["delete_1"];
-        options?: never;
-        head?: never;
-        patch: operations["update_1"];
-        trace?: never;
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['updateOrder'];
+    trace?: never;
+  };
+  '/admin/post/{postId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/youtube/playlist/{playlistId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPlaylistItems"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['get'];
+    put?: never;
+    post?: never;
+    delete: operations['delete_1'];
+    options?: never;
+    head?: never;
+    patch: operations['update_1'];
+    trace?: never;
+  };
+  '/youtube/playlist/{playlistId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/visit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getVisitCount"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getPlaylistItems'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/visit': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/user/profileview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getProfileview"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getVisitCount'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/user/profileview': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/user/admin-exists": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description 관리자 계정 존재 여부를 확인합니다. */
-        get: operations["getAdminExists"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getProfileview'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/user/admin-exists': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/post": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getList_1"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** @description 관리자 계정 존재 여부를 확인합니다. */
+    get: operations['getAdminExists'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/post': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/post/{postId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["get_1"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getList_1'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/post/{postId}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/post/{postId}/page": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPage"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['get_1'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/post/{postId}/page': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/guestbook/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["delete_2"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get: operations['getPage'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/guestbook/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete: operations['delete_2'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        UserRequest: {
-            username?: string;
-            email?: string;
-            password?: string;
-        };
-        UserResponse: {
-            message?: string;
-        };
-        PostLikeResponse: {
-            /** Format: int64 */
-            like?: number;
-            isLiked?: boolean;
-        };
-        CreateGuestbookMessageRequest: {
-            nickname: string;
-            /** @enum {string} */
-            contentType: "TEXT" | "IMAGE";
-            content: string;
-            password: string;
-            /** @enum {string} */
-            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY" | "VIOLET";
-        };
-        CreateGuestbookMessageResponse: {
-            /** Format: uuid */
-            id?: string;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        CategoryCreateRequset: {
-            name: string;
-            slug: string;
-            /** @enum {string} */
-            type?: "GALLERY" | "LIST";
-        };
-        CategoryResponse: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            /** Format: int32 */
-            sortOrder?: number;
-            /** @enum {string} */
-            type?: "GALLERY" | "LIST";
-        };
-        LoginResponse: {
-            accessToken?: string;
-        };
-        LoginRequest: {
-            username?: string;
-            password?: string;
-        };
-        CreateAssetRequest: {
-            /** Format: binary */
-            file: string;
-        };
-        CreateAssetResponse: {
-            url: string;
-        };
-        JsonNode: unknown;
-        PostCreateRequest: {
-            title: string;
-            content: components["schemas"]["JsonNode"];
-            pinned?: boolean;
-            isVisible?: boolean;
-            /** Format: uuid */
-            categoryId: string;
-            tags?: string[];
-        };
-        PostResponse: {
-            /** Format: uuid */
-            id: string;
-            title: string;
-            content: components["schemas"]["JsonNode"];
-            /** Format: uuid */
-            categoryId: string;
-            categoryName: string;
-            isVisible: boolean;
-            /** Format: int64 */
-            likes: number;
-            /** Format: date-time */
-            postedAt: string;
-            tags?: components["schemas"]["Tag"][];
-        };
-        Tag: {
-            /** Format: uuid */
-            id?: string;
-            title?: string;
-        };
-        UserProfileUpdateRequest: {
-            nickname: string;
-            bio?: string;
-            profileImageUrl?: string;
-        };
-        UserProfileResponse: {
-            nickname?: string;
-            bio?: string;
-            profileImageUrl?: string;
-        };
-        CategoryUpdateRequest: {
-            name: string;
-            slug: string;
-            /** @enum {string} */
-            type?: "GALLERY" | "LIST";
-        };
-        CategoryOrderUpdateRequest: {
-            /** Format: int32 */
-            move?: number;
-        };
-        CategoryGetListResponse: {
-            categories: components["schemas"]["CategoryResponse"][];
-        };
-        PostUpdateRequest: {
-            title?: string;
-            content?: components["schemas"]["JsonNode"];
-            pinned?: boolean;
-            isVisible?: boolean;
-            /** Format: uuid */
-            categoryId?: string;
-            tags?: string[];
-        };
-        PlaylistItemResponse: {
-            videoId: string;
-            thumbnailUrl: string;
-            videoUrl: string;
-            title: string;
-            channelTitle: string;
-        };
-        VisitResponse: {
-            /** Format: int32 */
-            today?: number;
-            /** Format: int64 */
-            total?: number;
-        };
-        UserAdminExistsResponse: {
-            exists?: boolean;
-        };
-        PostGetListResponse: {
-            posts: components["schemas"]["PostSummaryResponse"][];
-            /** Format: int32 */
-            totalPages: number;
-        };
-        PostSummaryResponse: {
-            /** Format: uuid */
-            id: string;
-            title: string;
-            excerpt: string;
-            thumbnailUrl?: string;
-            isVisible: boolean;
-            /** Format: int64 */
-            likes: number;
-            /** Format: date-time */
-            postedAt: string;
-            tags?: components["schemas"]["Tag"][];
-        };
-        PostPageResponse: {
-            /** Format: int32 */
-            page: number;
-        };
-        GetAllGuestbookMessagesResponse: {
-            messages?: components["schemas"]["GuestbookMessageDto"][];
-        };
-        GuestbookMessageDto: {
-            /** Format: uuid */
-            id: string;
-            nickname: string;
-            /** @enum {string} */
-            contentType: "TEXT" | "IMAGE";
-            content: string;
-            /** @enum {string} */
-            backgroundColor?: "WHITE" | "PINK" | "YELLOW" | "LIME" | "SKY" | "VIOLET";
-            /** Format: date-time */
-            createdAt: string;
-        };
-        DeleteGuestbookMessageRequest: {
-            password: string;
-        };
+  schemas: {
+    UserRequest: {
+      username?: string;
+      email?: string;
+      password?: string;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    UserResponse: {
+      message?: string;
+    };
+    PostLikeResponse: {
+      /** Format: int64 */
+      like?: number;
+      isLiked?: boolean;
+    };
+    CreateGuestbookMessageRequest: {
+      nickname: string;
+      /** @enum {string} */
+      contentType: 'TEXT' | 'IMAGE';
+      content: string;
+      password: string;
+      /** @enum {string} */
+      backgroundColor?: 'WHITE' | 'PINK' | 'YELLOW' | 'LIME' | 'SKY' | 'VIOLET';
+    };
+    CreateGuestbookMessageResponse: {
+      /** Format: uuid */
+      id?: string;
+      /** Format: date-time */
+      createdAt?: string;
+    };
+    CategoryCreateRequset: {
+      name: string;
+      slug: string;
+      /** @enum {string} */
+      type?: 'GALLERY' | 'LIST';
+    };
+    CategoryResponse: {
+      /** Format: uuid */
+      id?: string;
+      name?: string;
+      slug?: string;
+      /** Format: int32 */
+      sortOrder?: number;
+      /** @enum {string} */
+      type?: 'GALLERY' | 'LIST';
+    };
+    LoginResponse: {
+      accessToken?: string;
+    };
+    LoginRequest: {
+      username?: string;
+      password?: string;
+    };
+    CreateAssetRequest: {
+      /** Format: binary */
+      file: string;
+    };
+    CreateAssetResponse: {
+      url: string;
+    };
+    JsonNode: unknown;
+    PostCreateRequest: {
+      title: string;
+      content: components['schemas']['JsonNode'];
+      pinned?: boolean;
+      isVisible?: boolean;
+      /** Format: uuid */
+      categoryId: string;
+      tags?: string[];
+    };
+    PostResponse: {
+      /** Format: uuid */
+      id: string;
+      title: string;
+      content: components['schemas']['JsonNode'];
+      /** Format: uuid */
+      categoryId: string;
+      categoryName: string;
+      isVisible: boolean;
+      /** Format: int64 */
+      likes: number;
+      /** Format: date-time */
+      postedAt: string;
+      tags?: components['schemas']['Tag'][];
+    };
+    Tag: {
+      /** Format: uuid */
+      id?: string;
+      title?: string;
+    };
+    UserProfileUpdateRequest: {
+      nickname: string;
+      bio?: string;
+      profileImageUrl?: string;
+    };
+    UserProfileResponse: {
+      nickname?: string;
+      bio?: string;
+      profileImageUrl?: string;
+    };
+    CategoryUpdateRequest: {
+      name: string;
+      slug: string;
+      /** @enum {string} */
+      type?: 'GALLERY' | 'LIST';
+    };
+    CategoryOrderUpdateRequest: {
+      /** Format: int32 */
+      move?: number;
+    };
+    CategoryGetListResponse: {
+      categories: components['schemas']['CategoryResponse'][];
+    };
+    PostUpdateRequest: {
+      title?: string;
+      content?: components['schemas']['JsonNode'];
+      pinned?: boolean;
+      isVisible?: boolean;
+      /** Format: uuid */
+      categoryId?: string;
+      tags?: string[];
+    };
+    PlaylistItemResponse: {
+      videoId: string;
+      thumbnailUrl: string;
+      videoUrl: string;
+      title: string;
+      channelTitle: string;
+    };
+    VisitResponse: {
+      /** Format: int32 */
+      today?: number;
+      /** Format: int64 */
+      total?: number;
+    };
+    UserAdminExistsResponse: {
+      exists?: boolean;
+    };
+    PostGetListResponse: {
+      posts: components['schemas']['PostSummaryResponse'][];
+      /** Format: int32 */
+      totalPages: number;
+    };
+    PostSummaryResponse: {
+      /** Format: uuid */
+      id: string;
+      title: string;
+      excerpt: string;
+      thumbnailUrl?: string;
+      isVisible: boolean;
+      /** Format: int64 */
+      likes: number;
+      /** Format: date-time */
+      postedAt: string;
+      tags?: components['schemas']['Tag'][];
+    };
+    PostPageResponse: {
+      /** Format: int32 */
+      page: number;
+    };
+    GetAllGuestbookMessagesResponse: {
+      messages?: components['schemas']['GuestbookMessageDto'][];
+    };
+    GuestbookMessageDto: {
+      /** Format: uuid */
+      id: string;
+      nickname: string;
+      /** @enum {string} */
+      contentType: 'TEXT' | 'IMAGE';
+      content: string;
+      /** @enum {string} */
+      backgroundColor?: 'WHITE' | 'PINK' | 'YELLOW' | 'LIME' | 'SKY' | 'VIOLET';
+      /** Format: date-time */
+      createdAt: string;
+    };
+    DeleteGuestbookMessageRequest: {
+      password: string;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    logDailyVisitor: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  logDailyVisitor: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    signup: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserRequest"];
-            };
+        content?: never;
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["UserResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': string;
         };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    getLike: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostLikeResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostLikeResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  signup: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    incrementLike: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostLikeResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostLikeResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UserRequest'];
+      };
     };
-    getAll: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GetAllGuestbookMessagesResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': components['schemas']['UserResponse'];
         };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateGuestbookMessageRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CreateGuestbookMessageResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  getLike: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
     };
-    getAll_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CategoryGetListResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': components['schemas']['PostLikeResponse'];
         };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostLikeResponse'];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    create_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CategoryCreateRequset"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CategoryResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  incrementLike: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
     };
-    refresh: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie: {
-                RT: string;
-            };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LoginResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': components['schemas']['PostLikeResponse'];
         };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostLikeResponse'];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    logout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  getAll: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    login: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginRequest"];
-            };
+        content: {
+          '*/*': components['schemas']['GetAllGuestbookMessagesResponse'];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["LoginResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    create_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": components["schemas"]["CreateAssetRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CreateAssetResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getList: {
-        parameters: {
-            query?: {
-                q?: string;
-                category?: string;
-                page?: number;
-                thumbnailOnly?: boolean;
-                tag?: string[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostGetListResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateGuestbookMessageRequest'];
+      };
     };
-    create_3: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PostCreateRequest"];
-            };
+        content: {
+          '*/*': components['schemas']['CreateGuestbookMessageResponse'];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    getProfile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["UserProfileResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  getAll_1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    updateProfile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserProfileUpdateRequest"];
-            };
+        content: {
+          '*/*': components['schemas']['CategoryGetListResponse'];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["UserProfileResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                categoryId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  create_1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    update: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                categoryId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CategoryUpdateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CategoryResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CategoryCreateRequset'];
+      };
     };
-    updateOrder: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                categoryId: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CategoryOrderUpdateRequest"];
-            };
+        content: {
+          '*/*': components['schemas']['CategoryResponse'];
         };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CategoryGetListResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  refresh: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie: {
+        RT: string;
+      };
     };
-    delete_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': components['schemas']['LoginResponse'];
         };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    update_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PostUpdateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  logout: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getPlaylistItems: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                playlistId: string;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PlaylistItemResponse"][];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content?: never;
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
         };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    getVisitCount: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["VisitResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  login: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    getProfileview: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["UserProfileResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginRequest'];
+      };
     };
-    getAdminExists: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["UserAdminExistsResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': components['schemas']['LoginResponse'];
         };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    getList_1: {
-        parameters: {
-            query?: {
-                q?: string;
-                category?: string;
-                page?: number;
-                thumbnailOnly?: boolean;
-                tag?: string[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostGetListResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  create_2: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    get_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+    requestBody?: {
+      content: {
+        'multipart/form-data': components['schemas']['CreateAssetRequest'];
+      };
     };
-    getPage: {
-        parameters: {
-            query?: {
-                category?: string;
-            };
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostPageResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostPageResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
+        content: {
+          '*/*': components['schemas']['CreateAssetResponse'];
         };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
     };
-    delete_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DeleteGuestbookMessageRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 비밀번호가 일치하지 않습니다. */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 방명록 메시지를 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
+  };
+  getList: {
+    parameters: {
+      query?: {
+        q?: string;
+        category?: string;
+        page?: number;
+        thumbnailOnly?: boolean;
+        tag?: string[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostGetListResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  create_3: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PostCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  updateProfile: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UserProfileUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['UserProfileResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        categoryId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        categoryId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CategoryUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CategoryResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  updateOrder: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        categoryId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CategoryOrderUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['CategoryGetListResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  delete_1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  update_1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PostUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  getPlaylistItems: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        playlistId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PlaylistItemResponse'][];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  getVisitCount: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['VisitResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  getProfileview: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['UserProfileResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  getAdminExists: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['UserAdminExistsResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  getList_1: {
+    parameters: {
+      query?: {
+        q?: string;
+        category?: string;
+        page?: number;
+        thumbnailOnly?: boolean;
+        tag?: string[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostGetListResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  get_1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostResponse'];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  getPage: {
+    parameters: {
+      query?: {
+        category?: string;
+      };
+      header?: never;
+      path: {
+        postId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostPageResponse'];
+        };
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 해당 게시글을 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': components['schemas']['PostPageResponse'];
+        };
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
+  delete_2: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['DeleteGuestbookMessageRequest'];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 유효성 검증 실패 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          '*/*': string;
+        };
+      };
+      /** @description 인증 실패 */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+      /** @description 비밀번호가 일치하지 않습니다. */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 방명록 메시지를 찾을 수 없습니다. */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description 서버 내부 오류 */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'text/plain': string;
+        };
+      };
+    };
+  };
 }

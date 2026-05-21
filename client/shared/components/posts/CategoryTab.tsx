@@ -8,7 +8,7 @@ import { useApi } from '../../hooks/use-api';
 import { newCategory } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
 import { Button } from '../Button';
-import { PlusIcon } from '@phosphor-icons/react';
+import { PlusIcon, XIcon } from '@phosphor-icons/react';
 import { CategoryCreateDialog } from './CategoryCreateDialog';
 import { useAuth } from '@/shared/hooks/use-auth';
 import { useIsMount } from '@/shared/hooks/use-is-mount';
@@ -82,6 +82,18 @@ export const CategoryTab = (props: CategoryTabProps) => {
     },
     [mutate],
   );
+
+  const handleDeleteCategory = async (
+    e: React.MouseEvent,
+    categoryId: string,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await apiClient.DELETE('/category/{categoryId}', {
+      params: { path: { categoryId } },
+    });
+    mutate();
+  };
 
   const updateActiveStyle = useCallback(() => {
     const activeSlug = categories.find((item) => {
@@ -233,13 +245,29 @@ export const CategoryTab = (props: CategoryTabProps) => {
                   }}
                   aria-current={isActive ? 'page' : undefined}
                   className={clsx(
-                    'relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
+                    'group/link relative flex items-center justify-center w-25 h-10 pb-1 text-sm font-semibold transition-colors',
                     isActive
                       ? 'text-white z-20'
                       : 'text-zinc-600 hover:text-zinc-900 bg-transparent',
                   )}
                 >
                   {item.name}
+                  {isAdmin && item.id !== '__NEW__' && isActive && (
+                    <span className="overflow-hidden w-0 group-hover/link:w-6 opacity-0 group-hover:opacity-100 transition-all duration-200 ease-in-out flex items-center shrink-0">
+                      <button
+                        className="pl-1 shrink-0"
+                        onClick={(e) => handleDeleteCategory(e, item.id!)}
+                      >
+                        <span className="flex items-center justify-center bg-red-500 rounded-full p-0.5">
+                          <XIcon
+                            size={10}
+                            weight="bold"
+                            className="text-white"
+                          />
+                        </span>
+                      </button>
+                    </span>
+                  )}
                 </Link>
               );
 

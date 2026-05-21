@@ -62,8 +62,7 @@ public class User extends AssetOwner {
             this.nickname = nickname;
         if (bio != null)
             this.bio = bio;
-        if (profileImageUrl != null)
-            this.profileImageUrl = profileImageUrl;
+        this.profileImageUrl = profileImageUrl;
     }
 
 }
