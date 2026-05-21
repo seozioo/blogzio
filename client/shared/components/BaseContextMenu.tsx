@@ -26,7 +26,7 @@ export type BaseContextMenuItemProps = Readonly<ContextMenuItemProps>;
 export type BaseContextMenuSeparatorProps = Readonly<ContextMenuSeparatorProps>;
 
 const itemClass =
-  'flex cursor-pointer px-4 py-2 text-sm text-zinc-600 outline-hidden select-none data-highlighted:bg-zinc-50 data-disabled:cursor-default data-disabled:text-zinc-400 data-disabled:bg-transparent';
+  'flex cursor-pointer px-4 py-2 text-sm text-zinc-600 outline-hidden select-none rounded-lg data-highlighted:bg-zinc-50 data-highlighted:text-zinc-900 data-disabled:cursor-default data-disabled:text-zinc-400 data-disabled:bg-transparent';
 
 const BaseContextMenuRoot = ({
   trigger,

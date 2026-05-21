@@ -3,13 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useApi } from '../../hooks/use-api';
 import { newCategory } from '@/constants/category';
 import { BaseContainer } from '../BaseContainer';
@@ -254,13 +248,12 @@ export const CategoryTab = (props: CategoryTabProps) => {
               }
 
               return (
-                <BaseContextMenu
-                  key={item.name}
-                  trigger={trigger}
-                >
+                <BaseContextMenu key={item.name} trigger={trigger}>
                   <BaseContextMenu.Item
                     disabled={moveToFront === 0}
-                    onClick={() => void handleMoveCategory(item.id, moveToFront)}
+                    onClick={() =>
+                      void handleMoveCategory(item.id, moveToFront)
+                    }
                   >
                     맨앞으로
                   </BaseContextMenu.Item>
@@ -283,7 +276,9 @@ export const CategoryTab = (props: CategoryTabProps) => {
                     맨뒤로
                   </BaseContextMenu.Item>
                   <BaseContextMenu.Separator />
-                  <BaseContextMenu.Item onClick={() => setEditingCategory(item)}>
+                  <BaseContextMenu.Item
+                    onClick={() => setEditingCategory(item)}
+                  >
                     수정
                   </BaseContextMenu.Item>
                   <BaseContextMenu.Item

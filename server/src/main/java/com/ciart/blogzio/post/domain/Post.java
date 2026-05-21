@@ -47,8 +47,8 @@ public class Post extends AssetOwner {
     @Column(nullable = false)
     private LocalDateTime postedAt;
 
-    @Column(nullable = false)
-    private Boolean is_visiable = false;
+    @Column(name = "is_visiable", nullable = false)
+    private Boolean isVisible = false;
 
     @Setter
     @Column(columnDefinition = "text")
@@ -91,7 +91,7 @@ public class Post extends AssetOwner {
         this.title = title;
         this.content = content;
         this.pinned = pinned;
-        this.is_visiable = is_visiable;
+        this.isVisible = is_visiable;
         this.category = category;
         this.tags = tags;
     }
@@ -105,7 +105,7 @@ public class Post extends AssetOwner {
         if (pinned != null)
             this.pinned = pinned;
         if (is_visiable != null)
-            this.is_visiable = is_visiable;
+            this.isVisible = is_visiable;
         if (category != null)
             this.category = category;
         if (tags != null)

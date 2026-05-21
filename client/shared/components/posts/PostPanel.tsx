@@ -55,6 +55,7 @@ export const PostPanel = (props: PostPanelProps) => {
                   thumbnailUrl={article.thumbnailUrl}
                   excerpt={article.excerpt!}
                   postedAt={article.postedAt!}
+                  isVisible={article.isVisible}
                 />
               ))}
             </div>
@@ -67,6 +68,7 @@ export const PostPanel = (props: PostPanelProps) => {
                   title={photo.title!}
                   thumbnailUrl={photo.thumbnailUrl}
                   tags={photo.tags?.map((t) => t.title ?? '') ?? []}
+                  isVisible={photo.isVisible}
                 />
               ))}
             </div>

@@ -36,22 +36,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/post": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getList"];
-        put?: never;
-        post: operations["create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/post/{postId}/like": {
         parameters: {
             query?: never;
@@ -77,7 +61,7 @@ export interface paths {
         };
         get: operations["getAll"];
         put?: never;
-        post: operations["create_1"];
+        post: operations["create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -93,7 +77,7 @@ export interface paths {
         };
         get: operations["getAll_1"];
         put?: never;
-        post: operations["create_2"];
+        post: operations["create_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -157,6 +141,22 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        post: operations["create_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getList"];
+        put?: never;
         post: operations["create_3"];
         delete?: never;
         options?: never;
@@ -181,22 +181,6 @@ export interface paths {
         patch: operations["updateProfile"];
         trace?: never;
     };
-    "/post/{postId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["get"];
-        put?: never;
-        post?: never;
-        delete: operations["delete"];
-        options?: never;
-        head?: never;
-        patch: operations["update"];
-        trace?: never;
-    };
     "/category/{categoryId}": {
         parameters: {
             query?: never;
@@ -207,10 +191,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["delete_1"];
+        delete: operations["delete"];
         options?: never;
         head?: never;
-        patch: operations["update_1"];
+        patch: operations["update"];
         trace?: never;
     };
     "/category/{categoryId}/order": {
@@ -227,6 +211,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["updateOrder"];
+        trace?: never;
+    };
+    "/admin/post/{postId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get"];
+        put?: never;
+        post?: never;
+        delete: operations["delete_1"];
+        options?: never;
+        head?: never;
+        patch: operations["update_1"];
         trace?: never;
     };
     "/youtube/playlist/{playlistId}": {
@@ -294,6 +294,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getList_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/post/{postId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/post/{postId}/page": {
         parameters: {
             query?: never;
@@ -337,36 +369,6 @@ export interface components {
         };
         UserResponse: {
             message?: string;
-        };
-        JsonNode: unknown;
-        PostCreateRequest: {
-            title: string;
-            content: components["schemas"]["JsonNode"];
-            pinned?: boolean;
-            isVisible?: boolean;
-            /** Format: uuid */
-            categoryId: string;
-            tags?: string[];
-        };
-        PostResponse: {
-            /** Format: uuid */
-            id: string;
-            title: string;
-            content: components["schemas"]["JsonNode"];
-            /** Format: uuid */
-            categoryId: string;
-            categoryName: string;
-            is_visiable: boolean;
-            /** Format: int64 */
-            likes: number;
-            /** Format: date-time */
-            postedAt: string;
-            tags?: components["schemas"]["Tag"][];
-        };
-        Tag: {
-            /** Format: uuid */
-            id?: string;
-            title?: string;
         };
         PostLikeResponse: {
             /** Format: int64 */
@@ -418,6 +420,36 @@ export interface components {
         CreateAssetResponse: {
             url: string;
         };
+        JsonNode: unknown;
+        PostCreateRequest: {
+            title: string;
+            content: components["schemas"]["JsonNode"];
+            pinned?: boolean;
+            isVisible?: boolean;
+            /** Format: uuid */
+            categoryId: string;
+            tags?: string[];
+        };
+        PostResponse: {
+            /** Format: uuid */
+            id: string;
+            title: string;
+            content: components["schemas"]["JsonNode"];
+            /** Format: uuid */
+            categoryId: string;
+            categoryName: string;
+            isVisible: boolean;
+            /** Format: int64 */
+            likes: number;
+            /** Format: date-time */
+            postedAt: string;
+            tags?: components["schemas"]["Tag"][];
+        };
+        Tag: {
+            /** Format: uuid */
+            id?: string;
+            title?: string;
+        };
         UserProfileUpdateRequest: {
             nickname: string;
             bio?: string;
@@ -427,15 +459,6 @@ export interface components {
             nickname?: string;
             bio?: string;
             profileImageUrl?: string;
-        };
-        PostUpdateRequest: {
-            title?: string;
-            content?: components["schemas"]["JsonNode"];
-            pinned?: boolean;
-            isVisible?: boolean;
-            /** Format: uuid */
-            categoryId?: string;
-            tags?: string[];
         };
         CategoryUpdateRequest: {
             name: string;
@@ -449,6 +472,15 @@ export interface components {
         };
         CategoryGetListResponse: {
             categories: components["schemas"]["CategoryResponse"][];
+        };
+        PostUpdateRequest: {
+            title?: string;
+            content?: components["schemas"]["JsonNode"];
+            pinned?: boolean;
+            isVisible?: boolean;
+            /** Format: uuid */
+            categoryId?: string;
+            tags?: string[];
         };
         PlaylistItemResponse: {
             videoId: string;
@@ -477,7 +509,7 @@ export interface components {
             title: string;
             excerpt: string;
             thumbnailUrl?: string;
-            is_visiable: boolean;
+            isVisible: boolean;
             /** Format: int64 */
             likes: number;
             /** Format: date-time */
@@ -580,110 +612,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["UserResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
-    };
-    getList: {
-        parameters: {
-            query?: {
-                q?: string;
-                category?: string;
-                page?: number;
-                thumbnailOnly?: boolean;
-                tag?: string[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostGetListResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
-    };
-    create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PostCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
                 };
             };
             /** @description 유효성 검증 실패 */
@@ -878,7 +806,7 @@ export interface operations {
             };
         };
     };
-    create_1: {
+    create: {
         parameters: {
             query?: never;
             header?: never;
@@ -976,7 +904,7 @@ export interface operations {
             };
         };
     };
-    create_2: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1172,7 +1100,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    create_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -1192,6 +1120,110 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CreateAssetResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    getList: {
+        parameters: {
+            query?: {
+                q?: string;
+                category?: string;
+                page?: number;
+                thumbnailOnly?: boolean;
+                tag?: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostGetListResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    create_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
                 };
             };
             /** @description 유효성 검증 실패 */
@@ -1321,181 +1353,7 @@ export interface operations {
             };
         };
     };
-    get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
-    };
     delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
-    };
-    update: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                postId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PostUpdateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 유효성 검증 실패 */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-            /** @description 인증 실패 */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-            /** @description 해당 게시글을 찾을 수 없습니다. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PostResponse"];
-                };
-            };
-            /** @description 서버 내부 오류 */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "text/plain": string;
-                };
-            };
-        };
-    };
-    delete_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1542,7 +1400,7 @@ export interface operations {
             };
         };
     };
-    update_1: {
+    update: {
         parameters: {
             query?: never;
             header?: never;
@@ -1635,6 +1493,180 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    delete_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    update_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PostUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
                 };
             };
             /** @description 서버 내부 오류 */
@@ -1825,6 +1857,117 @@ export interface operations {
                 };
                 content: {
                     "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    getList_1: {
+        parameters: {
+            query?: {
+                q?: string;
+                category?: string;
+                page?: number;
+                thumbnailOnly?: boolean;
+                tag?: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostGetListResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 서버 내부 오류 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    get_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                postId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
+                };
+            };
+            /** @description 유효성 검증 실패 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+            /** @description 인증 실패 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description 해당 게시글을 찾을 수 없습니다. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PostResponse"];
                 };
             };
             /** @description 서버 내부 오류 */

@@ -28,7 +28,7 @@ public class PostSummaryResponse {
     private String thumbnailUrl;
 
     @NotNull
-    private Boolean is_visiable;
+    private Boolean isVisible;
 
     @NotNull
     private Long likes;
@@ -56,7 +56,7 @@ public class PostSummaryResponse {
                 post.getTitle(),
                 excerpt,
                 thumbnailUrl,
-                post.getIs_visiable(),
+                post.getIsVisible(),
                 post.getLikeCount(),
                 post.getPostedAt(),
                 post.getTags());

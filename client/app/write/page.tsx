@@ -94,11 +94,11 @@ export default function Write() {
     };
 
     const { data, error } = editId
-      ? await apiClient.PATCH(`/post/{postId}`, {
+      ? await apiClient.PATCH(`/admin/post/{postId}`, {
           ...requestData,
           params: { path: { postId: editId } },
         })
-      : await apiClient.POST('/post', requestData);
+      : await apiClient.POST('/admin/post', requestData);
 
     if (error) {
       alert(error);
@@ -131,13 +131,13 @@ export default function Write() {
         return;
       }
 
-      const { data } = await apiClient.GET('/post/{postId}', {
+      const { data } = await apiClient.GET('/admin/post/{postId}', {
         params: { path: { postId: editId } },
       });
 
       setTitle(data?.title ?? '');
       setCategoryId(data?.categoryId ?? '');
-      setIsVisible(data?.is_visiable ?? true);
+      setIsVisible(data?.isVisible ?? true);
       setTags(
         data?.tags?.map((t: components['schemas']['Tag']) => t.title!) ?? [],
       );
@@ -367,6 +367,7 @@ export default function Write() {
                 className="flex-1"
               ></TagInput>
               <VisibilityToggle
+                value={isVisible ? 'public' : 'private'}
                 onChange={(v) => setIsVisible(v === 'public')}
               />
               <div className="h-px max-sm:mx-2 sm:w-px sm:h-6 bg-border" />
