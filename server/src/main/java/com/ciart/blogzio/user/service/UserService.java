@@ -9,6 +9,7 @@ import com.ciart.blogzio.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -86,7 +87,7 @@ public class UserService {
                         HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."));
 
         // 기존 프로필 이미지의 owner 해제
-        if (user.getProfileImageUrl() != null) {
+        if (!Objects.equals(user.getProfileImageUrl(), request.getProfileImageUrl())) {
             try {
                 Asset existingAsset = assetRepository.findByUrl(user.getProfileImageUrl()).orElse(null);
                 if (existingAsset != null) {

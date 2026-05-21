@@ -33,13 +33,6 @@ export const Profile = ({ open, onOpenChange }: ProfileProps) => {
     })();
   }, [token]);
 
-  const handleImageDelete = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setPreview(undefined);
-    setProfiledata({ ...profiledata, profileImageUrl: undefined });
-  };
-
-
   const handleFileChange: ChangeEventHandler<
     HTMLInputElement,
     HTMLInputElement
