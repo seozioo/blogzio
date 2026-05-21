@@ -68,13 +68,13 @@ export const Profile = ({ open, onOpenChange }: ProfileProps) => {
   };
 
   return (
-    <BaseDialog open={open} onOpenChange={onOpenChange}>
+    <BaseDialog open={open} onOpenChange={onOpenChange} popupClassName='rounded-none' >
       {token ? (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center rounded-2xl gap-[16px] w-[300px] min-h-[356px] "
+          className="flex flex-col items-center rounded-2xl gap-[16px] w-[280px] min-h-[380px]"
         >
-          <label className="group relative block overflow-hidden w-[200px] h-[200px] bg-zinc-200 rounded-2xl">
+          <label className="group relative block overflow-hidden w-[280px] h-[280px] bg-zinc-200">
             {preview && (
               <img
                 src={preview}
@@ -131,31 +131,25 @@ export const Profile = ({ open, onOpenChange }: ProfileProps) => {
           </div>
         </form>
       ) : (
-        <div className="flex flex-col items-center rounded-2xl gap-[16px] w-[300px] min-h-[356px]">
-          <label className="group relative block overflow-hidden w-[200px] h-[200px] bg-zinc-200 rounded-2xl">
+        <div className="flex flex-col gap-6 items-center w-[280px] min-h-[380px]">
+          <label className="group relative block overflow-hidden w-[280px] h-[280px] bg-zinc-200">
             <img
               src={preview}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity text-white">
+              {profiledata?.nickname}
+            </div>
           </label>
-
-          <p className="w-full h-9 px-[10px] flex items-center justify-center font-bold">
-            {profiledata?.nickname}
-          </p>
-          <p className="w-full h-9 px-[10px] flex items-center justify-center">
-            {profiledata?.bio}
-          </p>
-          <div className="w-full flex justify-center focus:outline-none ">
-            <XCircleIcon
-              size={32}
-              weight="bold"
-              onClick={() => onOpenChange(false)}
-              className="text-sky-500 transition-colors  hover:text-sky-300 cursor-pointer"
-            />
+          <div className="flex w-full h-[76px] items-center justify-center">
+            <p className="w-full px-[10px] flex items-center justify-center text-center">
+              {profiledata?.bio}
+            </p>
           </div>
-        </div>
+        </div >
       )}
-    </BaseDialog>
+    </BaseDialog >
+
   );
 };
