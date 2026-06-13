@@ -11,7 +11,7 @@ import { useIsMount } from '../hooks/use-is-mount';
 import { useVisit } from '../hooks/use-visit';
 import { apiClient } from '@/constants/api-client';
 import { BioBubble } from './BioBubble';
-import { Profile } from "@/shared/components/Profile";
+import { Profile } from '@/shared/components/Profile';
 
 export const Header = () => {
   const isMounted = useIsMount();
@@ -60,12 +60,16 @@ export const Header = () => {
     <header className="relative flex h-18 items-center justify-between px-5">
       <div className="flex items-center gap-4">
         <BioBubble>
-          <div className="select-none cursor-pointer" onClick={() => setIsProfileOpen(true)}>
+          <div
+            className="select-none cursor-pointer"
+            onClick={() => setIsProfileOpen(true)}
+          >
             {isMounted ? (
               <Image
                 className={clsx(
                   'rounded-full',
-                  token && 'ring-2 ring-offset-2 ring-sky-500',
+                  token &&
+                    'ring-2 ring-offset-2 ring-sky-500 aspect-square object-cover',
                 )}
                 width={40}
                 height={40}
@@ -88,8 +92,10 @@ export const Header = () => {
         <SunIcon size={24} weight="bold" />
       </div> */}
       {isLoadingVisit || (
-        <div className="flex items-center gap-1 text-zinc-400 font-semibold text-sm"
-          onClick={handleProfileClick}>
+        <div
+          className="flex items-center gap-1 text-zinc-400 font-semibold text-sm"
+          onClick={handleProfileClick}
+        >
           <UsersIcon size={20} weight="bold" />
           <span>{total}</span> {/* 전체 방문자 수 */}
           <span>·</span>

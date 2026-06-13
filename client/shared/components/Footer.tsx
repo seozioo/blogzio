@@ -8,24 +8,8 @@ import Link from 'next/link';
 export const Footer = () => {
   return (
     <footer className="flex justify-between items-center px-5 text-zinc-400 h-16 text-sm font-medium">
-      Copyright © 2026 Zio. All rights reserved.
+      © 2026 Zio. All rights reserved.
       <div className="flex relative -right-2">
-        <Link
-          className="p-1"
-          href="https://x.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <XLogoIcon size={24} weight="bold" />
-        </Link>
-        <Link
-          className="p-1"
-          href="https://instagram.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <InstagramLogoIcon size={24} weight="bold" />
-        </Link>
         <Link
           className="p-1"
           href="https://github.com/seozioo"

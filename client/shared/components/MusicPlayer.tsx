@@ -88,11 +88,11 @@ export const MusicPlayer = ({ playlist }: Props) => {
             />
           );
         })}
-        <div className="absolute bottom-56 mx-auto h-5">
+        <div className="absolute mx-auto my-auto">
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
               key={playerTitle}
-              className="text-sm text-zinc-600 select-text"
+              className="text-sm text-zinc-600 select-text relative top-36"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
